@@ -2,6 +2,7 @@ var express = require('express'),
     app     = express()
         .set('view engine', 'jade')
         .set('views', "src/views")
+        .use(express.static(__dirname + "/../dist"))
         .get('/', function(req, res) {
             res.render('index');
         })

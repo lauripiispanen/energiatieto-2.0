@@ -18,10 +18,13 @@ module.exports = (grunt) ->
 					file: 'src/server.js'
 					env:
 						port: '3000'
-		watch: {}
+		watch:
+            compass:
+                files: ['src/sass/**/*.{scss,sass}'],
+                tasks: ['compass']
 
 	grunt.registerTask 'default', ['concurrent:server']
-	grunt.registerTask 'travis', []
+	grunt.registerTask 'travis', ['compass']
 
 	for key, value of require('./package.json').devDependencies
 		if (key.indexOf('grunt-') == 0)

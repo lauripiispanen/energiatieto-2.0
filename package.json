@@ -23,6 +23,7 @@
     "grunt": "~0.4.1",
     "grunt-nodemon": "~0.1.1",
     "grunt-concurrent": "~0.4.0",
-    "grunt-regarde": "~0.1.1"
+    "grunt-regarde": "~0.1.1",
+    "grunt-contrib-compass": "~0.6.0"
   }
 }
