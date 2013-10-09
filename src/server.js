@@ -6,6 +6,6 @@ var express = require('express'),
         .get('/', function(req, res) {
             res.render('index');
         })
-        .listen(process.env.port)
+        .listen(process.env.PORT)
 
-console.log("Server running in port ", process.env.port)
+console.log("Server running in port ", process.env.PORT)

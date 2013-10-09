@@ -17,7 +17,7 @@ module.exports = (grunt) ->
                 options:
                     file: 'src/server.js'
                     env:
-                        port: '3000'
+                        PORT: '3000'
         watch:
             compass:
                 files: ['src/sass/**/*.{scss,sass}'],
