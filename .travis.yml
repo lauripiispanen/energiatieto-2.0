@@ -4,3 +4,16 @@ node_js:
 before_script:
     - gem install compass
     - npm install -g grunt-cli
+before_deploy:
+    - grunt clean:npm
+    - npm install --production
+deploy:
+    provider: heroku
+    api_key:
+        secure: L5NF8otPnfci4wA1dhaJgcwouRZP7ZKqfCbJYIZ4bWeO3+siTwwqHfnL1k24w2GeO6ZB4H4ONHG8dD6mDtuGrwgLf92Y/PUc+NgAiE4J68+7K7o4h3GI/zAp61Skv/UIbWQg4H2wIdYDAmh+5oXYy2LSonNSdQyW4u5HDkbLDNY=
+    app: energiatieto-2-0
+    strategy: git
+    skip_cleanup: true
+    on:
+        branch: master
+        repo: lauripiispanen/energiatieto-2.0
