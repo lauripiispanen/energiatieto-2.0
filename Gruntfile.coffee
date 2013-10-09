@@ -1,6 +1,12 @@
 module.exports = (grunt) ->
 	
 	grunt.initConfig
+		compass:
+			dist:
+				options:
+					sassDir: 'src/sass'
+					cssDir: 'dist/styles'
+
 		concurrent:
 			server:
 				tasks: ['nodemon', 'watch']
@@ -15,6 +21,7 @@ module.exports = (grunt) ->
 		watch: {}
 
 	grunt.registerTask 'default', ['concurrent:server']
+	grunt.registerTask 'travis', []
 
 	for key, value of require('./package.json').devDependencies
 		if (key.indexOf('grunt-') == 0)
