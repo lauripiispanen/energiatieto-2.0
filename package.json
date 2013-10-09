@@ -1,0 +1,18 @@
+{
+  "name": "energiatieto",
+  "version": "2.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lauripiispanen/energiatieto-2.0.git"
+  },
+  "contributors": [
+    "Lauri Piispanen",
+    "Leo Heng"
+  ],
+  "license": "GPLv3"
+}
