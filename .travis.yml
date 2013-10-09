@@ -5,8 +5,10 @@ before_script:
     - gem install compass
     - npm install -g grunt-cli
 before_deploy:
-    - grunt clean:npm
-    - npm install --production
+    - git config --global user.email "test@travis-ci.org"
+    - git config --global user.name "Travis"
+    - git add dist -f
+    - git commit -m "add compiled assets"
 deploy:
     provider: heroku
     api_key:
