@@ -25,7 +25,7 @@ module.exports = (grunt) ->
         clean:
             npm: "node_modules"
 
-    grunt.registerTask 'default', ['concurrent:server']
+    grunt.registerTask 'default', ['compass','concurrent:server']
     grunt.registerTask 'travis', ['compass']
 
     for key, value of require('./package.json').devDependencies
