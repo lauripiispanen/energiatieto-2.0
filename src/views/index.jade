@@ -3,5 +3,8 @@ html
     head
         title Energiatieto
         link(rel="stylesheet",href="styles/main.css")
+        script(type="text/javascript",src="/vendor/OpenLayers.light.js")
+        script(type="text/javascript",src="/js/map.js")
     body
         h1 Hello, World!
+        .map(style="width: 800px; height:600px;", id="map")
