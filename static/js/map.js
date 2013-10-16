@@ -12,62 +12,77 @@
 
         var projection = new OpenLayers.Projection("EPSG:3067");
         var bounds = new OpenLayers.Bounds(359769.38, 6663695.01, 382731.34, 6695207.25);
+
+        var projection = new OpenLayers.Projection("EPSG:3857");
+        var bounds = new OpenLayers.Bounds(24.48, 60.05, 24.87, 60.38);
 */      
         var projection = new OpenLayers.Projection("EPSG:900913");
-        var bounds = new OpenLayers.Bounds(2725101.13462, 8410878.26177, 2768515.73603, 8484831.01885);
+        var bounds = new OpenLayers.Bounds(2725101.13462, 8410878.26177, 2768515.73603, 8481031.01885);
 
-        var wgs84 = new OpenLayers.Projection("EPSG:900913");
-        var displayProjection = new OpenLayers.Projection("EPSG:900913");
+        var webmercator = new OpenLayers.Projection("EPSG:3857");
+
+        var wgs84 = new OpenLayers.Projection("EPSG:4326");
+        var wgs84bounds = new OpenLayers.Bounds(24.48,60.05,24.87,60.38);
+        var displayProjection = webmercator;
+
         var wms = new OpenLayers.Layer.WMS(
             "Espoo WMS",
             "http://mapproxy.herokuapp.com/service",
             {
-                'layers':'espoo',
-                'format':'image/png',
+                'layers':'espoo_orto',
+                'format':'image/jpeg',
             },
             {
-                isBaseLayer: true
+                numZoomLevels:20, 
+                isBaseLayer: true,
+                singleTile: false,
+                buffer: 0
             }
         );
 
-/*        var tms = new OpenLayers.Layer.TMS(
-            "Solar TMS",
-            "https://espoo-energiatieto-maps.s3.amazonaws.com/solarMapTiles/",
+        var solar = new OpenLayers.Layer.TMS(
+            "Solar",
+            "http://espoo-energiatieto-maps.s3.amazonaws.com/solarMapTiles/",
             {
-                zoomOffset: 15,
+                numZoomLevels:20, 
+                maxResolution:156543.0339,
+                units: 'm',
                 type: 'png',
+                srs: wgs84,
+                exceptions: "application/vnd.ogc.se_inimage",
                 getURL: function(bounds) {
                     var res = this.map.getResolution();
                     var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-                    var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-                    var z = this.map.getZoom() + this.zoomOffset;
+                    var y = Math.round ((bounds.bottom - this.maxExtent.bottom) / (res * this.tileSize.h));
+                    var z = this.map.getZoom();
 
-                    var path = z + "/" + x + "/" + y + "." + this.type;
+                    var path = z + "/" + x + "/" + y + ".png"; 
                     var url = this.url;
                     if (url instanceof Array) {
                         url = this.selectUrl(path, url);
                     }
                     return url + path;
-                }
+                },
+                transparent: true,
+                ratio: 1, 
+                isBaseLayer: false
             }
-        );*/
+        );
 
         var map = new OpenLayers.Map(
             'map',
             {
-                maxExtent: bounds,
-                restrictedExtent: bounds,
-                projection: displayProjection,
-                displayProjection: projection,
-                maxResolution: 288.877957366
+
+                projection: webmercator,
+                displayProjection: webmercator,
+                restrictedExtent: bounds
             }
         );
-
-        //map.addLayer(new OpenLayers.Layer.OSM());
-
+    
         map.addLayer(wms);
-        //map.addLayer(tms);
-        
-        map.zoomToMaxExtent();
+        map.addLayer(solar);
+        map.zoomTo(13);
+        map.setCenter(new OpenLayers.LonLat(2750850.887954, 8435182.950183));
+
     });
 })();
