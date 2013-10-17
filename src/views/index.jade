@@ -3,8 +3,12 @@ html
     head
         title Energiatieto
         link(rel="stylesheet",href="styles/main.css")
+        script(type="text/javascript",src="/vendor/angular.min.js")
         script(type="text/javascript",src="/vendor/proj4.js")
         script(type="text/javascript",src="/vendor/OpenLayers.js")
+        script(type="text/javascript",src="/js/directives.js")
         script(type="text/javascript",src="/js/map.js")
+        script(type="text/javascript",src="/js/application.js")
     body
-        .map(style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;", id="map")
+        div(ng-controller="mapController")
+            .map(openlayers,layers="layers",projection="projection",zoom="zoom",center="center",restricted-extent="bounds",style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;", id="map")
