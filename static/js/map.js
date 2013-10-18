@@ -39,19 +39,35 @@ angular
                     return url + path;
                 },
                 transparent: true,
-                ratio: 1, 
+                ratio: 1,
+                opacity: 0.6, 
                 isBaseLayer: false
             }
         );
 
-        $scope.layers = [wms, solar];
+        //$scope.layers = [wms, solar];
+        $scope.layers = [wms];
 
         var webmercator = new OpenLayers.Projection("EPSG:3857");
         $scope.projection = webmercator;
 
         $scope.bounds = new OpenLayers.Bounds(2725101.13462, 8410878.26177, 2768515.73603, 8481031.01885);
-
+        $scope.center = new OpenLayers.LonLat(2750850.887954, 8434182.950183);
         $scope.zoom = 13;
-        $scope.center = new OpenLayers.LonLat(2750850.887954, 8435182.950183);
 
+        $scope.zoomClick = function() {
+            $scope.center = new OpenLayers.LonLat(2749180.6952344, 8436179.2011772);
+            setTimeout(function() {
+                $scope.$apply(function() {
+                    $scope.zoom = 18;
+                })
+            }, 100);
+        };
+        $scope.$watch("zoom", function(newValue, oldValue) {
+            if (newValue >= 17) {
+                $scope.layers = [wms, solar];
+            } else {
+                $scope.layers = [wms];
+            }
+        })
     }]);

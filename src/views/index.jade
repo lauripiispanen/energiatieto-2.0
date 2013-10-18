@@ -3,6 +3,7 @@ html
     head
         title Energiatieto
         link(rel="stylesheet",href="styles/main.css")
+        script(type="text/javascript",src="/vendor/underscore-min.js")
         script(type="text/javascript",src="/vendor/angular.min.js")
         script(type="text/javascript",src="/vendor/proj4.js")
         script(type="text/javascript",src="/vendor/OpenLayers.js")
@@ -11,4 +12,5 @@ html
         script(type="text/javascript",src="/js/application.js")
     body
         div(ng-controller="mapController")
-            .map(openlayers,layers="layers",projection="projection",zoom="zoom",center="center",restricted-extent="bounds",style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;", id="map")
+            div(ng-click="zoomClick()",style="position: absolute; top: 10px; right: 10px; background-color: white; z-index: 1000;") Zoom
+            .map(openlayers,move-mode="'pan'",layers="layers",projection="projection",zoom="zoom",center="center",restricted-extent="bounds",style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;", id="map")
