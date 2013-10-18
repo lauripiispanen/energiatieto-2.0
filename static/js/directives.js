@@ -49,10 +49,8 @@ angular
                         map.removeLayer(it);
                     });
                     _.each(addable, function(it) {
-                        console.log("add");
                         map.addLayer(it);
                     });
-                    console.log(newLayers);
                 });
                 $scope.$watch("zoom", function(newValue, oldValue) {
                     map.zoomTo(newValue);

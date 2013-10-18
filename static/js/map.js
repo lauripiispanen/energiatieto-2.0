@@ -1,6 +1,6 @@
 angular
-    .module("energiatieto", ["angular-openlayers"])
-    .controller("mapController", ["$scope", function($scope) {
+    .module("energiatieto-map", ["angular-openlayers", "pubsub"])
+    .controller("mapController", ["$scope", "formActivationChannel", function($scope, formActivationChannel) {
         var wms = new OpenLayers.Layer.WMS(
             "Espoo WMS",
             "http://mapproxy.herokuapp.com/service",
@@ -55,13 +55,22 @@ angular
         $scope.center = new OpenLayers.LonLat(2750850.887954, 8434182.950183);
         $scope.zoom = 13;
 
+        formActivationChannel.onStateChange($scope, function(active) {
+            $scope.reduced = active;            
+        });
+
         $scope.zoomClick = function() {
-            $scope.center = new OpenLayers.LonLat(2749180.6952344, 8436179.2011772);
-            setTimeout(function() {
-                $scope.$apply(function() {
-                    $scope.zoom = 18;
-                })
-            }, 100);
+            if ($scope.reduced) {
+                formActivationChannel.deactivate();
+            } else {
+                formActivationChannel.activate();
+                $scope.center = new OpenLayers.LonLat(2747672.9468056, 8435100.1215636);
+                setTimeout(function() {
+                    $scope.$apply(function() {
+                        $scope.zoom = 18;
+                    })
+                }, 100);
+            }
         };
         $scope.$watch("zoom", function(newValue, oldValue) {
             if (newValue >= 17) {

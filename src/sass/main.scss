@@ -1,3 +1,32 @@
-h1 {
-	color: blue;
+@import "compass/css3/transition";
+
+body {
+    & > .map {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px; 
+        bottom: 0px;
+        @include transition-property(right);
+        @include transition-duration(0.5s);
+
+        &.reduced {
+            right: 500px; 
+        }
+    }
+
+    & > .calculations {
+        position: absolute;
+        top: 0px; 
+        right: 0px;
+        bottom: 0px;
+        background-color: grey; 
+        width: 0px;
+        @include transition-property(width);
+        @include transition-duration(0.5s);
+
+        &.open {
+            width: 500px; 
+        }
+    }
 }
