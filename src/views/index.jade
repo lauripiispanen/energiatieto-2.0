@@ -15,5 +15,12 @@ html
     body
         .map(ng-controller="mapController",ng-class="{reduced: reduced}")
             div(ng-click="zoomClick()",style="position: absolute; top: 10px; right: 10px; background-color: white; z-index: 1000;") Zoom
-            div(openlayers,move-mode="'pan'",layers="layers",projection="projection",zoom="zoom",center="center",restricted-extent="bounds",style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;", id="map")
+            div(openlayers,
+                popups="popups",
+                layers="layers",
+                projection="projection",
+                zoom="zoom",
+                center="center",
+                restricted-extent="bounds",
+                style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open}")

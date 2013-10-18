@@ -1,6 +1,11 @@
 angular
     .module("energiatieto-map", ["angular-openlayers", "pubsub"])
-    .controller("mapController", ["$scope", "formActivationChannel", function($scope, formActivationChannel) {
+    .controller("mapController", [
+        "$scope", 
+        "$timeout", 
+        "formActivationChannel", 
+        "buildingSelectionChannel", 
+    function($scope, $timeout, formActivationChannel, buildingSelectionChannel) {
         var wms = new OpenLayers.Layer.WMS(
             "Espoo WMS",
             "http://mapproxy.herokuapp.com/service",
@@ -45,8 +50,9 @@ angular
             }
         );
 
-        //$scope.layers = [wms, solar];
-        $scope.layers = [wms];
+        var both = [wms, solar];
+        var wmsOnly = [wms];
+        $scope.layers = wmsOnly;
 
         var webmercator = new OpenLayers.Projection("EPSG:3857");
         $scope.projection = webmercator;
@@ -54,29 +60,51 @@ angular
         $scope.bounds = new OpenLayers.Bounds(2725101.13462, 8410878.26177, 2768515.73603, 8481031.01885);
         $scope.center = new OpenLayers.LonLat(2750850.887954, 8434182.950183);
         $scope.zoom = 13;
+        $scope.popups = [];
 
         formActivationChannel.onStateChange($scope, function(active) {
             $scope.reduced = active;            
         });
 
+        buildingSelectionChannel.onSelectBuilding($scope, function(building) {
+            var location = new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat);
+            $scope.center = location;
+            $scope.popups = [
+                new OpenLayers.Popup(
+                    null,
+                    location,
+                    new OpenLayers.Size(150,30),
+                    "<p class='popup-text'>" + building.address + "</p>"
+                )
+            ];
+
+            $timeout(function() {
+                $scope.zoom = 18;
+            }, 100);
+            $timeout(function() {
+                $scope.$broadcast("_RESIZE_");
+            }, 1000);
+        });
+
+
         $scope.zoomClick = function() {
             if ($scope.reduced) {
                 formActivationChannel.deactivate();
             } else {
-                formActivationChannel.activate();
-                $scope.center = new OpenLayers.LonLat(2747672.9468056, 8435100.1215636);
-                setTimeout(function() {
-                    $scope.$apply(function() {
-                        $scope.zoom = 18;
-                    })
-                }, 100);
+                buildingSelectionChannel.selectBuilding({
+                    coordinates: {
+                        lon: 2747542.9468056,
+                        lat: 8435120.1215636
+                    },
+                    address: "Pihlajatie 3"
+                });
             }
         };
         $scope.$watch("zoom", function(newValue, oldValue) {
             if (newValue >= 17) {
-                $scope.layers = [wms, solar];
+                $scope.layers = both;
             } else {
-                $scope.layers = [wms];
+                $scope.layers = wmsOnly;
             }
         })
     }]);

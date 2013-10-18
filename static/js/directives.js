@@ -8,7 +8,7 @@ angular
                 zoom: "=zoom",
                 center: "=center",
                 restrictedExtent: "=restrictedExtent",
-                moveMode: "=moveMode"
+                popups: "=popups"
             },
             link: function($scope, iElement, iAttrs, controller) {
                 function $apply(fn) {
@@ -38,31 +38,32 @@ angular
                         $scope.zoom = map.getZoom();
                     }
                 }));
-                $scope.$watch("layers", function(newLayers, oldValue) {
-                    var removable = _.filter(map.layers, function(it) {
-                        return !_.contains(newLayers, it);
-                    });
-                    var addable = _.filter(newLayers, function(it) {
-                        return !_.contains(map.layers, it);
-                    });
-                    _.each(removable, function(it) {
-                        map.removeLayer(it);
-                    });
-                    _.each(addable, function(it) {
-                        map.addLayer(it);
-                    });
+                $scope.$watch("layers", function(newLayers) {
+                    _.each(_.difference(map.layers, newLayers), _.bind(map.removeLayer, map));
+                    _.each(_.difference(newLayers, map.layers), _.bind(map.addLayer, map));
                 });
                 $scope.$watch("zoom", function(newValue, oldValue) {
-                    map.zoomTo(newValue);
+                    if (newValue != map.getZoom()) {
+                        map.zoomTo(newValue);
+                    }
                 });
                 $scope.$watch("center", function(newValue, oldValue) {
-                    if (newValue != oldValue) {
+                    if (!newValue.equals(oldValue)) {
                         map.panTo(newValue);
-                    } else {
+                    } else if (!map.getCenter()) {
                         map.setCenter(newValue);
                     }
                 });
-
+                $scope.$on("_RESIZE_", function() {
+                    map.updateSize();
+                });
+                $scope.$watch("popups", function(newPopups) {
+                    _.each(_.difference(map.popups, newPopups), _.bind(map.removePopup, map));
+                    _.each(_.difference(newPopups, map.popups), _.bind(map.addPopup, map));
+                    _.each(map.popups, function(it) {
+                        it.updateSize();
+                    });
+                });
             }
         };
     }])

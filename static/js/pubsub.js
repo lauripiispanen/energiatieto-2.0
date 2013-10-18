@@ -34,3 +34,21 @@ angular
 
         }
     }])
+    .factory('buildingSelectionChannel', ['$rootScope', function($rootScope) {
+        var _SELECT_BUILDING = '_SELECT_BUILDING';
+
+        function onSelectBuilding($scope, handler) {
+            $scope.$on(_SELECT_BUILDING, function(event, building) {
+                handler(building);
+            });
+        }
+
+        function selectBuilding(building) {
+            $rootScope.$broadcast(_SELECT_BUILDING, building);
+        }
+
+        return {
+            selectBuilding: selectBuilding,
+            onSelectBuilding: onSelectBuilding
+        }
+    }]);

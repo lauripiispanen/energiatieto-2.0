@@ -1,4 +1,6 @@
-@import "compass/css3/transition";
+@import "compass";
+
+$panelWidth: 700px;
 
 body {
     & > .map {
@@ -9,9 +11,20 @@ body {
         bottom: 0px;
         @include transition-property(right);
         @include transition-duration(0.5s);
+        @include transform(translateZ(0));
 
         &.reduced {
-            right: 500px; 
+            right: $panelWidth; 
+        }
+
+        .olPopup {
+            background-color: transparent !important;
+            @include box-shadow(black 0px 5px 20px);
+            width: auto !important;
+            height: auto !important;
+        }
+        .olPopupContent {
+            padding: 0px;
         }
     }
 
@@ -20,13 +33,27 @@ body {
         top: 0px; 
         right: 0px;
         bottom: 0px;
-        background-color: grey; 
+        background-color: #FBF9F9; 
         width: 0px;
         @include transition-property(width);
         @include transition-duration(0.5s);
+        @include transform(translateZ(0));
 
         &.open {
-            width: 500px; 
+            width: $panelWidth; 
         }
     }
+}
+
+.popup-text {
+    @include background-image(linear-gradient(#749560, #688356));
+    @include border-radius(3px);
+    @include text-shadow(rgba(black, 0.7) 0px 0px 10px);
+
+    padding: 10px 20px;
+    margin: 0px;
+    font-size: 20px;
+    font-family: arial, sans-serif;
+    border: 1px solid #5A7147;
+    color: white;
 }
