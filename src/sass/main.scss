@@ -1,8 +1,15 @@
 @import "compass";
+@import "_susy";
 
-$panelWidth: 700px;
+$total-columns: 8;
+$column-width: 7em;
+$gutter-width: 1em;
+$panelWidth: space($total-columns);
+
 
 body {
+    font: 0.8em Helvetica Neue, Helvetica, Arial, sans-serif;
+
     & > .map {
         position: absolute;
         top: 0px;
@@ -12,6 +19,7 @@ body {
         @include transition-property(right);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
+
 
         &.reduced {
             right: $panelWidth; 
@@ -29,6 +37,8 @@ body {
     }
 
     & > .calculations {
+        @include container;
+        @include border-box-sizing;
         position: absolute;
         top: 0px; 
         right: 0px;
@@ -41,6 +51,41 @@ body {
 
         &.open {
             width: $panelWidth; 
+        }
+
+        h1 {
+            font-size: 1.8em;
+            color: #474747;
+        }
+
+        > div {
+            @include border-radius(4px);
+            @include background-image(linear-gradient(#fff, #f6f6f6));
+            border: 1px solid #cac9c9;
+            margin-bottom: 1em;
+            box-shadow: 2px 2px 2px #eee;
+        }
+
+        .col1 {
+            @include span-columns(2,8);
+        }
+        .col2 {
+            @include span-columns(2,8);
+        }
+        .col3 {
+            @include span-columns(2,8);
+        }
+        .col4 {
+            @include span-columns(2 omega,8);
+        }
+        .col5 {
+            @include span-columns(8 omega,8);
+        }
+        .col6 {
+            @include span-columns(4,8);
+        }
+        .col7 {
+            @include span-columns(4 omega,8);
         }
     }
 }
