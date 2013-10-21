@@ -27,18 +27,21 @@ html
                 style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open}")
             h1 Energialaskelma
-            .col1 Säästöt keskimäärin 
-                p 327 €/kk
-            .col2 Energiantuotanto keskimäärin
-                p 2200 kWh/kk
-            .col3 Kokonaishinta
-                p 27 500 €
-            .col4 Takaisinmaksuaika
-                p 19 v
-            .col5 Kuvatukset
+            #savingsSum.col1.boxed Säästöt keskimäärin 
+                p.finalSum 327 €/kk
+            #productionSum.col2.boxed Energiantuotanto keskimäärin
+                p.finalSum 2200 kWh/kk
+            #priceSum.col3.boxed Kokonaishinta
+                p.finalSum 27 500 €
+            #paybackSum.col4.boxed Takaisinmaksuaika
+                p.finalSum 19 v
+            .col5.boxed Kuvatukset
                 div Tässä kuvatusten oma gridi
-            .col6 energiamuodot
-            .col7 kiinteistö
+            .col6
+                .boxed aurinkosähkö
+                .boxed aurinkolämpö
+                .boxed maalämpö
+            .col7.boxed kiinteistö
                 p Asukasmäärä
                     input(ng-model="building.numberOfInhabitants")
                 p Pinta-ala 

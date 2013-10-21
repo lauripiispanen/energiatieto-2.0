@@ -9,6 +9,7 @@ $panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width;
 
 body {
     font: 0.8em Helvetica Neue, Helvetica, Arial, sans-serif;
+    background-color: #ededed;
 
     & > .map {
         position: absolute;
@@ -40,10 +41,10 @@ body {
         @include container;
         @include border-box-sizing;
         position: absolute;
-        top: 0px; 
+        top: 6px; 
         right: 0px;
         bottom: 0px;
-        background-color: #FBF9F9; 
+        background-color: #fbfafa; 
         width: 0px;
         @include transition-property(width);
         @include transition-duration(0.5s);
@@ -58,25 +59,21 @@ body {
             color: #474747;
         }
 
-        > div {
-            @include border-radius(4px);
-            @include background-image(linear-gradient(#fff, #f6f6f6));
-            border: 1px solid #cac9c9;
-            margin-bottom: 1em;
-            box-shadow: 2px 2px 2px #eee;
-        }
-
-        .col1 {
+        #savingsSum {
             @include span-columns(2,8);
+            @extend .sumBoxes;
         }
-        .col2 {
+        #productionSum {
             @include span-columns(2,8);
+            @extend .sumBoxes;
         }
-        .col3 {
+        #priceSum {
             @include span-columns(2,8);
+            @extend .sumBoxes;
         }
-        .col4 {
+        #paybackSum {
             @include span-columns(2 omega,8);
+            @extend .sumBoxes;
         }
         .col5 {
             @include span-columns(8 omega,8);
@@ -87,8 +84,30 @@ body {
         .col7 {
             @include span-columns(4 omega,8);
         }
+
     }
 }
+
+.sumBoxes {
+    text-align: center;
+    color: #3c3c3c;
+    font-weight: bold;
+    padding: 1em;
+}
+
+.boxed {
+    @include border-radius(4px);
+    @include background-image(linear-gradient(#fff, #f6f6f6));
+    border: 1px solid #cac9c9;
+    margin-bottom: 1em;
+    box-shadow: 2px 2px 2px #eee;
+    }
+
+
+p.finalSum {
+    font-size: 1.8em;
+    color: #4e92cb;
+    }
 
 .popup-text {
     @include background-image(linear-gradient(#749560, #688356));
