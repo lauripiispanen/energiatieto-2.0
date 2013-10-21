@@ -2,3 +2,4 @@ node_modules
 dist
 Gruntfile.js
 .sass-cache
+bower_components

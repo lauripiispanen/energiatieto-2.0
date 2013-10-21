@@ -1,0 +1,14 @@
+{
+  "name": "energiatieto",
+  "version": "2.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#master"
+  }
+}

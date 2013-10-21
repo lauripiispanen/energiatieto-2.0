@@ -6,7 +6,11 @@ module.exports = (grunt) ->
                 options:
                     sassDir: 'src/sass'
                     cssDir: 'dist/styles'
-
+        bower:
+            install:
+                options:
+                    targetDir: 'dist/components'
+                    install: true
         concurrent:
             server:
                 tasks: ['nodemon', 'watch']
@@ -25,8 +29,8 @@ module.exports = (grunt) ->
         clean:
             npm: "node_modules"
 
-    grunt.registerTask 'default', ['compass','concurrent:server']
-    grunt.registerTask 'travis', ['compass']
+    grunt.registerTask 'default', ['bower:install','compass','concurrent:server']
+    grunt.registerTask 'travis', ['bower:install','compass']
 
     for key, value of require('./package.json').devDependencies
         if (key.indexOf('grunt-') == 0)
