@@ -39,3 +39,12 @@ html
                 div Tässä kuvatusten oma gridi
             .col6 energiamuodot
             .col7 kiinteistö
+                p Asukasmäärä
+                    input(ng-model="building.numberOfInhabitants")
+                p Pinta-ala 
+                    input(ng-model="building.floorArea") 
+                    | m2
+                p Rakennusvuosi
+                    input(ng-model="building.buildingYear")
+                p Lämmitysmuoto
+                    select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")

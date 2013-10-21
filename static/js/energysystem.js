@@ -22,6 +22,14 @@ angular
             Constants                         : new Constants()
         };
     }])
+    .factory("heating-options", [function() {
+        return {
+            "1":"Kaukolämpö",
+            "2":"Öljylämmitys",
+            "3":"Sähkö",
+            "4":"Muu"
+        }
+    }])
     .factory("building", [function() {
         return Building;
     }])

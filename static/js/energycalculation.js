@@ -9,22 +9,28 @@ angular
             "buildingSelectionChannel",
             "energysystem",
             "building",
+            "heating-options",
             function(
                 $scope,
                 $timeout,
                 formActivationChannel,
                 buildingSelectionChannel,
                 system,
-                Building
+                Building,
+                heatingOptions
             ) {
-        
+
+        $scope.building = new Building();
+        $scope.heatingOptions = heatingOptions;
+
+        /*
         system.calculate({
-            buildings: [ new Building() ],
+            buildings: [ building ],
             solarpanelproducers: [],
             geothermalwellproducers: []
         }, function(result) {
             console.log(result);
-        });
+        });*/
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
             formActivationChannel.activate();
