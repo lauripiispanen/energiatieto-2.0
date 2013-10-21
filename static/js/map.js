@@ -91,15 +91,24 @@ angular
             if ($scope.reduced) {
                 formActivationChannel.deactivate();
             } else {
-                buildingSelectionChannel.selectBuilding({
-                    coordinates: {
-                        lon: 2747542.9468056,
-                        lat: 8435120.1215636
-                    },
-                    address: "Pihlajatie 3"
-                });
+                select();
             }
         };
+        function select() {
+            buildingSelectionChannel.selectBuilding({
+                coordinates: {
+                    lon: 2747542.9468056,
+                    lat: 8435120.1215636
+                },
+                address: "Pihlajatie 3"
+            });
+        }
+
+        setTimeout(function() {
+            select();
+        }, 1);
+
+
         $scope.$watch("zoom", function(newValue, oldValue) {
             if (newValue >= 17) {
                 $scope.layers = both;
