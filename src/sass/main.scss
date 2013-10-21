@@ -4,7 +4,7 @@
 $total-columns: 8;
 $column-width: 7em;
 $gutter-width: 1em;
-$panelWidth: space($total-columns);
+$panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width;
 
 
 body {
