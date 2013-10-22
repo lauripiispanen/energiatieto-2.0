@@ -28,26 +28,61 @@ html
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open}")
             h1 Energialaskelma
             #savingsSum.col1.boxed Säästöt keskimäärin 
-                p.finalSum 327 €/kk
+                p.effectsSum 327 €/kk
             #productionSum.col2.boxed Energiantuotanto keskimäärin
-                p.finalSum 2200 kWh/kk
+                p.effectsSum 2200 kWh/kk
             #priceSum.col3.boxed Kokonaishinta
-                p.finalSum 27 500 €
+                p.effectsSum 27 500 €
             #paybackSum.col4.boxed Takaisinmaksuaika
-                p.finalSum 19 v
+                p.effectsSum 19 v
             .col5.boxed Kuvatukset
                 div Tässä kuvatusten oma gridi
             .col6
-                .boxed aurinkosähkö
-                .boxed aurinkolämpö
-                .boxed maalämpö
-            .col7.boxed kiinteistö
-                p Asukasmäärä
-                    input(ng-model="building.numberOfInhabitants")
-                p Pinta-ala 
-                    input(ng-model="building.floorArea") 
-                    | m2
-                p Rakennusvuosi
-                    input(ng-model="building.buildingYear")
-                p Lämmitysmuoto
-                    select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
+                .boxed 
+                    h2 Aurinkosähkö
+                    .controls Järjestelmän koko
+                    .effects
+                        .savings Säästöt
+                            p 100 €/kk
+                        .production Energiantuotanto
+                            p 100 kWh/kk
+                        .price Hinta
+                            p 100 €
+                        .payback Takaisinmaksuaika
+                            p 7 v
+                .boxed 
+                    h2 Aurinkolämpö
+                    .controls Järjestelmän koko
+                    .effects
+                        .savings Säästöt
+                            p 100 €/kk
+                        .production Energiantuotanto
+                            p 100 kWh/kk
+                        .price Hinta
+                            p 100 €
+                        .payback Takaisinmaksuaika
+                            p 7 v
+                .boxed 
+                    h2 Maalämpö
+                    .controls Käytetystä lämmöstä tuotettava osuus
+                    .effects
+                        .savings Säästöt
+                            p 100 €/kk
+                        .production Energiantuotanto
+                            p 100 kWh/kk
+                        .price Hinta
+                            p 100 €
+                        .payback Takaisinmaksuaika
+                            p 7 v
+            .col7.boxed
+                h2 Kiinteistön tiedot
+                .controls
+                    p Asukasmäärä
+                        input(ng-model="building.numberOfInhabitants")
+                    p Pinta-ala 
+                        input(ng-model="building.floorArea") 
+                        | m2
+                    p Rakennusvuosi
+                        input(ng-model="building.buildingYear")
+                    p Lämmitysmuoto
+                        select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
