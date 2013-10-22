@@ -105,6 +105,14 @@ body {
             @include span-columns(4 omega,8);
         }
 
+        .heating-graph {
+            @extend .graph;
+            .layer.solar-electricity {
+                fill: #BCE3FC;
+                stroke: #B3DBF6;
+            }
+        }
+
     }
 }
 
@@ -181,4 +189,11 @@ p.effectsSum {
     font-family: arial, sans-serif;
     border: 1px solid #5A7147;
     color: white;
+}
+
+.graph {
+    .layer.bought {
+        fill: #CDF0D2;
+        stroke: #C6EBCB;
+    }
 }

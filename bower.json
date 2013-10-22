@@ -9,6 +9,7 @@
     "tests"
   ],
   "dependencies": {
-    "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#master"
+    "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#master",
+    "d3": "~3.3.8"
   }
 }

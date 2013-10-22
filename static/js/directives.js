@@ -67,3 +67,84 @@ angular
             }
         };
     }])
+    .directive('n3Graph', [function() {
+        return {
+            scope: {
+                "model": "=ngModel",
+                "layerClasses": "="
+            },
+            link: function($scope, iElement, iAttrs, controller) {
+                var height = 200,
+                    width  = 300,
+                    svg = d3.select(iElement[0]).select("svg"),
+                    identity = function(d) { return d; };
+
+                $scope.$watch("model", function(newValue, oldValue) {
+                    var xMax = d3.max(newValue, function(it) {
+                            return d3.max(it, function(it) {
+                                return it.x;
+                            });
+                        }),
+                        xMin = d3.min(newValue, function(it) {
+                            return d3.min(it, function(it) {
+                                return it.x;
+                            });
+                        }),
+                        stack = d3.layout.stack(),
+                        layers = stack(newValue),
+                        yStackMin = d3.min(layers, function(layer) {
+                            return d3.min(layer, function(d) { return Math.min(d.y + d.y0, 0); });
+                        }),
+                        yStackMax = d3.max(layers, function(layer) {
+                            return d3.max(layer, function(d) { return Math.max(d.y + d.y0, 0); });
+                        }),
+                        x = d3.scale.ordinal().domain(d3.range(xMax + 1)).rangeRoundBands([0, width], .3),
+                        y = d3.scale.linear().domain([yStackMax, yStackMin]).range([0, height]),
+
+                        layerSelection = svg.selectAll(".layer").data(layers);
+
+                    if (newValue === oldValue) {
+                        // initialize
+                        layerSelection
+                            .enter()
+                            .append("g")                            
+                            .attr("class", function(d, i) { if ($scope.layerClasses) {
+                                    return "layer " + $scope.layerClasses[i];
+                                } else {
+                                    return "layer";
+                                }
+                            });
+
+                        var rectSelection = layerSelection.selectAll("rect").data(identity);
+
+                        rectSelection.enter()
+                            .append("rect")
+                            .attr("x", function(d) { return x(d.x); })
+                            .attr("y", function(d) { return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0); })
+                            .attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y0 + d.y)); })
+                            .attr("width", x.rangeBand());
+
+                        rectSelection
+                            .exit()
+                            .remove()
+                    } else {
+                        // update graph
+                        layerSelection
+                            .selectAll("rect")
+                            .data(identity)
+                            .transition()
+                            .duration(300)
+                            .attr("x", function(d) { return x(d.x); })
+                            .attr("y", function(d) { return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0); })
+                            .attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y0 + d.y)); })
+                            .attr("width", x.rangeBand());
+                    }
+                    
+
+
+                    console.log(yStackMax, yStackMin);
+
+                });
+            }
+        }
+    }])

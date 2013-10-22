@@ -7,6 +7,7 @@ html
         script(type="text/javascript",src="/vendor/angular.min.js")
         script(type="text/javascript",src="/vendor/proj4.js")
         script(type="text/javascript",src="/vendor/OpenLayers.js")
+        script(type="text/javascript",src="/components/d3/d3.js")
         script(type="text/javascript",src="/components/energiatieto-calculation/dist/calculations.js")
         script(type="text/javascript",src="/js/directives.js")
         script(type="text/javascript",src="/js/map.js")
@@ -37,6 +38,8 @@ html
                 p.effectsSum 19 v
             .col5.boxed Kuvatukset
                 div Tässä kuvatusten oma gridi
+                    .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="electricityLayerClasses")
+                        svg(style='height:200px; width: 300px;')
             .col6
                 .boxed 
                     h2 Aurinkosähkö
