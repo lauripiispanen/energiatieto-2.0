@@ -25,10 +25,20 @@ angular
                 graphGenerator
             ) {
 
-        $scope.electricityLayerClasses = ['bought','solar-electricity'];
-        $scope.heatingLayerClasses = ['bought','solar-heating','geothermal','residue'];
+        $scope.electricityLayerClasses = ['solar-electricity','bought'];
+        $scope.heatingLayerClasses = ['residue','geothermal','solar-heating','bought'];
 
-        $scope.building = new Building();
+        var building = new Building();
+
+        building.photoVoltaic = new SolarInstallation();
+        building.photoVoltaic.photovoltaicArea = 10;
+        building.photoVoltaic.active = false;
+
+        building.thermalPanel = new SolarInstallation();
+        building.thermalPanel.thermalArea = 10;
+        building.thermalPanel.active = false;
+
+        $scope.building = building;
         $scope.heatingOptions = heatingOptions;
 
         system.calculate({}, function(result) {
@@ -36,13 +46,23 @@ angular
         });
 
 
-        $scope.$watch("building", function(newValue) {
+        $scope.$watch("building", function(building) {
+            var panels = [];
+
+            if (building.photoVoltaic.active) {
+                panels.push(building.photoVoltaic);
+            }
+            if (building.thermalPanel.active) {
+                panels.push(building.thermalPanel);
+            }
+
             system.calculate({
-                buildings: [ newValue ],
-                solarpanelproducers: [],
+                buildings: [ building ],
+                solarpanelproducers: panels,
                 geothermalwellproducers: []
             }, function(result) {
                 $scope.calculationResult = result;
+                $scope.electricitySeries = graphGenerator.generateElectricityGraph(result);
                 $scope.heatingSeries = graphGenerator.generateHeatingGraph(result);
             });
         }, true);
@@ -59,17 +79,35 @@ angular
         function wrap(it, index) {
             return { x: index, y: it };
         }
+        function calculate(calc) {
+            return _.chain(months).map(calc).map(wrap).value()
+        }
+        var months = _.range(0, 12);
+        
+        this.generateElectricityGraph = function(profiles) {
+            var elecCons = profiles.electricityConsumption,
+                elecProd = profiles.electricityProduction;
+
+            return [
+                calculate(function(it) { return elecProd.total[it]; }),
+                calculate(function(it) { return elecCons.total[it]; })
+            ];
+        };
 
         this.generateHeatingGraph = function(profiles) {
-            var months = _.range(0, 12),
-                c = profiles.heatingConsumption;
-                calculate = function(calc) {
-                    return _.chain(months).map(calc).map(wrap).value()
-                };
+            var heatCons = profiles.heatingConsumption,
+                heatProd = profiles.heatingProduction,
+                zero = calculate(function() { return 0; });
             return [
-                    calculate(function(it) {
-                        return 0 - c.water.total[it] - c.space.total[it];
-                    })
+                zero,
+                zero,
+                calculate(function(it) {
+                    return heatProd.water.total[it] + heatProd.space.total[it];
+                }),
+                calculate(function(it) {
+                    return Math.min(0, 0 - heatCons.water.total[it] - heatCons.space.total[it]);
+                })
+                    
             ];
         }
     }])

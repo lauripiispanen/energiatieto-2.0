@@ -37,13 +37,19 @@ html
             #paybackSum.col4.boxed Takaisinmaksuaika
                 p.effectsSum 19 v
             .col5.boxed Kuvatukset
-                div Tässä kuvatusten oma gridi
-                    .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="electricityLayerClasses")
+                div Sähkö
+                    .electricity-graph(n3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
+                        svg(style='height:200px; width: 300px;')
+                div Lämpöenergia
+                    .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
                         svg(style='height:200px; width: 300px;')
             .col6
                 .boxed 
-                    h2 Aurinkosähkö
+                    h2(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active") Aurinkosähkö 
+                        span(ng-show="building.photoVoltaic.active") käytössä
+                        span(ng-hide="building.photoVoltaic.active") ei käytössä
                     .controls Järjestelmän koko
+                        input(type="number",ng-model="building.photoVoltaic.photovoltaicArea") m2
                     .effects
                         .savings Säästöt
                             p 100 €/kk
@@ -54,8 +60,11 @@ html
                         .payback Takaisinmaksuaika
                             p 7 v
                 .boxed 
-                    h2 Aurinkolämpö
-                    .controls Järjestelmän koko
+                    h2(ng-click="building.thermalPanel.active = !building.thermalPanel.active") Aurinkolämpö 
+                        span(ng-show="building.thermalPanel.active") käytössä
+                        span(ng-hide="building.thermalPanel.active") ei käytössä
+                    .controls Järjestelmän koko 
+                        input(type="number",ng-model="building.thermalPanel.thermalArea") m2
                     .effects
                         .savings Säästöt
                             p 100 €/kk
@@ -81,11 +90,11 @@ html
                 h2 Kiinteistön tiedot
                 .controls
                     p Asukasmäärä
-                        input(ng-model="building.numberOfInhabitants")
+                        input(type="number",ng-model="building.numberOfInhabitants")
                     p Pinta-ala 
-                        input(ng-model="building.floorArea") 
+                        input(type="number",ng-model="building.floorArea") 
                         | m2
                     p Rakennusvuosi
-                        input(ng-model="building.buildingYear")
+                        input(type="number",ng-model="building.buildingYear")
                     p Lämmitysmuoto
                         select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")

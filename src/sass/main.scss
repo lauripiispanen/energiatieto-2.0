@@ -107,6 +107,13 @@ body {
 
         .heating-graph {
             @extend .graph;
+            .layer.solar-heating {
+                fill: #FDEF9B;
+                stroke: #F6E893;
+            }
+        }
+        .electricity-graph {
+            @extend .graph;
             .layer.solar-electricity {
                 fill: #BCE3FC;
                 stroke: #B3DBF6;
