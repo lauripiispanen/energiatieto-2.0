@@ -90,7 +90,16 @@ angular
                                 return it.x;
                             });
                         }),
-                        stack = d3.layout.stack(),
+                        stack = d3.layout.stack().out(function(d, y0, y) {
+                            // note, this stacking output only works if series containing negative values are LAST in the stack!
+                            if (y0 >= 0 && y < 0) {
+                                d.y0 = 0;
+                                d.y = y;
+                            } else {
+                                d.y0 = y0;
+                                d.y = y;                                
+                            }
+                        }),
                         layers = stack(newValue),
                         yStackMin = d3.min(layers, function(layer) {
                             return d3.min(layer, function(d) { return Math.min(d.y + d.y0, 0); });
@@ -101,7 +110,16 @@ angular
                         x = d3.scale.ordinal().domain(d3.range(xMax + 1)).rangeRoundBands([0, width], .3),
                         y = d3.scale.linear().domain([yStackMax, yStackMin]).range([0, height]),
 
-                        layerSelection = svg.selectAll(".layer").data(layers);
+                        layerSelection = svg.selectAll(".layer").data(layers),
+                        updateAttributes = function(rectSelection) {
+                            rectSelection
+                                .attr("x", function(d) { return x(d.x); })
+                                .attr("y", function(d) {
+                                    return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0); 
+                                })
+                                .attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y0 + d.y)); })
+                                .attr("width", x.rangeBand());
+                        };
 
                     if (newValue === oldValue) {
                         // initialize
@@ -119,10 +137,8 @@ angular
 
                         rectSelection.enter()
                             .append("rect")
-                            .attr("x", function(d) { return x(d.x); })
-                            .attr("y", function(d) { return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0); })
-                            .attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y0 + d.y)); })
-                            .attr("width", x.rangeBand());
+                            .call(updateAttributes)
+
 
                         rectSelection
                             .exit()
@@ -134,17 +150,10 @@ angular
                             .data(identity)
                             .transition()
                             .duration(300)
-                            .attr("x", function(d) { return x(d.x); })
-                            .attr("y", function(d) { return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0); })
-                            .attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y0 + d.y)); })
-                            .attr("width", x.rangeBand());
+                            .call(updateAttributes);
                     }
-                    
 
-
-                    console.log(yStackMax, yStackMin);
-
-                });
+                }, true);
             }
         }
     }])
