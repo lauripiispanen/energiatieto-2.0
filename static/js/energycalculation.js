@@ -68,7 +68,6 @@ angular
                 solarpanelproducers: panels,
                 geothermalwellproducers: boreholes
             }, function(result) {
-
                 $scope.calculationResult = result;
                 $scope.electricitySeries = graphGenerator.generateElectricityGraph(result);
                 $scope.heatingSeries = graphGenerator.generateHeatingGraph(result);
@@ -145,7 +144,7 @@ angular
     .filter('currencyFormat', function() {
         return function(input) {
             return _
-                .chain(input.toString().split(''))
+                .chain(Math.round(input).toString().split(''))
                 .reverse()
                 .reduce(function(memo, value) {
                     if (_.last(memo).length >= 3) {
@@ -155,7 +154,7 @@ angular
                     return memo;
                 }, [[]])
                 .map(function(it) {
-                    return it.join("");
+                    return it.reverse().join("");
                 })
                 .reverse()
                 .join(" ")

@@ -37,7 +37,7 @@ html
                 p 327 €/kk
             #productionSum.col2.boxed
                 h2 Energiantuotanto keskimäärin
-                p 2200 kWh/kk
+                p {{calculationResult.averageMonthlyProduction | currencyFormat}} kWh/kk
             #priceSum.col3.boxed 
                 h2 Kokonaishinta
                 p {{calculationResult.systemCost.initialInvestment | currencyFormat}} €

@@ -92,7 +92,7 @@ angular
                         }),
                         stack = d3.layout.stack().out(function(d, y0, y) {
                             // note, this stacking output only works if series containing negative values are LAST in the stack!
-                            if (y0 >= 0 && y < 0) {
+                            if (y0 > 0 && y < 0) {
                                 d.y0 = 0;
                                 d.y = y;
                             } else {
@@ -115,9 +115,15 @@ angular
                             rectSelection
                                 .attr("x", function(d) { return x(d.x); })
                                 .attr("y", function(d) {
-                                    return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0); 
+                                    if (d == 0) {
+                                        return y(0);
+                                    } else {
+                                        return d.y < 0 ? y(0 + d.y0) : y(d.y + d.y0);
+                                    }
                                 })
-                                .attr("height", function(d) { return Math.abs(y(d.y0) - y(d.y0 + d.y)); })
+                                .attr("height", function(d) { 
+                                    return Math.abs(y(d.y0) - y(d.y0 + d.y)); 
+                                })
                                 .attr("width", x.rangeBand());
                         };
 

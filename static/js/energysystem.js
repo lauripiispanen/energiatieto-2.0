@@ -112,6 +112,10 @@ angular
             };
 
             this.calculate = function(options, callback) {
+                function sum(prodSum, monthlyTotal){
+                  return prodSum + monthlyTotal;
+                }
+
                 try {
                     if (options.buildings && options.buildings.length > 0) {
                         var system = {
@@ -145,12 +149,16 @@ angular
                         var constants = profiles.Constants;
                         var systemElectricityProduction = valuesFor(profiles.SystemElectricityProduction(system, constants));
                         var systemElectricityConsumption = valuesFor(profiles.SystemElectricityConsumption(system, constants));
-                        var annualElectricityProduction = _.reduce(systemElectricityProduction.total, function(prodSum, monthlyTotal){
-                          return prodSum + monthlyTotal;
-                        });
-                        var annualElectricityConsumption = _.reduce(systemElectricityConsumption.total, function(consSum, monthlyTotal){
-                          return consSum + monthlyTotal;
-                        });
+                        var systemHotWaterHeatingEnergyProduction = valuesFor(profiles.SystemHotWaterHeatingEnergyProduction(system, constants));
+                        var systemSpaceHeatingEnergyProduction = valuesFor(profiles.SystemSpaceHeatingEnergyProduction(system, constants));
+
+                        var annualElectricityProduction = _.reduce(systemElectricityProduction.total, sum);
+                        var annualElectricityConsumption = _.reduce(systemElectricityConsumption.total, sum);
+
+                        var annualHotWaterHeatingEnergyProduction = _.reduce(systemHotWaterHeatingEnergyProduction.total, sum);
+                        var annualSpaceHeatingEnergyProduction = _.reduce(systemSpaceHeatingEnergyProduction.total, sum);
+                        
+                        var annualTotalProduction = annualElectricityProduction + annualHotWaterHeatingEnergyProduction + annualSpaceHeatingEnergyProduction;
 
                         callback({
                             boreholes: {
@@ -178,8 +186,8 @@ angular
                             }),
                             electricityConsumption: systemElectricityConsumption,
                             heatingProduction: pivot({
-                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyProduction(system, constants)),
-                                space: valuesFor(profiles.SystemSpaceHeatingEnergyProduction(system, constants))
+                                water: systemHotWaterHeatingEnergyProduction,
+                                space: systemSpaceHeatingEnergyProduction
                             }),
                             electricityProduction: systemElectricityProduction,
 /*                            heatingBalance: pivot({
@@ -187,8 +195,8 @@ angular
                                 space: valuesFor(profiles.SystemSpaceHeatingEnergyBalance(system, constants))
                             }),
                             electricityBalance: valuesFor(profiles.SystemElectricityBalance(system, constants)), */
-                            systemCost: profiles.SystemCost.getSystemCost(system, 
-                              annualElectricityProduction, annualElectricityConsumption)
+                            systemCost: profiles.SystemCost.getSystemCost(system, annualElectricityProduction, annualElectricityConsumption),
+                            averageMonthlyProduction: annualTotalProduction / 12
                         });
                         return;
                     } else {
