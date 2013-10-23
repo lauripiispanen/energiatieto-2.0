@@ -58,10 +58,9 @@ html
                         span(ng-hide="building.photoVoltaic.active") ei käytössä
                     .controls Järjestelmän koko
                         input(type="number",ng-model="building.photoVoltaic.photovoltaicArea") m2
-                        
                     .effects
                         .buttoncontainer
-                            #solarElectricInfo Laskelman tiedot
+                            .infobutton Laskelman tiedot
                         .savings Säästöt
                             p 100 €/kk
                         .production Energiantuotanto
@@ -79,7 +78,7 @@ html
                         input(type="number",ng-model="building.thermalPanel.thermalArea") m2
                     .effects
                         .buttoncontainer
-                            #solarThermalInfo Laskelman tiedot
+                            .infobutton Laskelman tiedot
                         .savings Säästöt
                             p 100 €/kk
                         .production Energiantuotanto
@@ -96,7 +95,7 @@ html
                     .controls Käytetystä lämmöstä tuotettava osuus
                     .effects
                         .buttoncontainer
-                            #geoThermalInfo Laskelman tiedot   
+                            .infobutton Laskelman tiedot   
                         .savings Säästöt
                             p 100 €/kk
                         .production Energiantuotanto
@@ -108,13 +107,47 @@ html
                         
             .col7.boxed
                 h2 Kiinteistön tiedot
-                .controls
-                    p Asukasmäärä
-                        input(type="number",ng-model="building.numberOfInhabitants")
-                    p Pinta-ala 
-                        input(type="number",ng-model="building.floorArea") 
-                        | m2
-                    p Rakennusvuosi
-                        input(type="number",ng-model="building.buildingYear")
-                    p Lämmitysmuoto
-                        select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
+                .table Tarkista asukasmäärä ja muut tiedot!
+                    h3 Käyttäjät ja käyttö
+                    table
+                        tr
+                            td Asukasmäärä:
+                            td
+                                input.shortInput(type="text",ng-model="building.numberOfInhabitants")
+                            td hlö
+                        tr
+                            td Sähkön kulutus:
+                            td
+                                input.longInput(type="text")
+                            td kWh/v
+                        tr
+                            td Lämmitysenergian kulutus:
+                            td
+                                input.longInput(type="text")
+                            td kWh/v
+                    h3 Kiinteistö
+                    table
+                        tr
+                            td Pinta-ala
+                            td
+                                input.shortInput(type="text",ng-model="building.floorArea") 
+                            td m2
+                        tr
+                            td Kerrosten lukumäärä:
+                            td 
+                                input.shortInput(type="text") 
+                            td
+                        tr
+                            td Rakennusvuosi:
+                            td
+                                input.shortInput(type="text",ng-model="building.buildingYear")
+                            td
+                        tr
+                            td Lämmitysmuoto:
+                            td 
+                                select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
+                            td
+                    .effects
+                        .buttoncontainer
+                            .infobutton Laskelman tiedot   
+                        
