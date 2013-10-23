@@ -16,6 +16,9 @@ module.exports = (grunt) ->
                 options:
                     targetDir: 'dist/components'
                     install: true
+                    cleanTargetDir: true
+                    cleanBowerDir: true
+                    verbose: true
         concurrent:
             server:
                 tasks: ['compass:watch', 'nodemon']
