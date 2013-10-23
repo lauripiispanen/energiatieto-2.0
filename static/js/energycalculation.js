@@ -26,7 +26,7 @@ angular
             ) {
 
         $scope.electricityLayerClasses = ['solar-electricity','bought'];
-        $scope.heatingLayerClasses = ['residue','geothermal','solar-heating','bought'];
+        $scope.heatingLayerClasses = ['solar-heating','geothermal','residue','bought'];
 
         var building = new Building();
 
@@ -40,6 +40,8 @@ angular
 
         building.borehole = new Borehole();
         building.borehole.active = true;
+        building.borehole.activeDepth = 200;
+        building.borehole.powerDimensioning = 60;
 
         $scope.building = building;
         $scope.heatingOptions = heatingOptions;
@@ -69,7 +71,7 @@ angular
                 geothermalwellproducers: boreholes
             }, function(result) {
                 $scope.calculationResult = result;
-                $scope.electricitySeries = graphGenerator.generateElectricityGraph(result);
+                $scope.electricitySeries = graphGenerator.generateElectricityGraph(result, building);
                 $scope.heatingSeries = graphGenerator.generateHeatingGraph(result);
             });
         }, true);
@@ -91,23 +93,39 @@ angular
         }
         var months = _.range(0, 12);
         
-        this.generateElectricityGraph = function(profiles) {
+        this.generateElectricityGraph = function(profiles, building) {
             var elecCons = profiles.electricityConsumption,
-                elecProd = profiles.electricityProduction;
+                elecProd = profiles.electricityProduction,
+                heatCons = profiles.heatingConsumption,
+                heatProd = profiles.heatingProduction;
+
             return [
-                calculate(function(it) { return elecProd.total[it]; }),
-                calculate(function(it) { return Math.min(0, 0 - elecCons.total[it]); })
+                calculate(function(it) { 
+                    return elecProd.total[it];
+                }),
+                calculate(function(it) {
+                    // if electric heating, add all negative heating energy balance to electricity consumption
+                    var residueHeatConsumption = Math.min(0, 0 - elecCons.total[it] + elecProd.total[it]);
+                    if (building.heatingSystem === "3") {
+                        return residueHeatConsumption
+                            - Math.max(0, heatCons.water.total[it]- heatProd.water.total[it])
+                            - Math.max(0, heatCons.space.total[it] - heatProd.space.total[it]);
+                    } else {
+                        return residueHeatConsumption;
+                    }
+
+                })
             ];
         };
 
         this.generateHeatingGraph = function(profiles) {
             function reduceTotals(profile) {
                 return _.reduce(profile, function(memo, value) {
-                            return _.map(value.total, function(it, index) {
-                                return it + (memo[index] || 0);
-                            });
-                        }, [])
-                };
+                    return _.map(value.total, function(it, index) {
+                        return it + (memo[index] || 0);
+                    });
+                }, [])
+            };
 
             var zero = calculate(function() { return 0; }),
                 heatCons = profiles.heatingConsumption,
@@ -127,12 +145,17 @@ angular
                 };
 
             return [
-                zero,
+                // solar
+                calculate(function(it) {
+                    return solar.water.total[it] || 0;
+                }),
+                // geothermal
                 calculate(function(it) {
                     return (geoProd.water.total[it] || 0) + (geoProd.space.total[it] || 0);
                 }),
+                // residue
                 calculate(function(it) {
-                    return solar.water.total[it] || 0;
+                    return Math.max(0, 0 - heatCons.water.total[it] + heatProd.water.total[it]);
                 }),
                 calculate(function(it) {
                     return Math.min(0, 0 - heatCons.water.total[it] - heatCons.space.total[it] + heatProd.water.total[it] + heatProd.space.total[it]);
