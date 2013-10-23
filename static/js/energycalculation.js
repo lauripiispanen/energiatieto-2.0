@@ -32,11 +32,11 @@ angular
 
         building.photoVoltaic = new SolarInstallation();
         building.photoVoltaic.photovoltaicArea = 10;
-        building.photoVoltaic.active = false;
+        building.photoVoltaic.active = true;
 
         building.thermalPanel = new SolarInstallation();
         building.thermalPanel.thermalArea = 10;
-        building.thermalPanel.active = false;
+        building.thermalPanel.active = true;
 
         $scope.building = building;
         $scope.heatingOptions = heatingOptions;
@@ -111,3 +111,23 @@ angular
             ];
         }
     }])
+    .filter('currencyFormat', function() {
+        return function(input) {
+            return _
+                .chain(input.toString().split(''))
+                .reverse()
+                .reduce(function(memo, value) {
+                    if (_.last(memo).length >= 3) {
+                        memo.push([]);
+                    }
+                    _.last(memo).push(value);
+                    return memo;
+                }, [[]])
+                .map(function(it) {
+                    return it.join("");
+                })
+                .reverse()
+                .join(" ")
+                .value()
+        }
+    })

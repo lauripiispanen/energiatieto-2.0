@@ -18,7 +18,7 @@ angular
                                               : SystemHotWaterHeatingEnergyBalance,
             SystemSpaceHeatingEnergyBalance
                                               : SystemSpaceHeatingEnergyBalance,
-//            SystemCost                        : SystemCost,
+            SystemCost                        : new SystemCost(),
             Constants                         : new Constants()
         };
     }])
@@ -161,8 +161,8 @@ angular
                                 space: valuesFor(profiles.SystemSpaceHeatingEnergyBalance)
                             }),
                             electricityBalance: valuesFor(profiles.SystemElectricityBalance),
-/*                            systemCost: profiles.SystemCost.getSystemCost(system, 
-                              annualElectricityProduction, annualElectricityConsumption) */
+                            systemCost: profiles.SystemCost.getSystemCost(system, 
+                              annualElectricityProduction, annualElectricityConsumption)
                         });
                         return;
                     } else {

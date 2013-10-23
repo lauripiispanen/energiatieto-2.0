@@ -33,9 +33,9 @@ html
             #productionSum.col2.boxed Energiantuotanto keskimäärin
                 p.effectsSum 2200 kWh/kk
             #priceSum.col3.boxed Kokonaishinta
-                p.effectsSum 27 500 €
+                p.effectsSum {{calculationResult.systemCost.initialInvestment | currencyFormat}} €
             #paybackSum.col4.boxed Takaisinmaksuaika
-                p.effectsSum 19 v
+                p.effectsSum {{calculationResult.systemCost.paybackTime}} v
             .col5.boxed Kuvatukset
                 div Sähkö
                     .electricity-graph(n3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
