@@ -6,7 +6,6 @@ module.exports = (grunt) ->
                 options:
                     sassDir: 'src/sass'
                     cssDir: 'dist/styles'
-                    clean: true
             watch:
                 options:
                     sassDir: 'src/sass'
