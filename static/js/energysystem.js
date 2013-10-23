@@ -2,6 +2,13 @@ angular
     .module("energiatieto-energysystem", [])
     .factory("profiles", [function() {
         return {
+            BoreholeElectricityConsumptionProfile: BoreholeElectricityConsumptionProfile,            
+            BoreholeHotWaterHeatingEnergyProductionProfile: BoreholeHotWaterHeatingEnergyProductionProfile,
+            BoreholeSpaceHeatingEnergyProductionProfile: BoreholeSpaceHeatingEnergyProductionProfile,
+
+            SolarElectricityProductionProfile: SolarElectricityProductionProfile,
+            SolarHotWaterHeatingEnergyProductionProfile: SolarHeatingEnergyProductionProfile,
+            
             SystemElectricityConsumption     : SystemElectricityConsumption,
             HotWaterHeatingEnergyProfile      : HotWaterHeatingEnergyProfile,
             SystemHotWaterHeatingEnergyConsumption
@@ -113,9 +120,9 @@ angular
                             borehole: options.geothermalwellproducers
                         };
                         var self = this;
-                        var valuesFor = function(profile) {
-                            var constants   = profiles.Constants,
-                                calculatedProfile = profile(system, constants);
+                        var valuesFor = function(calculatedProfile) {
+                            var constants   = profiles.Constants;
+
                             return {
                                 total: self.monthly(calculatedProfile),
                                 averages: self.monthlyAverages(calculatedProfile, constants)
@@ -135,9 +142,9 @@ angular
                             });
                             return obj;
                         };
-
-                        var systemElectricityProduction = valuesFor(profiles.SystemElectricityProduction);
-                        var systemElectricityConsumption = valuesFor(profiles.SystemElectricityConsumption);
+                        var constants = profiles.Constants;
+                        var systemElectricityProduction = valuesFor(profiles.SystemElectricityProduction(system, constants));
+                        var systemElectricityConsumption = valuesFor(profiles.SystemElectricityConsumption(system, constants));
                         var annualElectricityProduction = _.reduce(systemElectricityProduction.total, function(prodSum, monthlyTotal){
                           return prodSum + monthlyTotal;
                         });
@@ -146,21 +153,40 @@ angular
                         });
 
                         callback({
+                            boreholes: {
+                                electricityConsumption: _.map(system.borehole, function(it) {
+                                    return valuesFor(profiles.BoreholeElectricityConsumptionProfile(system, it, constants));
+                                }),
+                                waterHeating: _.map(system.borehole, function(it) {
+                                    return valuesFor(profiles.BoreholeHotWaterHeatingEnergyProductionProfile(system, it, constants));
+                                }),
+                                spaceHeating: _.map(system.borehole, function(it) {
+                                    return valuesFor(profiles.BoreholeSpaceHeatingEnergyProductionProfile(system, it, constants));
+                                })
+                            },
+                            solarpanels: {
+                                electricityProduction: _.map(system.solarInstallation, function(it) {
+                                    return valuesFor(profiles.SolarElectricityProductionProfile(it, constants));
+                                }),
+                                waterHeating: _.map(system.solarInstallation, function(it) {
+                                    return valuesFor(profiles.SolarHotWaterHeatingEnergyProductionProfile(it, constants));
+                                })
+                            },
                             heatingConsumption: pivot({
-                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyConsumption),
-                                space: valuesFor(profiles.SystemSpaceHeatingEnergyConsumption)
+                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyConsumption(system, constants)),
+                                space: valuesFor(profiles.SystemSpaceHeatingEnergyConsumption(system, constants))
                             }),
                             electricityConsumption: systemElectricityConsumption,
                             heatingProduction: pivot({
-                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyProduction),
-                                space: valuesFor(profiles.SystemSpaceHeatingEnergyProduction)
+                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyProduction(system, constants)),
+                                space: valuesFor(profiles.SystemSpaceHeatingEnergyProduction(system, constants))
                             }),
                             electricityProduction: systemElectricityProduction,
-                            heatingBalance: pivot({
-                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyBalance),
-                                space: valuesFor(profiles.SystemSpaceHeatingEnergyBalance)
+/*                            heatingBalance: pivot({
+                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyBalance(system, constants)),
+                                space: valuesFor(profiles.SystemSpaceHeatingEnergyBalance(system, constants))
                             }),
-                            electricityBalance: valuesFor(profiles.SystemElectricityBalance),
+                            electricityBalance: valuesFor(profiles.SystemElectricityBalance(system, constants)), */
                             systemCost: profiles.SystemCost.getSystemCost(system, 
                               annualElectricityProduction, annualElectricityConsumption)
                         });

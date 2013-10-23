@@ -139,6 +139,14 @@ body {
                 fill: #FDEF9B;
                 stroke: #F6E893;
             }
+            .layer.geothermal {
+                fill: #EFC75E;
+                stroke: #EBC35B;
+            }
+            .layer.residue {
+                fill: #B59137;
+                stroke: #AF8D35;
+            }
         }
         .electricity-graph {
             @extend .graph;

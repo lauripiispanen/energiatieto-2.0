@@ -90,7 +90,9 @@ html
                             p 7 v
                         
                 .boxed 
-                    h2 Maalämpö
+                    h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
+                        span(ng-show="building.borehole.active") käytössä
+                        span(ng-hide="building.borehole.active") ei käytössä
                     .controls Käytetystä lämmöstä tuotettava osuus
                     .effects
                         .buttoncontainer
