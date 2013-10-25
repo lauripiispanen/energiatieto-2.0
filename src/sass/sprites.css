@@ -1,0 +1,40 @@
+.info, .toggle_off, .toggle_solarelectricity_on, .toggle_geoterm_on, .toggle_solarheat_on, .dropdown{
+	background: url(/images/sprites.png) no-repeat;
+}
+
+.info{
+	background-position: 0 -26px ;
+	width: 20px;
+	height: 20px;
+}
+
+.toggle_off{
+	background-position: 0 -48px ;
+	width: 36px;
+	height: 20px;
+}
+
+.toggle_solarelectricity_on{
+	background-position: 0 -69px ;
+	width: 36px;
+	height: 20px;
+}
+
+.toggle_geoterm_on{
+	background-position: 0 -113px ;
+	width: 36px;
+	height: 20px;
+}
+
+.toggle_solarheat_on{
+	background-position: 0 -91px ;
+	width: 36px;
+	height: 20px;
+}
+
+.dropdown{
+	background-position: 0 0;
+	width: 145px;
+	height: 24px;
+}
+

@@ -33,16 +33,20 @@ html
                 .actionbutton Hae toimenpidelupaa
             h1 Energialaskelma
             #savingsSum.col1.boxed 
-                h2 Säästöt keskimäärin 
+                .positioncontainer
+                    h2 Säästöt keskimäärin 
                 p 327 €/kk
             #productionSum.col2.boxed
-                h2 Energiantuotanto keskimäärin
+                .positioncontainer
+                    h2 Energiantuotanto keskimäärin
                 p {{calculationResult.averageMonthlyProduction | currencyFormat}} kWh/kk
             #priceSum.col3.boxed 
-                h2 Kokonaishinta
+                .positioncontainer
+                    h2 Kokonaishinta
                 p {{calculationResult.systemCost.initialInvestment | currencyFormat}} €
             #paybackSum.col4.boxed
-                h2 Takaisinmaksuaika
+                .positioncontainer
+                    h2 Takaisinmaksuaika
                 p {{calculationResult.systemCost.paybackTime}} v
             .col5.boxed Kuvatukset
                 div Sähkö
@@ -50,64 +54,13 @@ html
                         svg(style='height:200px; width: 300px;')
                 div Lämpöenergia
                     .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
-                        svg(style='height:200px; width: 300px;')
-            .col6
-                .boxed 
-                    h2(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active") Aurinkosähkö 
-                        span(ng-show="building.photoVoltaic.active") käytössä
-                        span(ng-hide="building.photoVoltaic.active") ei käytössä
-                    .controls Järjestelmän koko
-                        input(type="number",ng-model="building.photoVoltaic.photovoltaicArea") m2
-                    .effects
-                        .buttoncontainer
-                            .infobutton Laskelman tiedot
-                        .savings Säästöt
-                            p 100 €/kk
-                        .production Energiantuotanto
-                            p 100 kWh/kk
-                        .price Hinta
-                            p 100 €
-                        .payback Takaisinmaksuaika
-                            p 7 v
-                        
-                .boxed 
-                    h2(ng-click="building.thermalPanel.active = !building.thermalPanel.active") Aurinkolämpö 
-                        span(ng-show="building.thermalPanel.active") käytössä
-                        span(ng-hide="building.thermalPanel.active") ei käytössä
-                    .controls Järjestelmän koko 
-                        input(type="number",ng-model="building.thermalPanel.thermalArea") m2
-                    .effects
-                        .buttoncontainer
-                            .infobutton Laskelman tiedot
-                        .savings Säästöt
-                            p 100 €/kk
-                        .production Energiantuotanto
-                            p 100 kWh/kk
-                        .price Hinta
-                            p 100 €
-                        .payback Takaisinmaksuaika
-                            p 7 v
-                        
-                .boxed 
-                    h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
-                        span(ng-show="building.borehole.active") käytössä
-                        span(ng-hide="building.borehole.active") ei käytössä
-                    .controls Käytetystä lämmöstä tuotettava osuus
-                    .effects
-                        .buttoncontainer
-                            .infobutton Laskelman tiedot   
-                        .savings Säästöt
-                            p 100 €/kk
-                        .production Energiantuotanto
-                            p 100 kWh/kk
-                        .price Hinta
-                            p 100 €
-                        .payback Takaisinmaksuaika
-                            p 7 v
-                        
+                        svg(style='height:200px; width: 300px;')            
             .col7.boxed
-                h2 Kiinteistön tiedot
-                .table Tarkista asukasmäärä ja muut tiedot!
+                .headerbar
+                    .info 
+                    h2 Kiinteistön tiedot
+                .table
+                    .highlight Tarkista asukasmäärä ja muut tiedot!
                     h3 Käyttäjät ja käyttö
                     table
                         tr
@@ -144,10 +97,78 @@ html
                             td
                         tr
                             td Lämmitysmuoto:
-                            td 
-                                select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
+                            td
+                                .dropdown
+                                    select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
                             td
                     .effects
-                        .buttoncontainer
-                            .infobutton Laskelman tiedot   
+                        .positioncontainer
+                            .infobutton Laskelman tiedot
+            .col6
+                .boxed 
+                    .headerbar
+                        .info 
+                        h2(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active") Aurinkosähkö
+                        span.toggle_solarelectricity_on
+                            span(ng-show="building.photoVoltaic.active") Käytössä
+                        span
+                            span(ng-hide="building.photoVoltaic.active") Ei käytössä
+                    .controls Järjestelmän koko
+                        input(type="number",ng-model="building.photoVoltaic.photovoltaicArea") m2
+                    .effects
+                        .positioncontainer
+                            .infobutton Laskelman tiedot
+                        .savings Säästöt
+                            p 100 €/kk
+                        .production Energiantuotanto
+                            p 100 kWh/kk
+                        .price Hinta
+                            p 100 €
+                        .payback Takaisinmaksuaika
+                            p 7 v
                         
+                .boxed 
+                    .headerbar
+                        .info 
+                        h2(ng-click="building.thermalPanel.active = !building.thermalPanel.active") Aurinkolämpö 
+                        span.toggle_solarheat_on
+                            span(ng-show="building.thermalPanel.active") Käytössä
+                        span
+                            span(ng-hide="building.thermalPanel.active") Ei käytössä
+                    .controls Järjestelmän koko 
+                        input(type="number",ng-model="building.thermalPanel.thermalArea") m2
+                    .effects
+                        .positioncontainer
+                            .infobutton Laskelman tiedot
+                        .savings Säästöt
+                            p 100 €/kk
+                        .production Energiantuotanto
+                            p 100 kWh/kk
+                        .price Hinta
+                            p 100 €
+                        .payback Takaisinmaksuaika
+                            p 7 v
+                        
+                .boxed 
+                    .headerbar
+                        .info 
+                        h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
+                        span.toggle_geoterm_on
+                            span(ng-show="building.borehole.active") Käytössä
+                        span
+                            span(ng-hide="building.borehole.active") Ei käytössä
+                    .controls Käytetystä lämmöstä tuotettava osuus
+                    .effects
+                        .positioncontainer
+                            .infobutton Laskelman tiedot   
+                        .savings Säästöt
+                            p 100 €/kk
+                        .production Energiantuotanto
+                            p 100 kWh/kk
+                        .price Hinta
+                            p 100 €
+                        .payback Takaisinmaksuaika
+                            p 7 v
+            .footer
+                p footerteksti
+                slider(floor="100" ceiling="1000" step="50" precision="2" ng-model="item.cost")

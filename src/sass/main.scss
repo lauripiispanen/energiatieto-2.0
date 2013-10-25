@@ -4,7 +4,8 @@
 $total-columns: 8;
 $column-width: 7em;
 $gutter-width: 1em;
-$panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width;
+$main-padding-width: 2.4em;
+$panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width + $main-padding-width;
 $contentTextColor: #4e92cb;
 $uiTextColor: #474747;
 $borderColorDark: #afafaf;
@@ -14,7 +15,8 @@ $borderColorHighlight: #bbddfe;
 $bgColorDark: #f3f3f3;
 $bgColorLight: #f8f8f8;
 $bgColorHighlight: #f5f9fd;
-$shadowColor: #e8e8e8;
+$shadowColor: #eee;
+
 
 body {
     font: 0.8em Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -44,7 +46,7 @@ body {
             padding: 0px;
         }
     }
-
+    
     & > .calculations {
         @include container;
         @include border-box-sizing;
@@ -54,10 +56,16 @@ body {
         bottom: 0px;
         background: #fbfafa repeat-x top url('/images/top.png'); 
         width: 0px;
+        padding-right: $main-padding-width;
+        padding-left: $main-padding-width;
         @include transition-property(width);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
-
+        .footer {
+            background-color: $bgColorDark;
+            border-top: 1px solid $borderColorDark;
+            clear: both;
+            }
         &.open {
             width: $panelWidth; 
         }
@@ -90,26 +98,52 @@ body {
             font-size: 1.9em;
             color: $uiTextColor;
         }
-        h2 {
+        
+
+
+        .headerbar {
+            background: $bgColorDark;
             @include border-top-left-radius (4px);
             @include border-top-right-radius (4px);
-            font-size: 1.2em;
-            color: $uiTextColor;  
-            padding: 0.8em 1.6em; 
-            background: $bgColorDark;
             border-bottom: 1px solid $borderColorDark;
             border-top: 1px solid $shadowColor;
             box-shadow: 0px 2px 2px $shadowColor;
-            margin: 0;
-            
-        }
+            position: relative;
+            .info {
+                margin: 0.6em 1.2em 0.6em;
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                }
+            h2 {
+                position: absolute;
+                font-size: 1.2em;
+                color: $uiTextColor;  
+                top: 0.6em;
+                left: 3.2em;
+                padding: 0;
+                margin: 0;
+                }
+            span {
+                position: absolute;
+                top: 0.6em;
+                right: 1.6em;
+                span {
+                    text-align: right;
+                    width: 10em;
+                    background: none;
+                    font-size: 0.7em;
+                    font-weight: normal;
+                    margin: -0.1em 3em 0 0;
+                    }
+                }
+            }
         .controls {
             background: #fff;
             margin: 2px 0 0 0;
             padding: 1em 1.6em;
             border-bottom: 1px solid $borderColorDark;
         }
-
         #savingsSum {
             @include span-columns(2,8);
             @extend .sumBoxes;
@@ -129,13 +163,12 @@ body {
         .col5 {
             @include span-columns(8 omega,8);
         }
-        .col6 {
+        .col7 {
             @include span-columns(4,8);
         }
-        .col7 {
+        .col6 {
             @include span-columns(4 omega,8);
         }
-
         .heating-graph {
             @extend .graph;
             .layer.solar-heating {
@@ -162,47 +195,31 @@ body {
     }
 }
 
-.sumBoxes {
-    text-align: center;
-    font-weight: bold;
-    padding: 1em;
-    p {
-        font-size: 1.6em;
-        color: $contentTextColor;
-        padding: 0.5em 0 0;
-        margin: 0;
-        }
-    h2 {
-        color: $uiTextColor;
-        font-size: 0.9em;
-        box-shadow: 0 0 0 transparent;
-        background-color: transparent;
-        border: 0;
-        min-height: 2.6em;
-        padding: 0;
-        margin: 0;
-        }
-}
-
 .boxed {
     @include border-radius(4px);
     @include background-image(linear-gradient(#fff, #f6f6f6));
     border: 1px solid $borderColorDark;
     margin: 0 0 1em 0;
-    box-shadow: 2px 2px 2px #eee;
+    box-shadow: 2px 2px 2px $shadowColor;
     .controls {
         background-color: #fff;
         }
     .table {
         background-color: #fff;
+        margin: 2px 0 0 0;
         @include border-bottom-left-radius (4px);
         @include border-bottom-right-radius (4px);
         padding: 1.6em;
         color: $uiTextColor;
+    .highlight {
+        font-weight: bold;
+        color: $contentTextColor;
+        padding: 0 0 0.5em;
+        }
         .effects { 
             height: 3em;
             background: #fff;
-            .buttoncontainer .infobutton {
+            .positioncontainer .infobutton {
                 margin: 1em 0;
                 }
             }
@@ -216,15 +233,30 @@ body {
             width: 8em;
             }
         input {
-            height: 2.4em;
+            height: 1.9em;
             color: $uiTextColor;
-            @include border-radius(4px);
-            border: 1px solid $borderColorHighlight;
-            background: $bgColorLight;
+            @include border-radius(3px);
+            border: 1px solid #ccc;
+            background: #fff;
+            }
+        .dropdown {
+            overflow:hidden;
+            color: $uiTextColor;
+            padding:0; 
+            margin:0; 
+            width:11.3em;
+            border:none; 
             }
         select {
-            @extend input;
-            @include background-image(linear-gradient(#fff, $shadowColor));
+            width:100%; 
+            background-color:transparent; 
+            background-image:none; 
+            -webkit-appearance: none; 
+            border:none; 
+            height: 2.2em;
+            box-shadow:none; 
+            color: $uiTextColor;
+            padding: 0em 0em 0.1em 1em;
             }
         table {
             @include border-radius(4px);
@@ -308,8 +340,38 @@ body {
         }
     }
 
-.buttoncontainer {
+.sumBoxes {
     text-align: center;
+    font-weight: bold;
+    padding: 1em;
+    position: relative;
+
+    .positioncontainer {
+        position: relative;
+        height: 3em;
+        h2 {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            color: $uiTextColor;
+            font-size: 0.9em;
+            box-shadow: 0 0 0 transparent;
+            background-image: none;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            }    
+        }
+    p {
+        font-size: 1.6em;
+        color: $contentTextColor;
+        padding: 0.5em 0 0.4em;
+        margin: 0;
+        }
+    }
+
+.positioncontainer {
     position: absolute;
     left: 0;
     right: 0;
@@ -325,8 +387,6 @@ body {
         display: inline-block;
         }
     }
-
-
 
 p.effectsSum {
     font-size: 1.8em;
@@ -352,3 +412,46 @@ p.effectsSum {
         stroke: #C6EBCB;
     }
 }
+
+.info, .toggle_off, .toggle_solarelectricity_on, .toggle_geoterm_on, .toggle_solarheat_on, .dropdown{
+    background: url(/images/sprites.png) no-repeat;
+}
+
+.info{
+    background-position: 0 -26px ;
+    width: 20px;
+    height: 20px;
+}
+
+.toggle_off{
+    background-position: 0 -48px ;
+    width: 36px;
+    height: 20px;
+}
+
+.toggle_solarelectricity_on{
+    background-position: 0 -69px ;
+    width: 36px;
+    height: 20px;
+}
+
+.toggle_geoterm_on{
+    background-position: 0 -113px ;
+    width: 36px;
+    height: 20px;
+}
+
+.toggle_solarheat_on{
+    background-position: 0 -91px ;
+    width: 36px;
+    height: 20px;
+}
+
+.dropdown{
+    background-position: 0 0;
+    width: 145px;
+    height: 24px;
+}
+
+
+
