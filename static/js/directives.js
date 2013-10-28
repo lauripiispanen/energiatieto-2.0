@@ -107,8 +107,18 @@ angular
                         yStackMax = d3.max(layers, function(layer) {
                             return d3.max(layer, function(d) { return Math.max(d.y + d.y0, 0); });
                         }),
+                        yMin = (function() {
+                            if (Math.abs(yStackMin) > Math.abs(yStackMax)) {
+                                return -Math.abs(yStackMin);
+                            } else {
+                                return -Math.abs(yStackMax)
+                            }
+                        })(),
+                        yMax = (function() {
+                            return - yMin;
+                        })(),
                         x = d3.scale.ordinal().domain(d3.range(xMax + 1)).rangeRoundBands([0, width], .3),
-                        y = d3.scale.linear().domain([yStackMax, yStackMin]).range([0, height]),
+                        y = d3.scale.linear().domain([yMax, yMin]).range([0, height]),
 
                         layerSelection = svg.selectAll(".layer").data(layers),
                         updateAttributes = function(rectSelection) {
