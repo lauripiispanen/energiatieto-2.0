@@ -105,14 +105,14 @@ html
                         .positioncontainer
                             .infobutton Laskelman tiedot
             .col6
-                .boxed 
+                .boxed(ng-class="{disabled: !building.photoVoltaic.active}")
                     .headerbar
                         .info 
-                        h2(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active") Aurinkosähkö
-                        span.toggle_solarelectricity_on
-                            span(ng-show="building.photoVoltaic.active") Käytössä
-                        span
-                            span(ng-hide="building.photoVoltaic.active") Ei käytössä
+                        h2 Aurinkosähkö
+                        span.toggle_solarelectricity_on(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-show="building.photoVoltaic.active")
+                            span Käytössä
+                        span(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
+                            span Ei käytössä
                     .controls Järjestelmän koko
                         input(type="number",ng-model="building.photoVoltaic.photovoltaicArea") m2
                     .effects
