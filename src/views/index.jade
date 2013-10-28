@@ -111,7 +111,7 @@ html
                         h2 Aurinkosähkö
                         span.toggle_solarelectricity_on(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-show="building.photoVoltaic.active")
                             span Käytössä
-                        span(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
+                        span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
                             span Ei käytössä
                     .controls Järjestelmän koko
                         input(type="number",ng-model="building.photoVoltaic.photovoltaicArea") m2
@@ -127,14 +127,14 @@ html
                         .payback Takaisinmaksuaika
                             p 7 v
                         
-                .boxed 
+                .boxed(ng-class="{disabled: !building.thermalPanel.active")
                     .headerbar
                         .info 
-                        h2(ng-click="building.thermalPanel.active = !building.thermalPanel.active") Aurinkolämpö 
-                        span.toggle_solarheat_on
-                            span(ng-show="building.thermalPanel.active") Käytössä
-                        span
-                            span(ng-hide="building.thermalPanel.active") Ei käytössä
+                        h2 Aurinkolämpö 
+                        span.toggle_solarheat_on(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-show="building.thermalPanel.active")
+                            span Käytössä
+                        span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
+                            span Ei käytössä
                     .controls Järjestelmän koko 
                         input(type="number",ng-model="building.thermalPanel.thermalArea") m2
                     .effects
@@ -149,14 +149,14 @@ html
                         .payback Takaisinmaksuaika
                             p 7 v
                         
-                .boxed 
+                .boxed(ng-class="{disabled: !building.borehole.active")
                     .headerbar
                         .info 
                         h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
-                        span.toggle_geoterm_on
-                            span(ng-show="building.borehole.active") Käytössä
-                        span
-                            span(ng-hide="building.borehole.active") Ei käytössä
+                        span.toggle_geoterm_on(ng-click="building.borehole.active = !building.borehole.active", ng-show="building.borehole.active")
+                            span Käytössä
+                        span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
+                            span Ei käytössä
                     .controls Käytetystä lämmöstä tuotettava osuus
                     .effects
                         .positioncontainer
