@@ -201,6 +201,23 @@ body {
     border: 1px solid $borderColorDark;
     margin: 0 0 1em 0;
     box-shadow: 2px 2px 2px $shadowColor;
+    &.disabled {
+        color: #bbb;
+        .effects {
+            background: #f9f9f9 url('/images/box_top.png') top repeat-x;
+            color: #bbb;
+            p {
+            color: #bbb;
+            }
+            }
+        .positioncontainer {
+            .infobutton {
+                color: #bbb;
+                border: 1px solid #cacaca;
+            }
+        }
+
+        }
     .controls {
         background-color: #fff;
         }
