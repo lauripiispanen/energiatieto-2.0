@@ -1,5 +1,6 @@
 angular
     .module("energiatieto-sidepanel", [
+        "uiSlider",
         "pubsub", 
         "energiatieto-energysystem"
     ])
