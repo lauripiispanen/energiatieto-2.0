@@ -91,10 +91,12 @@ body {
             margin: 0.7em 0 0;
             }
         .actionbutton {
+            background-color: #7ac2fa;
             @include background-image(linear-gradient(#95cefc, #6ab7f7));
             color: #fff;
             font-size: 0.9em;
             display: inline-block;
+            cursor: pointer;
             padding: 0.4em 1em;
             margin: 0em 0 0 1em;
             @include border-radius(4px);
@@ -123,6 +125,26 @@ body {
                 width: 20px;
                 height: 20px;
                 display: inline-block;
+                .infopopup {
+                    position: absolute;
+                    background-color: #fff;
+                    @include border-radius (3px);
+                    z-index: 10000;
+                    border: 1px solid #9c9c9c;
+                    padding: 1.6em;
+                    left: 0;
+                    top: -9.3em;
+                    //box-shadow: 2px 2px 2px $shadowColor;
+                    //Miksi ei toimi?
+                    .downarrow {
+                        background: transparent url('/images/down_arrow.png') no-repeat;
+                        width: 16px;
+                        height: 13px;
+                        position: absolute;
+                        bottom: -8px;
+                        left: 1.3em;
+                        }
+                    }
                 }
             h2 {
                 position: absolute;
@@ -236,7 +258,31 @@ body {
         }
     .controls {
         position: relative;
-        background-color: #fff;
+        background-color: #fff;    
+        .suggestion {
+            font-size: 0.9em;
+            background-color: #fff;
+            padding: 0 1em 0 0;
+            position: absolute;
+            bottom: 1em;
+            }
+        .suggestiondash {
+                display: inline-block;
+                background: url('/images/suggestion_dash.png') bottom repeat-x;
+                width: 71%;
+                height: 4px;
+                position: absolute;
+                left: 1.8em;
+                bottom: 1em;
+                .suggestionpointer {
+                    background: url('/images/suggestion_arrow.png') bottom repeat-x;
+                    position: absolute;
+                    right: 0;
+                    width: 12px;
+                    height: 4px;
+                    }
+                }    
+
         .slideramount {
             position: absolute;
             font-size: 1.7em;
@@ -261,7 +307,6 @@ body {
                 border: 1px solid $geoTermColor3;
                 }
             }
-        
         slider {
             margin-left: 0;
             width: 80%;
@@ -466,6 +511,7 @@ body {
         padding: 0.4em 1.6em;
         margin: 5.8em 0 0;
         display: inline-block;
+        cursor: pointer;
         }
     }
 
@@ -496,6 +542,7 @@ p.effectsSum {
 
 .info, .toggle_off, .toggle_solarelectricity_on, .toggle_geoterm_on, .toggle_solarheat_on, .dropdown{
     background: url(/images/sprites.png) no-repeat;
+    cursor: pointer;
 }
 
 .info{
