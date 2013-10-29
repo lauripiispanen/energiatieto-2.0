@@ -137,7 +137,9 @@ var XmlStream = require('xml-stream'),
             function createAddressMap(callback) {
                 function withBuilding(building) {
                     var road    = building['kanta:osoite']['yht:osoitenimi']['yht:teksti'].$text,
-                        address = road + " " + building['kanta:osoite']['yht:osoitenumero2'];
+                        addressNode = building['kanta:osoite'],
+                        addressNum = (addressNode['yht:osoitenumero2'] || addressNode['yht:osoitenumero']),
+                        address = road + (addressNum ? " " + building['kanta:osoite']['yht:osoitenumero2'] : "");
 
                     collection.save({
                         "_id"     : building['kanta:rakennustunnus'],
