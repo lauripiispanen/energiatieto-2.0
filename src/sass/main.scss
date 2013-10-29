@@ -16,6 +16,15 @@ $bgColorDark: #f3f3f3;
 $bgColorLight: #f8f8f8;
 $bgColorHighlight: #f5f9fd;
 $shadowColor: #eee;
+$solarElectricityColor1: #fed4b4;
+$solarElectricityColor2: #fcc499;
+$solarElectricityColor3: #e2a678;
+$solarHeatColor1: #fef6ba;
+$solarHeatColor2: #f6eb9b;
+$solarHeatColor3: #d4c768;
+$geoTermColor1: #ecce66;
+$geoTermColor2: #e1c04f;
+$geoTermColor3: #b5962c;
 
 
 body {
@@ -203,23 +212,78 @@ body {
     box-shadow: 2px 2px 2px $shadowColor;
     &.disabled {
         color: #bbb;
+        .controls {
+            slider {
+                span.bar, span.pointer {
+                    @include background-image(linear-gradient(#d2d2d2, #e2e2e2));
+                    border: 1px solid $borderColorDark;
+                    }
+                }
+            }
         .effects {
             background: #f9f9f9 url('/images/box_top.png') top repeat-x;
             color: #bbb;
             p {
-            color: #bbb;
-            }
+                color: #bbb;
+                }
             }
         .positioncontainer {
             .infobutton {
                 color: #bbb;
                 border: 1px solid #cacaca;
+                }
             }
         }
-
-        }
     .controls {
+        position: relative;
         background-color: #fff;
+        .slideramount {
+            position: absolute;
+            font-size: 1.7em;
+            right: 0.8em;
+            top: 1.7em;
+            }
+        slider.solarelectricity {
+            .bar, .pointer {
+                @include background-image(linear-gradient($solarElectricityColor1, $solarElectricityColor2));
+                border: 1px solid $solarElectricityColor3;
+                }
+            }
+        slider.solarheat {
+            .bar, .pointer {
+                @include background-image(linear-gradient($solarHeatColor1, $solarHeatColor2));
+                border: 1px solid $solarHeatColor3;
+                }
+            }
+        slider.geoterm {
+            .bar, .pointer {
+                @include background-image(linear-gradient($geoTermColor1, $geoTermColor2));
+                border: 1px solid $geoTermColor3;
+                }
+            }
+        
+        slider {
+            margin-left: 0;
+            width: 80%;
+            .bar {
+                -webkit-box-shadow: inset 0px 0px 0px;
+                box-shadow: inset 0px 0px 0px;
+                box-shadow: 0px 2px 2px $shadowColor;
+                }
+            .barbg {
+                -webkit-box-shadow: inset 0px 0px 0px;
+                box-shadow: inset 0px 0px 0px;
+                box-shadow: 0px 2px 2px $shadowColor;
+                @include background-image(linear-gradient(#d2d2d2, #e2e2e2));
+                border: 1px solid $borderColorDark;
+                }
+            .pointer {
+                top: -7px;
+                }
+            .pointer:after {
+                background-color: transparent;
+                }
+            }
         }
     .table {
         background-color: #fff;

@@ -86,7 +86,8 @@ html
                             td Pinta-ala
                             td
                                 input.shortInput(type="text",ng-model="building.floorArea") 
-                            td m2
+                            td m
+                                sup 2
                         tr
                             td Kerrosten lukumäärä:
                             td 
@@ -116,8 +117,9 @@ html
                         span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
                             span Ei käytössä
                     .controls Järjestelmän koko
-                        span {{building.photoVoltaic.photovoltaicArea}} m2
-                        slider(floor="0",ceiling="100",step="1",precision="0",ng-model="building.photoVoltaic.photovoltaicArea")
+                        span.slideramount {{building.photoVoltaic.photovoltaicArea}} m
+                            sup 2
+                        slider.solarelectricity(floor="0",ceiling="100",step="1",precision="0",ng-model="building.photoVoltaic.photovoltaicArea")
                     .effects
                         .positioncontainer
                             .infobutton Laskelman tiedot
@@ -139,7 +141,9 @@ html
                         span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
                             span Ei käytössä
                     .controls Järjestelmän koko 
-                        input(type="number",ng-model="building.thermalPanel.thermalArea") m2
+                        span.slideramount{{building.thermalPanel.thermalArea}} m
+                            sup 2
+                        slider.solarheat(floor="0",ceiling="100",step="1",precision="0",ng-model="building.thermalPanel.thermalArea")
                     .effects
                         .positioncontainer
                             .infobutton Laskelman tiedot
@@ -161,6 +165,8 @@ html
                         span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
                             span Ei käytössä
                     .controls Käytetystä lämmöstä tuotettava osuus
+                        span.slideramount %
+                        slider.geoterm(floor="0",ceiling="100",step="1",precision="0")
                     .effects
                         .positioncontainer
                             .infobutton Laskelman tiedot   
