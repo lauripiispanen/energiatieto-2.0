@@ -36,15 +36,18 @@ var XmlStream = require('xml-stream'),
 
             var collection = db.collection('buildings');
 
-            function zipcodeQuery(zipcode, greaterThan) {
-                var queryFilter = "PropertyIsLessThan";
-                if (greaterThan) {
-                    queryFilter = "PropertyIsGreaterThanOrEqualTo";
-                }
+            function zipcodeQuery(greaterThan, lessThan) {
                 return "<GetFeature service=\"WFS\" version=\"1.1.0\" maxFeatures=\""+maxFeatures+"\">" +
                         "<Query typeName=\"kanta:Rakennus\" srsName=\"EPSG:4326\">"+
                             "<Filter>"+
-                                "<"+queryFilter+"><PropertyName>//kanta:osoite/yht:postinumero</PropertyName><Literal>"+zipcode+"</Literal></"+queryFilter+">"+
+                                "<And>"+
+                                    (greaterThan ? 
+                                            "<PropertyIsGreaterThanOrEqualTo><PropertyName>//kanta:osoite/yht:postinumero</PropertyName><Literal>"+greaterThan+"</Literal></PropertyIsGreaterThanOrEqualTo>"
+                                        :"")+
+                                    (lessThan ? 
+                                            "<PropertyIsLessThan><PropertyName>//kanta:osoite/yht:postinumero</PropertyName><Literal>"+lessThan+"</Literal></PropertyIsLessThan>"
+                                        :"")+
+                                "</And>"+
                             "</Filter>"+
                         "</Query>"+
                     "</GetFeature>";
@@ -153,13 +156,19 @@ var XmlStream = require('xml-stream'),
                 }
 
                 addressToBuildingIds(
-                    zipcodeQuery(zipcodeCutoffPoint), 
+                    zipcodeQuery(null, 2600), 
                     withBuilding,
                     function(buildings) {
                         addressToBuildingIds(
-                            zipcodeQuery(zipcodeCutoffPoint, true), 
+                            zipcodeQuery(2600, 2800), 
                             withBuilding,
-                            doUpdateBuildingInfos
+                            function(buildings) {
+                                addressToBuildingIds(
+                                    zipcodeQuery(2800, null), 
+                                    withBuilding,
+                                    doUpdateBuildingInfos
+                                );
+                            }
                         );
                     }
                 );
