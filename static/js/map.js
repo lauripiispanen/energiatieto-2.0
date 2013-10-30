@@ -62,6 +62,11 @@ angular
                 }
             }
         );
+        vectorFeatureLayer.events.on({
+          'featureselected': function(event) {
+               buildingSelectionChannel.selectBuilding(event.feature.data);
+          }
+        });
 
         var both = [wms, solar, vectorFeatureLayer];
         var wmsOnly = [wms, vectorFeatureLayer];
@@ -74,6 +79,7 @@ angular
         $scope.center = new OpenLayers.LonLat(2750850.887954, 8434182.950183);
         $scope.zoom = 13;
         $scope.popups = [];
+        $scope.controls = [new OpenLayers.Control.SelectFeature(vectorFeatureLayer)];
 
         formActivationChannel.onStateChange($scope, function(active) {
             $scope.reduced = active;            
@@ -118,6 +124,7 @@ angular
                     bounds.extend(new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat));
                     return circle;
                 }));
+                vectorFeatureLayer.refresh();
                 $scope.$apply(function() {
                     $scope.center = bounds.getCenterLonLat();
                     $timeout(function() {

@@ -8,7 +8,8 @@ angular
                 zoom: "=zoom",
                 center: "=center",
                 restrictedExtent: "=restrictedExtent",
-                popups: "=popups"
+                popups: "=popups",
+                controls: "=controls"
             },
             link: function($scope, iElement, iAttrs, controller) {
                 function $apply(fn) {
@@ -41,6 +42,16 @@ angular
                 $scope.$watch("layers", function(newLayers) {
                     _.each(_.difference(map.layers, newLayers), _.bind(map.removeLayer, map));
                     _.each(_.difference(newLayers, map.layers), _.bind(map.addLayer, map));
+                });
+                $scope.$watch("controls", function(newControls) {
+                    _.each(_.difference(map.controls, newControls), function(control) {
+                        map.removeControl(control);
+                        control.deactivate();
+                    });
+                    _.each(_.difference(newControls, map.controls), function(control) {
+                        map.addControl(control);
+                        control.activate();
+                    });
                 });
                 $scope.$watch("zoom", function(newValue, oldValue) {
                     if (newValue != map.getZoom()) {
