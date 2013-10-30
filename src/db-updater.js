@@ -10,7 +10,7 @@ var XmlStream = require('xml-stream'),
 
             var request = http.get({
                 host: 'kartat.espoo.fi',
-                path: '/teklaogcweb/wfs.ashx?service=wfs&version=1.1.0&request=GetFeature&typeName=GIS:Rakennukset&maxFeatures=1000000',
+                path: '/teklaogcweb/wfs.ashx?service=wfs&version=1.1.0&request=GetFeature&typeName=GIS:Rakennukset&maxFeatures=1000000&srsName=EPSG:4326',
                 auth: process.env.WFS_BASIC_AUTH
             }).on('response', function(response) {
                 response.setEncoding('UTF-8');
@@ -42,7 +42,7 @@ var XmlStream = require('xml-stream'),
                     queryFilter = "PropertyIsGreaterThanOrEqualTo";
                 }
                 return "<GetFeature service=\"WFS\" version=\"1.1.0\" maxFeatures=\""+maxFeatures+"\">" +
-                        "<Query typeName=\"kanta:Rakennus\">"+
+                        "<Query typeName=\"kanta:Rakennus\" srsName=\"EPSG:4326\">"+
                             "<Filter>"+
                                 "<"+queryFilter+"><PropertyName>//kanta:osoite/yht:postinumero</PropertyName><Literal>"+zipcode+"</Literal></"+queryFilter+">"+
                             "</Filter>"+
