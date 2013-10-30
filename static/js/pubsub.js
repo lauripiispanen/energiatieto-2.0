@@ -51,4 +51,22 @@ angular
             selectBuilding: selectBuilding,
             onSelectBuilding: onSelectBuilding
         }
+    }])
+    .factory('buildingChoiceChannel', ['$rootScope', function($rootScope) {
+        var _BUILDING_CHOICE_ = '_BUILDING_CHOICE_';
+
+        function onChoices($scope, handler) {
+            $scope.$on(_BUILDING_CHOICE_, function(event, buildings) {
+                handler(buildings);
+            });
+        }
+
+        function setChoices(buildings) {
+            $rootScope.$broadcast(_BUILDING_CHOICE_, buildings);
+        }
+
+        return {
+            setChoices: setChoices,
+            onChoices: onChoices
+        }
     }]);
