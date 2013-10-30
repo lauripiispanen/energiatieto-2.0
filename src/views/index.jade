@@ -3,21 +3,29 @@ html
     head
         title Energiatieto
         link(rel="stylesheet",href="styles/main.css")
+        link(rel="stylesheet",href="/components/select2/select2.css")
         link(rel="stylesheet",href="/components/angular-slider/angular-slider.css")
         script(type="text/javascript",src="/vendor/underscore-min.js")
+        script(type="text/javascript",src="/components/jquery/jquery.js")
         script(type="text/javascript",src="/components/angular/angular.js")
         script(type="text/javascript",src="/vendor/proj4.js")
         script(type="text/javascript",src="/vendor/OpenLayers.js")
         script(type="text/javascript",src="/components/d3/d3.js")
         script(type="text/javascript",src="/components/energiatieto-calculation/dist/calculations.js")
         script(type="text/javascript",src="/components/angular-slider/angular-slider.js")
+        script(type="text/javascript",src="/components/select2/select2.js")
+        script(type="text/javascript",src="/components/angular-ui-select2/select2.js")
         script(type="text/javascript",src="/js/directives.js")
+        script(type="text/javascript",src="/js/address-form.js")
         script(type="text/javascript",src="/js/map.js")
         script(type="text/javascript",src="/js/energysystem.js")
         script(type="text/javascript",src="/js/energycalculation.js")
         script(type="text/javascript",src="/js/pubsub.js")
         script(type="text/javascript",src="/js/application.js")
     body
+        .address-form(ng-controller="addressFormController",ng-class="{hidden: reduced}")
+            h1 Syötä osoite
+            input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
         .map(ng-controller="mapController",ng-class="{reduced: reduced}")
             div(ng-click="zoomClick()",style="position: absolute; top: 10px; right: 10px; background-color: white; z-index: 1000;") Zoom
             div(openlayers,

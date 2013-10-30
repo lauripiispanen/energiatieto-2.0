@@ -103,10 +103,10 @@ angular
                 address: "Pihlajatie 3"
             });
         }
-
+        /*
         setTimeout(function() {
             select();
-        }, 1);
+        }, 1);*/
 
 
         $scope.$watch("zoom", function(newValue, oldValue) {

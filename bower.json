@@ -12,6 +12,8 @@
     "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#d43371a0cd421754d153036cfc3d4aeb0083c427",
     "d3": "~3.3.8",
     "angular-slider": "~0.1.6",
-    "angular": "~1.2.0-rc.3"
+    "angular": "~1.2.0-rc.3",
+    "angular-ui-select2": "~0.0.2",
+    "jquery": "~2.0.3"
   }
 }
