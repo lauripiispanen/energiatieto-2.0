@@ -74,8 +74,8 @@ angular
                 "layerClasses": "="
             },
             link: function($scope, iElement, iAttrs, controller) {
-                var height = 200,
-                    width  = 227,
+                var height = 120,
+                    width  = 290,
                     svg = d3.select(iElement[0]).select("svg"),
                     identity = function(d) { return d; };
 
@@ -117,7 +117,7 @@ angular
                         yMax = (function() {
                             return - yMin;
                         })(),
-                        x = d3.scale.ordinal().domain(d3.range(xMax + 1)).rangeRoundBands([0, width], .3),
+                        x = d3.scale.ordinal().domain(d3.range(xMax + 1)).rangeRoundBands([0, width], .75),
                         y = d3.scale.linear().domain([yMax, yMin]).range([0, height]),
 
                         layerSelection = svg.selectAll(".layer").data(layers),

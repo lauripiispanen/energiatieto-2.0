@@ -62,13 +62,13 @@ html
             .col5.graphbox
                 .graphgrid
                     .largegraphs
-                        
                         .graphs
+                            .fader
                             div 
                                 h2 Sähkö
                                 .top-caption Oma tuotanto
                                 .electricity-graph(n3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
-                                    svg(style='height: 200px; width: 227px;')
+                                    svg(style='height: 120px; width: 290px;')
                                         .months
                                             .month 1
                                             .month 2
@@ -83,10 +83,10 @@ html
                                             .month 11 
                                             .month 12
                                 .bottom-caption Ostettava energia
-                            div 
+                            div.divider 
                                 h2 Lämpöenergia
                                 .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
-                                    svg(style='height:200px; width: 300px;')
+                                    svg(style='height:120px; width: 290px;')
                                         .months
                                             .month 1
                                             .month 2
@@ -111,10 +111,14 @@ html
                             .key Ylijäämä
                                 .surplus
                         .disclaimer Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
-                    .smallgraphs Pienet kuvat
+                    .smallgraphs
+                        h3 Kokonaiskustannukset
+                        h3 Energialuokka
             .col7.boxed
                 .headerbar
-                    .info 
+                    .info
+                        .infopopup Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
+                            .downarrow
                     h2 Kiinteistön tiedot
                 .table
                     .highlight Tarkista asukasmäärä ja muut tiedot!
@@ -195,6 +199,8 @@ html
                 .boxed(ng-class="{disabled: !building.thermalPanel.active}")
                     .headerbar
                         .info
+                            .infopopup Aurinkolämpö on auringon energiasta aurinkokeräimellä talteen kerättyä lämpöä, joka voidaan varastoida ja käyttää esim. käyttöveden tai sisäilman lämmitykseen. Aurinkolämpö käytetään suoraan muuttamatta sitä sähköksi.
+                                .downarrow
                         h2 Aurinkolämpö 
                         span.toggle_solarheat_on(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-show="building.thermalPanel.active")
                             span Käytössä
@@ -221,7 +227,9 @@ html
                         
                 .boxed(ng-class="{disabled: !building.borehole.active}")
                     .headerbar
-                        .info 
+                        .info
+                            .infopopup Maalämpö on maaperään tai veteen varastoitunutta lämpöenergiaa. Maalämpöjärjestelmällä kerättynä sitä voidaan käyttää rakennusten ja käyttöveden lämmittämiseen. 
+                                .downarrow
                         h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
                         span.toggle_geoterm_on(ng-click="building.borehole.active = !building.borehole.active", ng-show="building.borehole.active")
                             span Käytössä

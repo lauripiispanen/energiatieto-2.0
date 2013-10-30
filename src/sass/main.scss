@@ -9,7 +9,7 @@ $panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width 
 $contentTextColor: #4e92cb;
 $uiTextColor: #474747;
 $uiTextColor: #595959;
-$borderColorDark: #afafaf;
+$borderColorDark: #bebebe;
 $borderColorMedium: #d7d7d7;
 $borderColorLight: #d9d9d9;
 $borderColorHighlight: #bbddfe;
@@ -139,6 +139,8 @@ body {
                 height: 20px;
                 display: inline-block;
                 .infopopup {
+                    color: $uiTextColor;
+                    display: none;
                     position: absolute;
                     background-color: #fff;
                     @include border-radius (3px);
@@ -146,7 +148,7 @@ body {
                     border: 1px solid #9c9c9c;
                     padding: 1.6em;
                     left: 0;
-                    top: -9.3em;
+                    bottom: 3.1em;
                     //box-shadow: 2px 2px 2px $shadowColor;
                     //Miksi ei toimi?
                     .downarrow {
@@ -157,6 +159,11 @@ body {
                         bottom: -8px;
                         left: 1.3em;
                         }
+                    }
+                }
+            .info:hover {
+                .infopopup {
+                    display: block;
                     }
                 }
             h2 {
@@ -227,10 +234,20 @@ body {
     color: $uiTextColor;
     @include with-grid-settings(4, 25%, 0%, 0%) {
         .graphgrid {
-             //@include border-box-sizing;                                
+             @include border-box-sizing;                                
             .largegraphs {
+                border-right: 1px solid #c5c5c5;
                 @include span-columns(3,4);
                 .graphs {
+                    .fader {
+                        position: absolute;
+                        width: 100%;
+                        height: 60px;
+                        z-index: 5000;
+                        bottom: 83px;
+                        background: url('/images/graph_fade.png') repeat-x top;
+                        margin-left: -1.24em;
+                        }
                     position: relative;
                     padding: 1em 1.24em;
                     .key {
@@ -265,24 +282,24 @@ body {
                                 border: 1px solid #848484;
                             }
                         }    
+                    .divider {
+                        background: url('/images/divider.png') no-repeat left bottom;
+                        padding-left: 1.6em;
+                        }
                     div {
                         width: 50%;
                         display: inline-block;
                         svg {
-                            g rect {
-                                //width: 7px;
-                                //ei toimi, koska leveys html:ssä?
-                                }
+                            margin-left: -1em;
                             }
                         .months {
                             width: 300px;
-                            padding-left: 8px;
+                            padding-left: 4px;
                             font-size: 0.9em;
                             .month {
                                 width: 14px;
                                 text-align: center;
-                                margin-right: 4px;
-                                //background-color: #ccc;
+                                margin-right: 8px;
                                 }
                             }
                         .bottom-caption {
@@ -295,10 +312,11 @@ body {
                             font-size: 0.8em;
                             position: absolute;
                             left: 1.6em;
-                            top: 5.6em;
+                            top: 4.6em;
                             }
                         h2 {
                             font-size: 1.2em;
+                            margin: 0 0 4em 0;
                             }
                         .heating-graph {
                             @extend .graph;
@@ -315,7 +333,7 @@ body {
                                 stroke: #848484;
                                 }
                             .layer.bought {
-                                fill: #d1f0cf;
+                                fill: #cfeecd;
                                 stroke: #caebc8;
                                 }
                             }
@@ -329,21 +347,29 @@ body {
                                 fill: #8e8e8e;
                                 stroke: #848484;
                                 }
+                            .layer.bought {
+                                fill: #cfeecd;
+                                stroke: #caebc8;
+                                }
                             }
                         }
                     }
+
                 .disclaimer {
                     background-color: $bgColorHighlight;
                     font-size: 0.8em;
                     padding: 1em 1.6em;
-                    border-top: 1 px solid #c5c5c5;   
+                    border-top: 1px solid #c5c5c5;   
                     @include border-bottom-left-radius (4px);
                     @include border-bottom-right-radius (4px);
                     }
                 }
             .smallgraphs {
                 @include span-columns(1 omega,4);
-                border-left: 1 px solid #c5c5c5;
+                h3 {
+                    font-size: 0.9em;
+                    padding: 0.4em 0 0 1em;
+                    }
                 }
             }
         }
