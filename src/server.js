@@ -8,6 +8,7 @@ var express = require('express'),
             res.render('index');
         })
         .get('/autocomplete', require('./autocomplete'))
+        .get('/building', require('./buildingInfo'))
         .listen(process.env.PORT)
 
 console.log("Server running in port ", process.env.PORT)
