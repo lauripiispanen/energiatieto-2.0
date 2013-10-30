@@ -75,7 +75,7 @@ angular
             },
             link: function($scope, iElement, iAttrs, controller) {
                 var height = 200,
-                    width  = 300,
+                    width  = 227,
                     svg = d3.select(iElement[0]).select("svg"),
                     identity = function(d) { return d; };
 

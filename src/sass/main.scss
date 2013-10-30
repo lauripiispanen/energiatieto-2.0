@@ -8,6 +8,7 @@ $main-padding-width: 2.4em;
 $panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width + $main-padding-width;
 $contentTextColor: #4e92cb;
 $uiTextColor: #474747;
+$uiTextColor: #595959;
 $borderColorDark: #afafaf;
 $borderColorMedium: #d7d7d7;
 $borderColorLight: #d9d9d9;
@@ -108,6 +109,10 @@ body {
             margin-top: 1.6em;
             font-size: 1.9em;
             color: $uiTextColor;
+            span {
+                font-size: 0.4em;
+                padding-left: 0.8em;
+                }
         }
         
 
@@ -200,31 +205,141 @@ body {
         .col6 {
             @include span-columns(4 omega,8);
         }
-        .heating-graph {
-            @extend .graph;
-            .layer.solar-heating {
-                fill: #FDEF9B;
-                stroke: #F6E893;
-            }
-            .layer.geothermal {
-                fill: #EFC75E;
-                stroke: #EBC35B;
-            }
-            .layer.residue {
-                fill: #B59137;
-                stroke: #AF8D35;
-            }
-        }
-        .electricity-graph {
-            @extend .graph;
-            .layer.solar-electricity {
-                fill: #BCE3FC;
-                stroke: #B3DBF6;
-            }
-        }
+        
 
     }
 }
+
+.graphbox {
+    @include border-radius(4px);
+    border: 1px solid #c5c5c5;
+    margin-bottom: 1em;
+    box-shadow: 2px 2px 2px #fff;
+    background-color: #fff;
+    color: $uiTextColor;
+    @include with-grid-settings(4, 25%, 0%, 0%) {
+        .graphgrid {
+             //@include border-box-sizing;                                
+            .largegraphs {
+                @include span-columns(3,4);
+                .graphs {
+                    position: relative;
+                    padding: 1em 1.24em;
+                    .key {
+                        font-size: 0.9em;
+                        width: 20%;
+                        margin-top: 3em;
+                        div {
+                            margin-top: 0.3em;
+                            width: 7px;
+                            height: 7px;
+                            float: left;
+                            margin-right: 1em;
+                            }
+                        .bought {
+                                background-color: #d1f0cf;
+                                border: 1px solid #caebc8;
+                            }
+                        .solarelectric {
+                                background-color: #fdc69d;
+                                border: 1px solid #fcc093
+                            }
+                        .solarheat {
+                                background-color: #fdf083;
+                                border: 1px solid #f6e986;
+                            }
+                        .geoterm {
+                                background-color: #edc847;
+                                border: 1px solid #e9c444;
+                            }
+                        .surplus {
+                                background-color: #8e8e8e;
+                                border: 1px solid #848484;
+                            }
+                        }    
+                    div {
+                        width: 50%;
+                        display: inline-block;
+                        svg {
+                            g rect {
+                                //width: 7px;
+                                //ei toimi, koska leveys html:ssä?
+                                }
+                            }
+                        .months {
+                            width: 300px;
+                            padding-left: 8px;
+                            font-size: 0.9em;
+                            .month {
+                                width: 14px;
+                                text-align: center;
+                                margin-right: 4px;
+                                //background-color: #ccc;
+                                }
+                            }
+                        .bottom-caption {
+                            font-size: 0.8em;
+                            position: absolute;
+                            left: 1.6em;
+                            bottom: 4em;
+                            }
+                        .top-caption {
+                            font-size: 0.8em;
+                            position: absolute;
+                            left: 1.6em;
+                            top: 5.6em;
+                            }
+                        h2 {
+                            font-size: 1.2em;
+                            }
+                        .heating-graph {
+                            @extend .graph;
+                            .layer.solar-heating {
+                                fill: #fdf083;
+                                stroke: #f6e986;
+                                }
+                            .layer.geothermal {
+                                fill: #edc847;
+                                stroke: #e9c444;
+                                }
+                            .layer.residue {
+                                fill: #8e8e8e;
+                                stroke: #848484;
+                                }
+                            .layer.bought {
+                                fill: #d1f0cf;
+                                stroke: #caebc8;
+                                }
+                            }
+                        .electricity-graph {
+                            @extend .graph;
+                            .layer.solar-electricity {
+                                fill: #fdc69d;
+                                stroke: #fcc093;
+                                }
+                            .layer.residue {
+                                fill: #8e8e8e;
+                                stroke: #848484;
+                                }
+                            }
+                        }
+                    }
+                .disclaimer {
+                    background-color: $bgColorHighlight;
+                    font-size: 0.8em;
+                    padding: 1em 1.6em;
+                    border-top: 1 px solid #c5c5c5;   
+                    @include border-bottom-left-radius (4px);
+                    @include border-bottom-right-radius (4px);
+                    }
+                }
+            .smallgraphs {
+                @include span-columns(1 omega,4);
+                border-left: 1 px solid #c5c5c5;
+                }
+            }
+        }
+    }
 
 .boxed {
     @include border-radius(4px);

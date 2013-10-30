@@ -34,6 +34,7 @@ html
                 .actionbutton Lähetä tarjouspyyntö
                 .actionbutton Hae toimenpidelupaa
             h1 Energialaskelma
+                span BETA
             #savingsSum.col1.boxed 
                 .positioncontainer
                     h2 Säästöt keskimäärin 
@@ -50,13 +51,59 @@ html
                 .positioncontainer
                     h2 Takaisinmaksuaika
                 p {{calculationResult.systemCost.paybackTime}} v
-            .col5.boxed Kuvatukset
-                div Sähkö
-                    .electricity-graph(n3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
-                        svg(style='height:200px; width: 300px;')
-                div Lämpöenergia
-                    .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
-                        svg(style='height:200px; width: 300px;')            
+            .col5.graphbox
+                .graphgrid
+                    .largegraphs
+                        
+                        .graphs
+                            div 
+                                h2 Sähkö
+                                .top-caption Oma tuotanto
+                                .electricity-graph(n3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
+                                    svg(style='height: 200px; width: 227px;')
+                                        .months
+                                            .month 1
+                                            .month 2
+                                            .month 3 
+                                            .month 4 
+                                            .month 5 
+                                            .month 6 
+                                            .month 7 
+                                            .month 8 
+                                            .month 9 
+                                            .month 10 
+                                            .month 11 
+                                            .month 12
+                                .bottom-caption Ostettava energia
+                            div 
+                                h2 Lämpöenergia
+                                .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
+                                    svg(style='height:200px; width: 300px;')
+                                        .months
+                                            .month 1
+                                            .month 2
+                                            .month 3 
+                                            .month 4 
+                                            .month 5 
+                                            .month 6 
+                                            .month 7 
+                                            .month 8 
+                                            .month 9 
+                                            .month 10 
+                                            .month 11 
+                                            .month 12
+                            .key Ostoenergia
+                                .bought
+                            .key Aurinkosähkö
+                                .solarelectric
+                            .key Aurinkolämpö
+                                .solarheat
+                            .key Maalämpö
+                                .geoterm
+                            .key Ylijäämä
+                                .surplus
+                        .disclaimer Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
+                    .smallgraphs Pienet kuvat
             .col7.boxed
                 .headerbar
                     .info 
@@ -110,7 +157,7 @@ html
             .col6
                 .boxed(ng-class="{disabled: !building.photoVoltaic.active}")
                     .headerbar
-                        .info 
+                        .info
                             .infopopup Aurinkosähkö on auringon energiasta aurinkokennoilla tuotettua sähköä. Aurinkosähköä voidaan käyttää sähköverkosta saatavan sähkön rinnalla tai itsenäisesti sähköverkon ulkopuolella. Useat energiayhtiöt myös ostavat verkkoon kytkettyjen järjestelmien ylijäämäsähköä.
                                 .downarrow
                         h2 Aurinkosähkö
