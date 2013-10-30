@@ -5,7 +5,8 @@ angular
         "$timeout", 
         "formActivationChannel", 
         "buildingSelectionChannel", 
-    function($scope, $timeout, formActivationChannel, buildingSelectionChannel) {
+        "buildingChoiceChannel", 
+    function($scope, $timeout, formActivationChannel, buildingSelectionChannel, buildingChoiceChannel) {
         var wms = new OpenLayers.Layer.WMS(
             "Espoo WMS",
             "http://mapproxy.herokuapp.com/service",
@@ -25,6 +26,7 @@ angular
             "Solar",
             "http://espoo-energiatieto-maps.s3.amazonaws.com/solarMapTiles/",
             {
+                zIndex: 10,
                 numZoomLevels:20, 
                 maxResolution:156543.0339,
                 units: 'm',
@@ -50,8 +52,19 @@ angular
             }
         );
 
-        var both = [wms, solar];
-        var wmsOnly = [wms];
+        var vectorFeatureLayer = new OpenLayers.Layer.Vector(
+            "Building Choice",
+            {
+                zIndex: 100,
+                style: {
+                  'strokeWidth': 20,
+                  'strokeColor': '#ff0000'
+                }
+            }
+        );
+
+        var both = [wms, solar, vectorFeatureLayer];
+        var wmsOnly = [wms, vectorFeatureLayer];
         $scope.layers = wmsOnly;
 
         var webmercator = new OpenLayers.Projection("EPSG:3857");
@@ -84,6 +97,34 @@ angular
             $timeout(function() {
                 $scope.$broadcast("_RESIZE_");
             }, 1000);
+        });
+
+        buildingChoiceChannel.onChoices($scope, function(choices) {
+            if (choices.length > 0) {
+                var bounds = new OpenLayers.Bounds();
+
+                vectorFeatureLayer.addFeatures(_.map(choices, function(building) {
+                    var circle = 
+                        new OpenLayers.Feature.Vector(
+                            OpenLayers.Geometry.Polygon.createRegularPolygon(
+                                new OpenLayers.Geometry.Point(building.coordinates.lon, building.coordinates.lat),
+                                1,
+                                20,
+                                0
+                            ),
+                            building
+                        );
+
+                    bounds.extend(new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat));
+                    return circle;
+                }));
+                $scope.$apply(function() {
+                    $scope.center = bounds.getCenterLonLat();
+                    $timeout(function() {
+                        $scope.zoom = 18;
+                    }, 100);
+                });
+            }
         });
 
 
