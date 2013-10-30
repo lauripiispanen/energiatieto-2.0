@@ -4,6 +4,9 @@ angular
         "$scope",
         "buildingSelectionChannel",
     function($scope, buildingSelectionChannel) {
+        var src = new proj4.Proj("EPSG:4326");
+        var dst = new proj4.Proj("EPSG:3857");
+
         function convertData(data) {
             return _.map(JSON.parse(data), function(it) {
                 return {
@@ -29,12 +32,17 @@ angular
             if (newValue) {
                 $.get("/building", { address: newValue.text }).done(function(data) {
                     var d = JSON.parse(data);
-                    console.log(d);
                     if (d.length === 1) {
+                        var x = parseFloat(d[0].pos.x),
+                            y = parseFloat(d[0].pos.y),
+                            point = new proj4.Point(x, y);
+
+                        proj4.transform(src, dst, point);
+
                         buildingSelectionChannel.selectBuilding({
                             coordinates: {
-                                lon: parseFloat(d[0].pos.x),
-                                lat: parseFloat(d[0].pos.y)
+                                lon: point.x,
+                                lat: point.y
                             },
                             address: d[0].address
                         });

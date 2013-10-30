@@ -4,7 +4,6 @@ var MongoClient = require('mongodb').MongoClient,
         return function(req, res) {
             var address = req.query.address;
             collection.find({"address": address}).toArray(function(err, docs) {
-                console.log(docs);
                 res.end(JSON.stringify(docs));
             });
 
