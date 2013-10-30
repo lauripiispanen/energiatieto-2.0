@@ -1,16 +1,18 @@
 var MongoClient = require('mongodb').MongoClient,
     autocompleteMiddleware = function(collection) {
         return function(req, res) {
-            var street = req.query.street || "",
-                address = req.query.address;
+            var address = req.query.address;
 
             if (address && address.length >= 3) {
-                collection.distinct("address", { "road": address, "floorArea": {$gt: 0}}, function(err, docs) {
-                    res.end(JSON.stringify(docs).toString('utf8'));
-                });
-            } else if (street.length >= 3) {
-                collection.distinct("road", { "road": { $regex: street + ".*", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
-                    res.end(JSON.stringify(docs).toString('utf8'));
+                collection.distinct("road", { "road": { $regex: address + ".*", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
+                    if (docs.length < 2) {
+                        // found exactly one option or none at all
+                        collection.distinct("address", { "address": { $regex: "^"+address+".*$", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
+                            res.end(JSON.stringify(docs));
+                        });
+                    } else {
+                        res.end(JSON.stringify(docs));
+                    }
                 });
             } else {
                 res.end(JSON.stringify([]));
