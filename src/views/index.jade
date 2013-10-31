@@ -201,9 +201,9 @@ html
                                 .downarrow
                         h2 Aurinkosähkö
                         span.toggle_solarelectricity_on(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-show="building.photoVoltaic.active")
-                            span Käytössä
+                            span Mukana laskelmassa
                         span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
-                            span Ei käytössä
+                            span Ei mukana laskelmassa
                     .controls Järjestelmän koko
                         span.slideramount {{building.photoVoltaic.photovoltaicArea}} m
                             sup 2
@@ -230,9 +230,9 @@ html
                                 .downarrow
                         h2 Aurinkolämpö 
                         span.toggle_solarheat_on(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-show="building.thermalPanel.active")
-                            span Käytössä
+                            span Mukana laskelmassa
                         span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
-                            span Ei käytössä
+                            span Ei mukana laskelmassa
                     .controls Järjestelmän koko 
                         span.slideramount{{building.thermalPanel.thermalArea}} m
                             sup 2
@@ -255,13 +255,13 @@ html
                 .boxed(ng-class="{disabled: !building.borehole.active}")
                     .headerbar
                         .info
-                            .infopopup Maalämpö on maaperään tai veteen varastoitunutta lämpöenergiaa. Maalämpöjärjestelmällä kerättynä sitä voidaan käyttää rakennusten ja käyttöveden lämmittämiseen. 
+                            .infopopup Maalämpö on auringon säteilystä maaperään varastoitunutta lämpöenergiaa. Maalämpöjärjestelmällä kerättynä sitä voidaan käyttää rakennusten ja käyttöveden lämmittämiseen. 
                                 .downarrow
                         h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
                         span.toggle_geoterm_on(ng-click="building.borehole.active = !building.borehole.active", ng-show="building.borehole.active")
-                            span Käytössä
+                            span Mukana laskelmassa
                         span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
-                            span Ei käytössä
+                            span Ei mukana laskelmassa
                     .controls Käytetystä lämmöstä tuotettava osuus
                         span.slideramount %
                         slider.geoterm(floor="0",ceiling="100",step="1",precision="0")
