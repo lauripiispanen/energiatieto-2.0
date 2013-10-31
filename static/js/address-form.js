@@ -47,7 +47,14 @@ angular
 
                             var x = parseFloat(it.pos.x),
                                 y = parseFloat(it.pos.y),
-                                point = new proj4.Point(x, y);
+                                point = new proj4.Point(x, y),
+                                exteriorPolygon = _.map(it.polygon || [], function(polygonPoint) {
+                                    proj4.transform(src, dst, polygonPoint);
+                                    return {
+                                        lon: polygonPoint.x,
+                                        lat: polygonPoint.y
+                                    };
+                                });
 
                             proj4.transform(src, dst, point);
 
@@ -59,6 +66,7 @@ angular
                                     lon: point.x,
                                     lat: point.y
                                 };
+                            building.exteriorPolygon = exteriorPolygon;
 
                             return building;
                     });

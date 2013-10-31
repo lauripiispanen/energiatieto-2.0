@@ -64,7 +64,6 @@ angular
             if (!building) {
                 return;
             }
-            console.log("b", building);
             var panels = [],
                 boreholes = [];
 
@@ -101,7 +100,6 @@ angular
 
             formActivationChannel.activate();
             $scope.$apply(function() {
-                console.log(building);
                 $scope.building = building;            
             });
         });

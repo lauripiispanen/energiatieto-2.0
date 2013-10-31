@@ -91,7 +91,6 @@ angular
                     identity = function(d) { return d; };
 
                 $scope.$watch("model", function(newValue, oldValue) {
-                    console.log("chart", newValue);
                     if (newValue.length < 1) {
                         return;
                     }

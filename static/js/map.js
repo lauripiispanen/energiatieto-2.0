@@ -57,9 +57,11 @@ angular
             {
                 zIndex: 100,
                 style: {
-                  'strokeWidth': 20,
-                  'strokeColor': '#ff0000'
-                }
+                  'strokeWidth': 3,
+                  'strokeColor': '#ff0000',
+                  'fillColor': '#ff5555'
+                },
+                opacity: 0.2
             }
         );
 
@@ -81,7 +83,7 @@ angular
         $scope.center = new OpenLayers.LonLat(2750850.887954, 8434182.950183);
         $scope.zoom = 13;
         $scope.popups = [];
-        $scope.controls = [new OpenLayers.Control.SelectFeature(vectorFeatureLayer)];
+        $scope.controls = [new OpenLayers.Control.Navigation(), new OpenLayers.Control.SelectFeature(vectorFeatureLayer)];
 
         formActivationChannel.onStateChange($scope, function(active) {
             $scope.reduced = active;            
@@ -112,19 +114,15 @@ angular
                 var bounds = new OpenLayers.Bounds();
 
                 vectorFeatureLayer.addFeatures(_.map(choices, function(building) {
-                    var circle = 
-                        new OpenLayers.Feature.Vector(
-                            OpenLayers.Geometry.Polygon.createRegularPolygon(
-                                new OpenLayers.Geometry.Point(building.coordinates.lon, building.coordinates.lat),
-                                1,
-                                20,
-                                0
-                            ),
-                            building
-                        );
+                    var linearRing = new OpenLayers.Geometry.LinearRing(
+                            _.map(building.exteriorPolygon, function(it) {
+                                return new OpenLayers.Geometry.Point(it.lon, it.lat);
+                            })
+                        ),
+                        polygon = new OpenLayers.Geometry.Polygon([linearRing]);
 
                     bounds.extend(new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat));
-                    return circle;
+                    return new OpenLayers.Feature.Vector(polygon, building);
                 }));
 
                 vectorFeatureLayer.refresh();
