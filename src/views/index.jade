@@ -48,6 +48,20 @@ html
                 p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla käyttöön aurinkoenergiaa ja maalämpöä.
                 label Osoite:
                 input
+                ul.flyout
+                    li Pihla
+                    li.focus
+                        span
+                            |Pihla
+                        |jatie, Espoo
+                    li 
+                        span
+                            |Pihla
+                        |jarinne, Espoo
+                    li 
+                        span
+                            |Pihla
+                        |jamäki, Helsinki
                 input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open}")
             a.back(href="#") Takaisin hakuun

@@ -27,7 +27,6 @@ $geoTermColor1: #ecce66;
 $geoTermColor2: #e1c04f;
 $geoTermColor3: #b5962c;
 
-
 body {
     font: 0.8em Helvetica Neue, Helvetica, Arial, sans-serif;
 
@@ -135,17 +134,45 @@ body {
                 padding-left: 1.2em;
                 }
             input {
-                background: #fff url('/images/search.png') right no-repeat;
+                background: #fff url('/images/search.png') top right no-repeat;
                 font-size: 1em;
                 height: 3.4em;
-                width: 100%;
+                width: 36em;
                 color: $uiTextColor;
                 @include border-radius(3px);
-                border: 1px solid #ccc;
-                @include box-shadow(inset 0px 2px 2px #eee);
+                border: 1px solid #cecece;
+                @include box-shadow(inset 2px 2px 2px #eee);
                 padding-left: 1.2em;
-                margin-right: 3em;
                 }
+            .flyout {
+                background: #fff url('/images/search.png') top right no-repeat;
+                @include border-radius(3px);
+                border: 1px solid #cecece;
+                @include box-shadow(inset 2px 2px 2px #eee);
+                position: absolute;
+                top: 13.3em;
+                left: 3em;
+                width: 35.3em;
+                padding: 0 1em 1em 1em;
+                margin-right: 7.4em;
+                list-style-type: none;
+                li {
+                    padding: 1.2em;
+                    border-bottom: 1px solid #cecece;
+                    &:last-child {
+                        border-bottom: 0;
+                        padding-bottom: 0;
+                        }
+                    &.focus {
+                        background-color: $bgColorHighlight;
+                    }
+                }
+                
+                span {
+                    font-weight: bold;
+                }
+
+            }
             }
 
         &.reduced {
