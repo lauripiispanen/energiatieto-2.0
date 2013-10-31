@@ -4,6 +4,22 @@ var XmlStream = require('xml-stream'),
     maxFeatures = 1000000,
     operations = 0,
     MongoClient = require('mongodb').MongoClient,
+    _ = {
+        find: function(list, test) {
+            for (var i = 0; i < list.length; i++) {
+                if (test(list[i])) {
+                    return list[i];
+                }
+            }
+        },
+        map: function(list, transform) {
+            var ret = [];
+            for (var i = 0; i < list.length; i++) {
+                ret.push(transform(list[i]));
+            }
+            return ret;
+        }
+    },
 
     runUpdate = function() {
         function updateBuildingInfos(withBuilding, endCallback) {
@@ -15,9 +31,8 @@ var XmlStream = require('xml-stream'),
             }).on('response', function(response) {
                 response.setEncoding('UTF-8');
                 var xml = new XmlStream(response);
-                xml.on('data', function(data) {
-                    //process.stdout.write(data);
-                });
+                xml.collect('gml:geometryMember');
+                xml.collect('gml:pos');
                 xml.on('endElement: GIS:Rakennukset', function(building) {
                     withBuilding(building);
                     //console.log(building['GIS:Rakennustunnus'], building['GIS:Kerrossala']);
@@ -92,7 +107,8 @@ var XmlStream = require('xml-stream'),
                     var multiGeom = building['GIS:Geometry']['gml:MultiGeometry'],
                         constructed = building['GIS:Valmistunut'],
                         constructionYear,
-                        pos;
+                        pos,
+                        polygon;
                     if (constructed) {
                         try {
                             constructionYear = parseInt(constructed.substring(constructed.lastIndexOf(".") + 1), 10);
@@ -102,11 +118,25 @@ var XmlStream = require('xml-stream'),
                     }
 
                     if (multiGeom) {
-                        var posText = multiGeom['gml:geometryMember']['gml:Point']['gml:pos'].$text.split(" ");
-                        pos = {
-                            x: posText[0],
-                            y: posText[1]
+                        var pointGeometry = _.find(multiGeom['gml:geometryMember'], function(it) { return it['gml:Point']; });
+                        if (pointGeometry) {
+                            var posText = pointGeometry['gml:Point']['gml:pos'][0].$text.split(" ");
+                            pos = {
+                                x: posText[0],
+                                y: posText[1]
+                            }
                         }
+                        var polygonGeometry = _.find(multiGeom['gml:geometryMember'], function(it) { return it['gml:Polygon']; });
+                        if (polygonGeometry) {
+                            polygon = _.map(polygonGeometry['gml:Polygon']['gml:exterior']['gml:LinearRing']['gml:pos'], function(it) {
+                                var pointstext = it.split(" ");
+                                return {
+                                    x: pointstext[0],
+                                    y: pointstext[1]
+                                }
+                            });
+                        }
+
                     }
                     
                     collection.findAndModify(
@@ -121,7 +151,8 @@ var XmlStream = require('xml-stream'),
                                 "heatingMethod": building['GIS:Lammitystapa'],
                                 "fuel": building['GIS:Polttoaine'],
                                 "constructionYear": constructionYear,
-                                "pos": pos
+                                "pos": pos,
+                                "polygon": polygon
                             }
                         },
                         {},
