@@ -57,11 +57,10 @@ angular
             {
                 zIndex: 100,
                 style: {
-                  'strokeWidth': 3,
-                  'strokeColor': '#ff0000',
-                  'fillColor': '#ff5555'
-                },
-                opacity: 0.2
+                  'strokeWidth': 0,
+                  'fillColor': '#1a96ff',
+                  'fillOpacity': 0.65
+                }
             }
         );
 
