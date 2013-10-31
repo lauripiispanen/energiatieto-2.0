@@ -23,9 +23,6 @@ html
         script(type="text/javascript",src="/js/pubsub.js")
         script(type="text/javascript",src="/js/application.js")
     body
-        .address-form(ng-controller="addressFormController",ng-hide="hidden")
-            h1 Syötä osoite
-            input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
         .map(ng-controller="mapController",ng-class="{reduced: reduced}")
             div(openlayers,
                 controls="controls",
@@ -36,6 +33,22 @@ html
                 center="center",
                 restricted-extent="bounds",
                 style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;")
+            #osoitin.pointer-popup Pihlajatie 3 B, 02770 Espoo
+                .pointerarrow
+            #valitse.pointer-popup Löytyi useita, valitse oikea rakennus:
+                .pointerarrow
+            .solarlegend
+                h3 Aurinkoenergian määrä
+                .right Paljon
+                .left Vähän
+                .grading
+            .address-form(ng-controller="addressFormController",ng-class="{hidden: reduced}")
+                h1 Tervetuloa Energiatietopalveluun!
+                    span BETA
+                p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla käyttöön aurinkoenergiaa ja maalämpöä.
+                label Osoite:
+                input
+                input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open}")
             a.back(href="#") Takaisin hakuun
             .actioncontainer

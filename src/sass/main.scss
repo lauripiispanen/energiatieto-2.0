@@ -31,13 +31,15 @@ $geoTermColor3: #b5962c;
 body {
     font: 0.8em Helvetica Neue, Helvetica, Arial, sans-serif;
 
-    & > .address-form {
-        width: 500px;
-        height: 100px;
-        background-color: white;
-        z-index: 100000;
-        position: absolute;
-    }
+    h1 {
+            margin-top: 1.6em;
+            font-size: 1.9em;
+            color: $uiTextColor;
+            span {
+                font-size: 0.4em;
+                padding-left: 0.8em;
+                }
+        }
 
     & > .map {
         position: absolute;
@@ -48,7 +50,103 @@ body {
         @include transition-property(right);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
-
+        .solarlegend {
+            background-color: $bgColorLight;
+            @include border-radius(4px);
+            @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.3));
+            border: 1px solid #818181;
+            position: absolute;
+            left: 5em;
+            top: 5em;
+            padding: 1em;
+            color: $uiTextColor;
+            h3 {
+                padding: 0;
+                margin: 0;
+                font-size: 1.1em;
+                margin-bottom: 0.6em;
+                }
+            .left {
+                float: left;
+                font-size: 0.8em;
+                font-weight: bold;
+                }
+            .right {
+                float: right;
+                font-size: 0.8em;
+                font-weight: bold;
+                }
+            .grading {
+                margin-top: 2em;
+                @include background-image(linear-gradient(left, #000, #ffff0b));
+                height: 1em;
+                width: 100%; 
+                }
+            }
+        #valitse {
+            right: 35em;
+        }
+        #osoitin {
+            right: 15em; 
+        }
+        .pointer-popup {
+            background-color: #fff;
+            @include border-radius(4px);
+            @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.3));
+            position: absolute;
+            bottom: 5em;
+            padding: 1em 1.6em;
+            color: $uiTextColor;
+            .pointerarrow {
+                background: transparent url('/images/popup_downarrow.png') no-repeat;
+                width: 16px;
+                height: 16px;
+                position: absolute;
+                bottom: -15px;
+                right: 50%;
+                }
+            }
+        .address-form {
+            width: 36em;
+            height: 15.5em;
+            background-color: $bgColorLight;
+            @include border-radius(10px);
+            @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.7));
+            border: 1px solid #818181;
+            padding: 3em 4.4em 3em 3em;
+            z-index: 100000;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            top: 4em;
+            h1 {
+                margin: 0 0 1em;
+                padding: 0 0 0 0.6em;
+                }
+            p {
+                margin-bottom: 2em;
+                padding-left: 1.2em;
+                }
+            label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 1.5em;
+                padding-left: 1.2em;
+                }
+            input {
+                background: #fff url('/images/search.png') right no-repeat;
+                font-size: 1em;
+                height: 3.4em;
+                width: 100%;
+                color: $uiTextColor;
+                @include border-radius(3px);
+                border: 1px solid #ccc;
+                @include box-shadow(inset 0px 2px 2px #eee);
+                padding-left: 1.2em;
+                margin-right: 3em;
+                }
+            }
 
         &.reduced {
             right: $panelWidth; 
@@ -113,18 +211,6 @@ body {
             @include text-shadow(#fff 0px 0px 2px);
             box-shadow: 0px 2px 2px $shadowColor;
             }
-        h1 {
-            margin-top: 1.6em;
-            font-size: 1.9em;
-            color: $uiTextColor;
-            span {
-                font-size: 0.4em;
-                padding-left: 0.8em;
-                }
-        }
-        
-
-
         .headerbar {
             background: $bgColorDark;
             @include border-top-left-radius (4px);
