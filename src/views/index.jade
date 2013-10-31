@@ -177,7 +177,7 @@ html
                         tr
                             td Kerrosten lukumäärä:
                             td 
-                                input.shortInput(type="text") 
+                                input.shortInput(type="text",ng-model="building.floorCount")
                             td
                         tr
                             td Rakennusvuosi:
@@ -205,9 +205,9 @@ html
                         span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
                             span Ei mukana laskelmassa
                     .controls Järjestelmän koko
-                        span.slideramount {{building.photoVoltaic.photovoltaicArea}} m
+                        span.slideramount {{building.photoVoltaic.size}} m
                             sup 2
-                        slider.solarelectricity(floor="0",ceiling="100",step="1",precision="0",ng-model="building.photoVoltaic.photovoltaicArea")
+                        slider.solarelectricity(floor="0",ceiling="{{freePhotoVoltaicRoofSize}}",step="1",precision="0",ng-model="building.photoVoltaic.size")
                         .suggestiondash
                             .suggestionpointer
                         .suggestion Ehdotus
@@ -234,9 +234,9 @@ html
                         span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
                             span Ei mukana laskelmassa
                     .controls Järjestelmän koko 
-                        span.slideramount{{building.thermalPanel.thermalArea}} m
+                        span.slideramount{{building.thermalPanel.size}} m
                             sup 2
-                        slider.solarheat(floor="0",ceiling="100",step="1",precision="0",ng-model="building.thermalPanel.thermalArea")
+                        slider.solarheat(floor="0",ceiling="{{freeThermalRoofSize}}",step="1",precision="0",ng-model="building.thermalPanel.size")
                         .suggestiondash
                             .suggestionpointer
                         .suggestion Ehdotus

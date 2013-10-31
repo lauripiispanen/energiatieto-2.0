@@ -61,12 +61,44 @@ angular
 
                             var building = new Building();
                             building.floorArea = it.floorArea;
+                            building.floorCount = it.floorCount;
                             building.address = it.address;
                             building.buildingYear = it.constructionYear;
                             building.coordinates = {
                                     lon: point.x,
                                     lat: point.y
                                 };
+                            switch(it.fuel) {
+                                case "Kauko- tai aluelämpö":
+                                    building.heatingSystem = "1";
+                                    break;
+                                case "Kevyt polttoöljy":
+                                    building.heatingSystem = "2";
+                                    break;
+                                case "Sähkö":
+                                    building.heatingSystem = "3";
+                                    break;
+                                default:
+                                    building.heatingSystem = "4";
+                                    break;
+                            }
+
+                            // 33.5 is the average living space per person in Espoo
+                            building.numberOfInhabitants = Math.round(building.floorArea / 33.5);
+
+                            if (it.solar) {
+                                building.solar = {
+                                    ActualArea: parseFloat(it.solar.ActualArea),
+                                    AvActKWHm2: parseFloat(it.solar.AvActKWHm2),
+                                    RoofArea: parseFloat(it.solar.RoofArea),
+                                    RoofAreaAvgIrradiance: parseFloat(it.solar.RoofAreaAvgIrradiance),
+                                    RoofGoodArea: parseFloat(it.solar.RoofGoodArea),
+                                    RoofGoodAreaAvgIrradiance: parseFloat(it.solar.RoofGoodAreaAvgIrradiance),
+                                    RoofRemainingArea: parseFloat(it.solar.RoofRemainingArea),
+                                    RoofRemainingAreaAvgIrradiation: parseFloat(it.solar.RoofRemainingAreaAvgIrradiation),
+                                    TotalKWh: parseFloat(it.solar.TotalKWh)
+                                }
+                            }
                             building.exteriorPolygon = exteriorPolygon;
 
                             return building;

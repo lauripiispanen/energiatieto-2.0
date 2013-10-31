@@ -34,25 +34,6 @@ angular
         $scope.electricitySeries = [];
         $scope.heatingSeries = [];
 
-/*
-        $scope.building = new Building();
-        building.photoVoltaic = new SolarInstallation();
-
-        building.photoVoltaic.photovoltaicArea = 10;
-        building.photoVoltaic.active = true;
-
-        building.thermalPanel = new SolarInstallation();
-        building.thermalPanel.thermalArea = 10;
-        building.thermalPanel.active = true;
-
-
-        building.borehole = new Borehole();
-/*
-        building.borehole.active = true;
-        building.borehole.activeDepth = 200;
-        building.borehole.powerDimensioning = 60;
-
-        $scope.building = building;*/
         $scope.heatingOptions = heatingOptions;
 
         system.calculate({}, function(result) {
@@ -64,43 +45,63 @@ angular
             if (!building) {
                 return;
             }
-            var panels = [],
+            var panel = new SolarInstallation(),
                 boreholes = [];
 
+            if (building.solar) {
+                panel.roofArea = building.solar.RoofArea;
+                panel.roofAreaAvgIrradiance = building.solar.RoofAreaAvgIrradiance;
+                panel.roofGoodArea = building.solar.RoofGoodArea;
+                panel.roofGoodAreaAvgIrradiance = building.solar.RoofGoodAreaAvgIrradiance;
+                panel.roofRemainingArea = building.solar.RoofRemainingArea;
+                panel.roofRemainingAreaAvgIrradiance = building.solar.RoofRemainingAreaAvgIrradiation;
+            }
+
+
             if (building.photoVoltaic && building.photoVoltaic.active) {
-                panels.push(building.photoVoltaic);
+                panel.photovoltaicArea = parseInt(building.photoVoltaic.size, 10);
             }
             if (building.thermalPanel && building.thermalPanel.active) {
-                panels.push(building.thermalPanel);
+                panel.thermalArea = parseInt(building.thermalPanel.size, 10);
             }
+
             if (building.borehole && building.borehole.active) {
                 boreholes.push(building.borehole);
             }
 
             system.calculate({
                 buildings: [ building ],
-                solarpanelproducers: panels,
+                solarpanelproducers: [ panel ],
                 geothermalwellproducers: boreholes
             }, function(result) {
                 $scope.calculationResult = result;
                 $scope.electricitySeries = graphGenerator.generateElectricityGraph(result, building);
                 $scope.heatingSeries = graphGenerator.generateHeatingGraph(result);
+
+                if (building.solar) {
+                    $scope.freePhotoVoltaicRoofSize = parseInt(building.solar.RoofArea) - panel.thermalArea;
+                    $scope.freeThermalRoofSize = parseInt(building.solar.RoofArea) - panel.photovoltaicArea;
+                }
             });
         }, true);
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
             building.borehole = new Borehole();
             _.extend(building.borehole, constants.borehole);
+            
+            building.thermalPanel = {
+                active: true,
+                size: Math.round(building.numberOfInhabitants * 2)
+            }
 
-            building.photoVoltaic = new SolarInstallation();
-            _.extend(building.photoVoltaic, constants.photoVoltaic);
-
-            building.thermalPanel = new SolarInstallation();
-            _.extend(building.thermalPanel, constants.thermalPanel);
+            building.photoVoltaic = {
+                active: true,
+                size: Math.round(building.solar ? building.solar.RoofGoodArea - building.thermalPanel.size : 0)
+            }
 
             formActivationChannel.activate();
             $scope.$apply(function() {
-                $scope.building = building;            
+                $scope.building = building;
             });
         });
 
