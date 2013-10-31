@@ -18,10 +18,11 @@ angular
             });
         }
 
+        buildingChoiceChannel.onChoices($scope, function() {
+            $scope.hidden = true;
+        });
         formActivationChannel.onStateChange($scope, function(state) {
-            $scope.$apply(function() {
-                $scope.hidden = state;                
-            });
+            $scope.hidden = state;
         });
 
 
