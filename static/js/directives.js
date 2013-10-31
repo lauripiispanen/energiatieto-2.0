@@ -91,6 +91,10 @@ angular
                     identity = function(d) { return d; };
 
                 $scope.$watch("model", function(newValue, oldValue) {
+                    console.log("chart", newValue);
+                    if (newValue.length < 1) {
+                        return;
+                    }
                     var xMax = d3.max(newValue, function(it) {
                             return d3.max(it, function(it) {
                                 return it.x;
@@ -148,29 +152,24 @@ angular
                                 .attr("width", x.rangeBand());
                         };
 
-                    if (newValue === oldValue) {
-                        // initialize
-                        layerSelection
-                            .enter()
-                            .append("g")                            
-                            .attr("class", function(d, i) { if ($scope.layerClasses) {
-                                    return "layer " + $scope.layerClasses[i];
-                                } else {
-                                    return "layer";
-                                }
-                            });
+                    // initialize
+                    layerSelection
+                        .enter()
+                        .append("g")                            
+                        .attr("class", function(d, i) { if ($scope.layerClasses) {
+                                return "layer " + $scope.layerClasses[i];
+                            } else {
+                                return "layer";
+                            }
+                        });
 
-                        var rectSelection = layerSelection.selectAll("rect").data(identity);
+                    var rectSelection = layerSelection.selectAll("rect").data(identity);
 
-                        rectSelection.enter()
-                            .append("rect")
-                            .call(updateAttributes)
-
-
-                        rectSelection
-                            .exit()
-                            .remove()
-                    } else {
+                    rectSelection.enter()
+                        .append("rect")
+                        .call(updateAttributes)
+                    
+                    if (newValue !== oldValue) {
                         // update graph
                         layerSelection
                             .selectAll("rect")
@@ -179,6 +178,14 @@ angular
                             .duration(300)
                             .call(updateAttributes);
                     }
+
+                    layerSelection
+                        .exit()
+                        .remove();
+
+                    rectSelection
+                        .exit()
+                        .remove();
 
                 }, true);
             }

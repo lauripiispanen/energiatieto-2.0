@@ -4,7 +4,8 @@ angular
         "$scope",
         "buildingSelectionChannel",
         "buildingChoiceChannel",
-    function($scope, buildingSelectionChannel, buildingChoiceChannel) {
+        "formActivationChannel",
+    function($scope, buildingSelectionChannel, buildingChoiceChannel, formActivationChannel) {
         var src = new proj4.Proj("EPSG:4326");
         var dst = new proj4.Proj("EPSG:3857");
 
@@ -16,6 +17,14 @@ angular
                 }
             });
         }
+
+        formActivationChannel.onStateChange($scope, function(state) {
+            $scope.$apply(function() {
+                $scope.hidden = state;                
+            });
+        });
+
+
 
         $scope.select2Options = {
             placeholder: "Search for a movie",
@@ -42,13 +51,16 @@ angular
 
                             proj4.transform(src, dst, point);
 
-                            return {
-                                coordinates: {
+                            var building = new Building();
+                            building.floorArea = it.floorArea;
+                            building.address = it.address;
+                            building.buildingYear = it.constructionYear;
+                            building.coordinates = {
                                     lon: point.x,
                                     lat: point.y
-                                },
-                                address: it.address
-                            }
+                                };
+
+                            return building;
                     });
 
                     if (buildings.length === 1) {

@@ -62,14 +62,16 @@ angular
                 }
             }
         );
+
         vectorFeatureLayer.events.on({
-          'featureselected': function(event) {
-               buildingSelectionChannel.selectBuilding(event.feature.data);
-          }
+            'featureselected': function(event) {
+                buildingSelectionChannel.selectBuilding(event.feature.data);
+            }
         });
 
-        var both = [wms, solar, vectorFeatureLayer];
-        var wmsOnly = [wms, vectorFeatureLayer];
+        var both = [wms, solar];
+        var wmsOnly = [wms];
+        var buildingChoice = [wms, solar, vectorFeatureLayer];
         $scope.layers = wmsOnly;
 
         var webmercator = new OpenLayers.Projection("EPSG:3857");
@@ -87,7 +89,6 @@ angular
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
             var location = new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat);
-            $scope.center = location;
             $scope.popups = [
                 new OpenLayers.Popup(
                     null,
@@ -96,13 +97,14 @@ angular
                     "<p class='popup-text'>" + building.address + "</p>"
                 )
             ];
-
             $timeout(function() {
-                $scope.zoom = 18;
-            }, 100);
-            $timeout(function() {
+                $scope.layers = both;
                 $scope.$broadcast("_RESIZE_");
-            }, 1000);
+                $scope.center = location;
+                $timeout(function() {
+                    $scope.zoom = 18;
+                }, 100);
+            }, 500);
         });
 
         buildingChoiceChannel.onChoices($scope, function(choices) {
@@ -124,38 +126,20 @@ angular
                     bounds.extend(new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat));
                     return circle;
                 }));
+
                 vectorFeatureLayer.refresh();
+
                 $scope.$apply(function() {
                     $scope.center = bounds.getCenterLonLat();
                     $timeout(function() {
                         $scope.zoom = 18;
+                        $timeout(function() {
+                            $scope.layers = buildingChoice;
+                        }, 100);
                     }, 100);
                 });
             }
         });
-
-
-        $scope.zoomClick = function() {
-            if ($scope.reduced) {
-                formActivationChannel.deactivate();
-            } else {
-                select();
-            }
-        };
-        function select() {
-            buildingSelectionChannel.selectBuilding({
-                coordinates: {
-                    lon: 2747542.9468056,
-                    lat: 8435120.1215636
-                },
-                address: "Pihlajatie 3"
-            });
-        }
-        /*
-        setTimeout(function() {
-            select();
-        }, 1);*/
-
 
         $scope.$watch("zoom", function(newValue, oldValue) {
             if (newValue >= 17) {

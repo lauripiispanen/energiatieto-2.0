@@ -1,5 +1,13 @@
 angular
     .module("energiatieto-energysystem", [])
+    .factory("constants", [function() {
+        var constants = new Constants();
+        constants.borehole = {
+            activeDepth : 200,
+            powerDimensioning : 75
+        }
+        return new Constants();
+    }])
     .factory("profiles", [function() {
         return {
             BoreholeElectricityConsumptionProfile: BoreholeElectricityConsumptionProfile,            
@@ -25,8 +33,7 @@ angular
                                               : SystemHotWaterHeatingEnergyBalance,
             SystemSpaceHeatingEnergyBalance
                                               : SystemSpaceHeatingEnergyBalance,
-            SystemCost                        : new SystemCost(),
-            Constants                         : new Constants()
+            SystemCost                        : new SystemCost()
         };
     }])
     .factory("heating-options", [function() {
@@ -40,7 +47,7 @@ angular
     .factory("building", [function() {
         return Building;
     }])
-    .factory("energysystem", ["profiles", function(profiles) {
+    .factory("energysystem", ["profiles", "constants", function(profiles, constants) {
         function EnergySystem() {
             var arrayWith = function(val, num) {
                 return _.map(_.range(num), function() { return val; });
@@ -125,7 +132,6 @@ angular
                         };
                         var self = this;
                         var valuesFor = function(calculatedProfile) {
-                            var constants   = profiles.Constants;
 
                             return {
                                 total: self.monthly(calculatedProfile),
@@ -146,7 +152,6 @@ angular
                             });
                             return obj;
                         };
-                        var constants = profiles.Constants;
                         var systemElectricityProduction = valuesFor(profiles.SystemElectricityProduction(system, constants));
                         var systemElectricityConsumption = valuesFor(profiles.SystemElectricityConsumption(system, constants));
                         var systemHotWaterHeatingEnergyProduction = valuesFor(profiles.SystemHotWaterHeatingEnergyProduction(system, constants));

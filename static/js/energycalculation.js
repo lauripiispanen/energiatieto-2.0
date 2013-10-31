@@ -15,6 +15,7 @@ angular
             "building",
             "heating-options",
             "graph-generator",
+            "constants",
             function(
                 $scope,
                 $timeout,
@@ -23,15 +24,20 @@ angular
                 system,
                 Building,
                 heatingOptions,
-                graphGenerator
+                graphGenerator,
+                constants
             ) {
 
         $scope.electricityLayerClasses = ['solar-electricity','bought'];
         $scope.heatingLayerClasses = ['solar-heating','geothermal','residue','bought'];
 
-        var building = new Building();
+        $scope.electricitySeries = [];
+        $scope.heatingSeries = [];
 
+/*
+        $scope.building = new Building();
         building.photoVoltaic = new SolarInstallation();
+
         building.photoVoltaic.photovoltaicArea = 10;
         building.photoVoltaic.active = true;
 
@@ -39,12 +45,14 @@ angular
         building.thermalPanel.thermalArea = 10;
         building.thermalPanel.active = true;
 
+
         building.borehole = new Borehole();
+/*
         building.borehole.active = true;
         building.borehole.activeDepth = 200;
         building.borehole.powerDimensioning = 60;
 
-        $scope.building = building;
+        $scope.building = building;*/
         $scope.heatingOptions = heatingOptions;
 
         system.calculate({}, function(result) {
@@ -53,16 +61,20 @@ angular
 
 
         $scope.$watch("building", function(building) {
+            if (!building) {
+                return;
+            }
+            console.log("b", building);
             var panels = [],
                 boreholes = [];
 
-            if (building.photoVoltaic.active) {
+            if (building.photoVoltaic && building.photoVoltaic.active) {
                 panels.push(building.photoVoltaic);
             }
-            if (building.thermalPanel.active) {
+            if (building.thermalPanel && building.thermalPanel.active) {
                 panels.push(building.thermalPanel);
             }
-            if (building.borehole.active) {
+            if (building.borehole && building.borehole.active) {
                 boreholes.push(building.borehole);
             }
 
@@ -78,7 +90,20 @@ angular
         }, true);
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
+            building.borehole = new Borehole();
+            _.extend(building.borehole, constants.borehole);
+
+            building.photoVoltaic = new SolarInstallation();
+            _.extend(building.photoVoltaic, constants.photoVoltaic);
+
+            building.thermalPanel = new SolarInstallation();
+            _.extend(building.thermalPanel, constants.thermalPanel);
+
             formActivationChannel.activate();
+            $scope.$apply(function() {
+                console.log(building);
+                $scope.building = building;            
+            });
         });
 
         formActivationChannel.onStateChange($scope, function(active) {
