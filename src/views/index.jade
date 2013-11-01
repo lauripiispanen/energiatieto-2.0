@@ -44,7 +44,7 @@ html
                 input.addressInput(ng-model="addressInput",ng-keydown="keyDown")
                 ul.flyout(ng-show="addressChoices.length > 0")
                     li(ng-repeat="item in addressChoices", ng-click="selectItem(item)",ng-class="{focus: hasFocus(item)}")
-                        span(address-match="item",input="addressInput")
+                        span(address-match="item",input="{{addressInput}}")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open, extended: extended}")
             p.header Energialaskelma
             h1 Pihlajatie 3 B

@@ -25,6 +25,8 @@ angular
             $scope.hidden = (state != formActivationChannel.messages.deactivate);
         });
 
+        $(".addressInput").focus();
+
         $scope.selectItem = function(item) {
             // attempt to get buildings for address, move to next phase if successful, otherwise keep autocompleting
             $.get("/building", { address: item }).done(function(data) {
@@ -96,7 +98,7 @@ angular
                     buildingChoiceChannel.setChoices(buildings);
                 } else {
                     $scope.$apply(function() {
-                        $scope.addressInput = item;
+                        $scope.addressInput = item + " ";
                         $(".addressInput").focus();
                     });
                 }
@@ -141,7 +143,7 @@ angular
         function autocomplete(address) {
             $.get("/autocomplete", { address: address }).done(function(data) {
                 $scope.$apply(function() {
-                    $scope.addressChoices = JSON.parse(data);
+                    $scope.addressChoices = JSON.parse(data).sort();
                     if ($scope.addressChoices.length > 0) {
                         $scope.focusedItem = $scope.addressChoices[0];
                     }
@@ -168,8 +170,10 @@ angular
                 restrict: 'A',
                 replace: false,
                 link: function($scope, iElement, attr) {
-                    var html = $scope.$eval(attr.addressMatch).replace(new RegExp("(" + $scope.$eval(attr.input) + ")", "gi"), "<span class='match-text'>$1</span>");
-                    $(iElement).html(html);
+                    attr.$observe("input", function(input) {
+                        var html = $scope.$eval(attr.addressMatch).replace(new RegExp("(" + attr.input + ")", "gi"), "<span class='match-text'>$1</span>");
+                        $(iElement).html(html);
+                    });
                 }
             }
         }

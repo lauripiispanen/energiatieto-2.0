@@ -109,7 +109,7 @@ angular
                 $timeout(function() {
                     $scope.zoom = 18;
                 }, 100);
-            }, 500);
+            }, 750);
         });
 
         buildingChoiceChannel.onChoices($scope, function(choices) {

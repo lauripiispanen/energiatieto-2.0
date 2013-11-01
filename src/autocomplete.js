@@ -22,10 +22,10 @@ var MongoClient = require('mongodb').MongoClient,
             var address = req.query.address;
 
             if (address && address.length >= 3) {
-                collection.distinct("road", { "road": { $regex: address + ".*", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
+                collection.distinct("road", { "road": { $regex: "^" + address + ".*", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
                     if (docs.length < 2) {
                         // found exactly one option or none at all
-                        collection.distinct("address", { "address": { $regex: "^"+address+".*$", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
+                        collection.distinct("address", { "address": { $regex: "^" + address+".*$", $options: "i" }, "floorArea": {$gt: 0}}, function(err, docs) {
                             res.end(JSON.stringify(docs));
                         });
                     } else {
