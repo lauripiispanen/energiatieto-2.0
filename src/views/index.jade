@@ -192,8 +192,8 @@ html
                             sup 2
                         slider.solarelectricity(floor="0",ceiling="{{freePhotoVoltaicRoofSize}}",step="1",precision="0",ng-model="building.photoVoltaic.size")
                         .suggestiondash(ng-style="{width: (recommendedPhotoVoltaicPanelPercentage * 70) + '%'}")
-                            .suggestionpointer
-                        .suggestion Ehdotus
+                            .suggestionpointer 
+                                .suggestion Ehdotus
                     .effects
                         .positioncontainer
                             .infobutton(ng-click="showConstants()") Laskelman tiedot
@@ -222,7 +222,7 @@ html
                         slider.solarheat(floor="0",ceiling="{{freeThermalRoofSize}}",step="1",precision="0",ng-model="building.thermalPanel.size")
                         .suggestiondash(ng-style="{width: (recommendedThermalPanelPercentage * 70) + '%'}")
                             .suggestionpointer
-                        .suggestion Ehdotus
+                                .suggestion Ehdotus
                     .effects
                         .positioncontainer
                             .infobutton(ng-click="showConstants()") Laskelman tiedot
@@ -250,7 +250,7 @@ html
                         slider.geoterm(floor="0",ceiling="100",step="1",precision="0",ng-model="building.borehole.depthPercentage")
                         .suggestiondash
                             .suggestionpointer
-                        .suggestion Ehdotus
+                                .suggestion Ehdotus
                     .effects
                         .positioncontainer
                             .infobutton(ng-click="showConstants()") Laskelman tiedot   
