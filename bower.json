@@ -13,7 +13,6 @@
     "d3": "~3.3.8",
     "angular-slider": "~0.1.6",
     "angular": "~1.2.0-rc.3",
-    "angular-ui-select2": "~0.0.2",
     "jquery": "~2.0.3"
   }
 }

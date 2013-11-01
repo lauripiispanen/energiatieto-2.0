@@ -144,7 +144,11 @@ body {
                         background-color: $bgColorHighlight;
                     }
                 }
-                span {
+                li:hover {
+                    background-color: $bgColorHighlight;
+                    cursor: pointer;
+                }
+                .match-text {
                     font-weight: bold;
                 }
 

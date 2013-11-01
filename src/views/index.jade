@@ -3,7 +3,6 @@ html
     head
         title Energiatieto
         link(rel="stylesheet",href="styles/main.css")
-        link(rel="stylesheet",href="/components/select2/select2.css")
         link(rel="stylesheet",href="/components/angular-slider/angular-slider.css")
         script(type="text/javascript",src="/vendor/underscore-min.js")
         script(type="text/javascript",src="/components/jquery/jquery.js")
@@ -13,8 +12,6 @@ html
         script(type="text/javascript",src="/components/d3/d3.js")
         script(type="text/javascript",src="/components/energiatieto-calculation/dist/calculations.js")
         script(type="text/javascript",src="/components/angular-slider/angular-slider.js")
-        script(type="text/javascript",src="/components/select2/select2.js")
-        script(type="text/javascript",src="/components/angular-ui-select2/select2.js")
         script(type="text/javascript",src="/js/directives.js")
         script(type="text/javascript",src="/js/address-form.js")
         script(type="text/javascript",src="/js/map.js")
@@ -44,22 +41,10 @@ html
                     span BETA
                 p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla käyttöön aurinkoenergiaa ja maalämpöä.
                 label Osoite:
-                input
-                ul.flyout
-                    li Pihla
-                    li.focus
-                        span
-                            |Pihla
-                        |jatie, Espoo
-                    li 
-                        span
-                            |Pihla
-                        |jarinne, Espoo
-                    li 
-                        span
-                            |Pihla
-                        |jamäki, Helsinki
-                input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
+                input.addressInput(ng-model="addressInput",ng-keydown="keyDown")
+                ul.flyout(ng-show="addressChoices.length > 0")
+                    li(ng-repeat="item in addressChoices", ng-click="selectItem(item)",ng-class="{focus: hasFocus(item)}")
+                        span(address-match="item",input="addressInput")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open, extended: extended}")
             p.header Energialaskelma
             h1 Pihlajatie 3 B
