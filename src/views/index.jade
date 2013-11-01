@@ -40,7 +40,7 @@ html
                 h1 Tervetuloa Energiatietopalveluun!
                     span BETA
                 p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla käyttöön aurinkoenergiaa ja maalämpöä.
-                label Osoite:
+                label Osoite (toimii Espoon alueella):
                 input.addressInput(ng-model="addressInput",ng-keydown="keyDown")
                 ul.flyout(ng-show="addressChoices.length > 0")
                     li(ng-repeat="item in addressChoices", ng-click="selectItem(item)",ng-class="{focus: hasFocus(item)}")
@@ -49,8 +49,8 @@ html
             p.header Energialaskelma
             h1 {{building.address}}
                 span BETA
-            a.back(href="#",ng-click="reset()") Takaisin hakuun
-            .actioncontainer
+            a.back(href="#",ng-click="reset()",ng-show="open") Takaisin hakuun
+            .actioncontainer(ng-show="open")
                 .actionbutton Lähetä tarjouspyyntö
                 .actionbutton Hae toimenpidelupaa
             #savingsSum.col1.boxed 
@@ -266,5 +266,213 @@ html
             .footer
                 p footerteksti
         .constants(ng-controller="constantsController",ng-class="{open: open}")
-            h1 Constants here
-            p(ng-click="close()") Close
+            .closebutton(ng-click="close()",ng-show="open") Sulje
+            .table
+                h3 Rakennuskohtaiset tiedot
+                table
+                    tr
+                        td Keskimääräinen huonekorkeus:
+                        td
+                            input.shortInput(type="text",value="2,8") 
+                        td m
+                    tr
+                        td Lämpimän veden kulutus henkilöä kohti:
+
+                        td 
+                            input.shortInput(type="text",value="60")
+                        td l/päivä
+                    tr
+                        td Käyttöveden lämmitystarve:
+                        td
+                            input.shortInput(type="text",value="50")
+                        td °C
+                    tr
+                        td Käyttöveden lämmityksen häviöt:
+                        td
+                            input.shortInput(type="text",value="0,89")
+                        td 
+                    tr
+                        td Öljypolttimen hyötysuhde:
+                        td
+                            input.shortInput(type="text",value="0,87")
+                        td 
+                    tr
+                        td Kaukolämmityksen hyötysuhde: 
+                        td
+                            input.shortInput(type="text",value="0,97")
+                        td 
+                    tr
+                        td Kiinteistö- ja käyttösähkön vuosikulutus: 
+                        td
+                            input.shortInput(type="text",value="58")
+                        td kWh/m
+                            sup 2
+            .table
+                h3 Katon tiedot
+                table
+                    tr
+                        td Katon pinta-ala: 
+
+                        td
+                            input.shortInput(type="text",value="94,88")
+                        td m
+                            sup 2
+                    tr
+                        td Säteilyenergia vuodessa koko katolle:
+                        td
+                            input.shortInput(type="text",value="615,4")
+                        td kWh/m
+                            sup 2
+                    tr
+                        td Osuus jolla säteilyenergia yli 900 kWh/m²:
+                        td
+                            input.shortInput(type="text",value="24,73")
+                        td m
+                            sup 2
+                    tr
+                        td Hyvän osuuden säteilyenergia vuodessa:
+                        td
+                            input.shortInput(type="text",value="936,4")
+                        td kWh/m
+                            sup 2
+            .table
+                h3 Aurinkosähköjärjestelmän tiedot
+                table
+                    tr
+                        td Huipputehokerroin:
+                        td
+                            input.shortInput(type="text",value="0,15")
+                        td kWh/m
+                            sup 2
+                    tr
+                        td Käyttötilanteen toimivuuskerroin: 
+                        td
+                            input.shortInput(type="text",value="0,75")
+                        td 
+            .table
+                h3 Aurinkolämpöjärjestelmän tiedot
+                table
+                    tr
+                        td Keräintyypin kohtauskulmakerroin: 
+
+                        td
+                            input.shortInput(type="text",value="0,94")
+                        td 
+                    tr
+                        td Keräimen lämpöhäviökerroin: 
+                        td
+                            input.shortInput(type="text",value="2")
+                        td W/m²K
+                    tr
+                        td Keräimen häviökerroin: 
+                        td
+                            input.shortInput(type="text",value="0")
+                        td W/m²K²
+                    tr
+                        td Keräinpiirin hyötysuhde: 
+                        td
+                            input.shortInput(type="text",value="0,8")
+                        td 
+                    tr
+                        td Optinen hyötysuhde: 
+                        td
+                            input.shortInput(type="text",value="0,83")
+                        td 
+                    tr
+                        td Lämpimän käyttöveden minimilämpötila: 
+                        td
+                            input.shortInput(type="text",value="40")
+                        td °C
+                    tr
+                        td Kylmän veden lämpötila: 
+                        td
+                            input.shortInput(type="text",value="5")
+                        td °C
+                    tr
+                        td Varaajan lisälämmitysosan tilavuus: 
+                        td
+                            input.shortInput(type="text",value="0")
+                        td litraa
+                    tr
+                        td Lisälämmityksen käyttötapakerroin: 
+                        td
+                            input.shortInput(type="text",value="0,7")
+                        td 
+                    tr
+                        td Käyttöveden lämmitystarve:
+                        td
+                            input.shortInput(type="text",value="50")
+                        td °C
+                    tr
+                        td Käyttöveden lämmityksen häviöt: 
+                        td
+                            input.shortInput(type="text",value="0,89")
+                        td 
+                    tr
+                        td Lämminvesivaraajan mitoitus: 
+                        td
+                            input.shortInput(type="text",value="75")
+                        td l/keräin m²
+                    tr
+                        td Lämminvesivaraajan mitoitus: 
+                        td
+                            input.shortInput(type="text",value="2,5")
+                        td vrk kulutus
+            .table
+                h3 Maalämpöjärjestelmän tiedot
+                table
+                    tr
+                        td Kaivon halkaisija: 
+                        td
+                            input.shortInput(type="text",value="0,13")
+                        td m
+                    tr
+                        td Alin lämpötila kaivossa:
+                        td
+                            input.shortInput(type="text",value="0,5")
+                        td °C
+                    tr
+                        td Lämmönkeruupiirin lämpötila: 
+                        td
+                            input.shortInput(type="text",value="-5")
+                        td °C
+                    tr
+                        td Käyttöveden lämpötila: 
+                        td
+                            input.shortInput(type="text",value="55")
+                        td °C
+                    tr
+                        td Lämmityksen menoveden ylin lämpötila: 
+                        td
+                            input.shortInput(type="text",value="45")
+                        td °C
+                    tr
+                        td … ulkolämpötilassa: 
+                        td
+                            input.shortInput(type="text",value="-30")
+                        td °C
+                    tr
+                        td Lämmityksen menoveden alin lämpötila: 
+                        td
+                            input.shortInput(type="text",value="20")
+                        td °C
+                    tr
+                        td … ulkolämpötilassa: 
+                        td
+                            input.shortInput(type="text",value="20")
+                        td °C
+                    tr
+                        td Lauhduttimen lämpötilaero: 
+                        td
+                            input.shortInput(type="text",value="10")
+                        td °C
+                    tr
+                        td Höyrystimen lämpötilaero: 
+                        td
+                            input.shortInput(type="text",value="5")
+                        td °C
+                    tr
+                        td Häviökerroin: 
+                        td
+                            input.shortInput(type="text",value="0,5")
+                        td 
