@@ -34,10 +34,6 @@ html
                 center="center",
                 restricted-extent="bounds",
                 style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;")
-            #osoitin.pointer-popup Pihlajatie 3 B, 02770 Espoo
-                .pointerarrow
-            #valitse.pointer-popup Löytyi useita, valitse oikea rakennus:
-                .pointerarrow
             .solarlegend
                 h3 Aurinkoenergian määrä
                 .right Paljon
@@ -65,12 +61,13 @@ html
                         |jamäki, Helsinki
                 input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open, extended: extended}")
+            p.header Energialaskelma
+            h1 Pihlajatie 3 B
+                span BETA
             a.back(href="#") Takaisin hakuun
             .actioncontainer
                 .actionbutton Lähetä tarjouspyyntö
                 .actionbutton Hae toimenpidelupaa
-            h1 Energialaskelma
-                span BETA
             #savingsSum.col1.boxed 
                 .positioncontainer
                     h2 Säästöt keskimäärin 

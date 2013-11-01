@@ -99,6 +99,7 @@ angular
                     null,
                     location,
                     new OpenLayers.Size(150,30),
+                    
                     "<p class='popup-text'>" + building.address + "</p>"
                 )
             ];

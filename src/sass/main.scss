@@ -7,7 +7,6 @@ $gutter-width: 1em;
 $main-padding-width: 2.4em;
 $panelWidth: ($total-columns * ($column-width + $gutter-width)) + $gutter-width + $main-padding-width;
 $contentTextColor: #4e92cb;
-$uiTextColor: #474747;
 $uiTextColor: #595959;
 $borderColorDark: #bebebe;
 $borderColorMedium: #d7d7d7;
@@ -28,12 +27,12 @@ $geoTermColor2: #e1c04f;
 $geoTermColor3: #b5962c;
 
 body {
-    font: 0.8em Helvetica Neue, Helvetica, Arial, sans-serif;
+    font: 0.8em "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: $uiTextColor;
 
     h1 {
             margin-top: 1.6em;
             font-size: 1.9em;
-            color: $uiTextColor;
             span {
                 font-size: 0.4em;
                 padding-left: 0.8em;
@@ -49,6 +48,9 @@ body {
         @include transition-property(right);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
+        path {
+            cursor: pointer;
+        }
         .solarlegend {
             background-color: $bgColorLight;
             @include border-radius(4px);
@@ -58,7 +60,6 @@ body {
             left: 5em;
             top: 5em;
             padding: 1em;
-            color: $uiTextColor;
             h3 {
                 padding: 0;
                 margin: 0;
@@ -80,29 +81,6 @@ body {
                 @include background-image(linear-gradient(left, #000, #ffff0b));
                 height: 1em;
                 width: 100%; 
-                }
-            }
-        #valitse {
-            right: 35em;
-        }
-        #osoitin {
-            right: 15em; 
-        }
-        .pointer-popup {
-            background-color: #fff;
-            @include border-radius(4px);
-            @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.3));
-            position: absolute;
-            bottom: 5em;
-            padding: 1em 1.6em;
-            color: $uiTextColor;
-            .pointerarrow {
-                background: transparent url('/images/popup_downarrow.png') no-repeat;
-                width: 16px;
-                height: 16px;
-                position: absolute;
-                bottom: -15px;
-                right: 50%;
                 }
             }
         .address-form {
@@ -138,7 +116,6 @@ body {
                 font-size: 1em;
                 height: 3.4em;
                 width: 36em;
-                color: $uiTextColor;
                 @include border-radius(3px);
                 border: 1px solid #cecece;
                 @include box-shadow(inset 2px 2px 2px #eee);
@@ -167,7 +144,6 @@ body {
                         background-color: $bgColorHighlight;
                     }
                 }
-                
                 span {
                     font-weight: bold;
                 }
@@ -183,13 +159,23 @@ body {
         }
 
         .olPopup {
+            background: transparent url('/images/popup_downarrow.png') bottom no-repeat;
             background-color: transparent !important;
-            @include box-shadow(black 0px 5px 20px);
-            width: auto !important;
-            height: auto !important;
-        }
-        .olPopupContent {
-            padding: 0px;
+            padding: 0 0 0px 0;
+            width: 15em;
+            margin-top: -5em;
+            margin-left: -7.5em;
+            .olPopupContent {
+                margin: 0;
+                padding: 0;
+                .popup-text {
+                    background-color: #fff;
+                    @include border-radius(4px);
+                    @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.3));
+                    padding: 1em 1.6em;
+                    margin: 0;
+                }
+            }
         }
     }
     & > .constants {
@@ -221,6 +207,15 @@ body {
         @include transition-property(width, right);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
+        p.header {
+            padding: 0;
+            margin: 2em 0 0.2em 1.46em;
+            }
+        h1 {
+            font-size: 1.3em;
+            padding: 0;
+            margin: 0 0 1em 1.1em;
+            }
         .footer {
             background-color: $bgColorDark;
             border-top: 1px solid $borderColorDark;
@@ -235,16 +230,21 @@ body {
             }
         }
         a.back {
-            float: right;
-            margin: 1.7em 0.9em 0 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 1.5em 3.2em 0 0;
             font-weight: bold;
             text-decoration: none;
             color: #3dabfb;
             }
         .actioncontainer {
-            float: right;
-            clear: both;
-            margin: 0.7em 0 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            //float: right;
+            //clear: both;
+            margin: 3.2em 2.4em 0 0;
             }
         .actionbutton {
             background-color: #7ac2fa;
@@ -274,7 +274,6 @@ body {
                 height: 20px;
                 display: inline-block;
                 .infopopup {
-                    color: $uiTextColor;
                     display: none;
                     position: absolute;
                     background-color: #fff;
@@ -304,7 +303,6 @@ body {
             h2 {
                 position: absolute;
                 font-size: 1.2em;
-                color: $uiTextColor;  
                 top: 0.6em;
                 left: 3.2em;
                 padding: 0;
@@ -366,7 +364,6 @@ body {
     margin-bottom: 1em;
     box-shadow: 2px 2px 2px #fff;
     background-color: #fff;
-    color: $uiTextColor;
     @include with-grid-settings(4, 25%, 0%, 0%) {
         .graphgrid {
              @include border-box-sizing;                                
@@ -620,7 +617,6 @@ body {
         @include border-bottom-left-radius (4px);
         @include border-bottom-right-radius (4px);
         padding: 1.6em;
-        color: $uiTextColor;
     .highlight {
         font-weight: bold;
         color: $contentTextColor;
@@ -644,14 +640,12 @@ body {
             }
         input {
             height: 1.9em;
-            color: $uiTextColor;
             @include border-radius(3px);
             border: 1px solid #ccc;
             background: #fff;
             }
         .dropdown {
             overflow:hidden;
-            color: $uiTextColor;
             padding:0; 
             margin:0; 
             width:11.3em;
@@ -718,7 +712,6 @@ body {
             background: #f5f9fd url('/images/box_top.png') top repeat-x;
             font-size: 0.8em;
             text-align: center;
-            color: $uiTextColor;
             padding: 0;
             margin: 0;
             position: relative;
@@ -764,7 +757,6 @@ body {
             bottom: 0;
             right: 0;
             left: 0;
-            color: $uiTextColor;
             font-size: 0.9em;
             box-shadow: 0 0 0 transparent;
             background-image: none;
@@ -804,18 +796,7 @@ p.effectsSum {
     color: $contentTextColor;
     }
 
-.popup-text {
-    @include background-image(linear-gradient(#749560, #688356));
-    @include border-radius(3px);
-    @include text-shadow(rgba(black, 0.7) 0px 0px 10px);
 
-    padding: 10px 20px;
-    margin: 0px;
-    font-size: 20px;
-    font-family: arial, sans-serif;
-    border: 1px solid #5A7147;
-    color: white;
-}
 
 .graph {
     .layer.bought {
