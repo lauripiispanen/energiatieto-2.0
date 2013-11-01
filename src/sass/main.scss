@@ -119,25 +119,29 @@ body {
                 @include border-radius(3px);
                 border: 1px solid #cecece;
                 @include box-shadow(inset 2px 2px 2px #eee);
-                padding-left: 1.2em;
+                padding-left: 1.6em;
+                outline: none;
                 }
             .flyout {
-                background: #fff url('/images/search.png') top right no-repeat;
-                @include border-radius(3px);
+                //background: #fff url('/images/search.png') top right no-repeat;
+                //@include border-radius(3px);
+                background-color: #fff;
+                @include border-bottom-left-radius (3px);
+                @include border-bottom-right-radius (3px);
                 border: 1px solid #cecece;
-                @include box-shadow(inset 2px 2px 2px #eee);
+                border-top: 0;
+                @include box-shadow(inset 2px 0px 2px #eee);
                 position: absolute;
-                top: 13.3em;
+                top: 16.7em;
                 left: 3em;
                 width: 35.3em;
                 padding: 0 1em 1em 1em;
                 margin-right: 7.4em;
                 list-style-type: none;
                 li {
-                    padding: 1.2em;
-                    border-bottom: 1px solid #cecece;
+                    padding: 1.2em 1.2em 1.2em 0.6em;
+                    border-top: 1px solid #cecece;
                     &:last-child {
-                        border-bottom: 0;
                         padding-bottom: 0;
                         }
                     &.focus {
