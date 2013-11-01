@@ -47,7 +47,7 @@ html
                         span(address-match="item",input="{{addressInput}}")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open, extended: extended}")
             p.header Energialaskelma
-            h1 Pihlajatie 3 B
+            h1 {{building.address}}
                 span BETA
             a.back(href="#",ng-click="reset()") Takaisin hakuun
             .actioncontainer
