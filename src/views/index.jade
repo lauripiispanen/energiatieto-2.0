@@ -186,7 +186,7 @@ html
                         span.toggle_solarelectricity_on(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-show="building.photoVoltaic.active")
                             span Mukana laskelmassa
                         span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
-                            span Ei mukana laskelmassa
+                            span Ei laskelmassa
                     .controls Järjestelmän koko
                         span.slideramount {{building.photoVoltaic.size}} m
                             sup 2
@@ -215,7 +215,7 @@ html
                         span.toggle_solarheat_on(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-show="building.thermalPanel.active")
                             span Mukana laskelmassa
                         span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
-                            span Ei mukana laskelmassa
+                            span Ei laskelmassa
                     .controls Järjestelmän koko 
                         span.slideramount{{building.thermalPanel.size}} m
                             sup 2
@@ -244,7 +244,7 @@ html
                         span.toggle_geoterm_on(ng-click="building.borehole.active = !building.borehole.active", ng-show="building.borehole.active")
                             span Mukana laskelmassa
                         span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
-                            span Ei mukana laskelmassa
+                            span Ei laskelmassa
                     .controls Käytetystä lämmöstä tuotettava osuus
                         span.slideramount {{building.borehole.depthPercentage}} %
                         slider.geoterm(floor="0",ceiling="100",step="1",precision="0",ng-model="building.borehole.depthPercentage")
