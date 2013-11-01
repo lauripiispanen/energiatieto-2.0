@@ -163,8 +163,6 @@ body {
                 outline: none;
                 }
             .flyout {
-                //background: #fff url('/images/search.png') top right no-repeat;
-                //@include border-radius(3px);
                 background-color: #fff;
                 @include border-bottom-left-radius (3px);
                 @include border-bottom-right-radius (3px);
@@ -234,7 +232,6 @@ body {
         bottom: 0px;
         @include transition-property(width);
         @include transition-duration(0.5s);
-
         &.open {
             width: $panelWidth * 0.5;
         }
@@ -264,11 +261,6 @@ body {
             padding: 0;
             margin: 0 0 1em 1.1em;
             }
-        .footer {
-            background-color: $bgColorDark;
-            border-top: 1px solid $borderColorDark;
-            clear: both;
-            }
         &.open {
             width: $panelWidth; 
             padding-right: $main-padding-width;
@@ -290,8 +282,6 @@ body {
             position: absolute;
             right: 0;
             top: 0;
-            //float: right;
-            //clear: both;
             margin: 3.2em 2.4em 0 0;
             }
         .actionbutton {
@@ -331,8 +321,7 @@ body {
                     padding: 1.6em;
                     left: 0;
                     bottom: 3.1em;
-                    //box-shadow: 2px 2px 2px $shadowColor;
-                    //Miksi ei toimi?
+                    box-shadow: 2px 2px 2px $shadowColor;
                     .downarrow {
                         background: transparent url('/images/down_arrow.png') no-repeat;
                         width: 16px;
@@ -401,8 +390,14 @@ body {
         .col6 {
             @include span-columns(4 omega,8);
         }
-        
-
+        .footer {
+            @include span-columns(8 omega,8);
+            background: $bgColorDark url('/images/espoo_logo.png') left no-repeat;
+            border-top: 1px solid $borderColorDark;
+            height: 5em;
+            padding: 1em 0 0 10em;
+            font-size: 0.9em;
+        }
     }
 }
 
@@ -549,6 +544,45 @@ body {
                 h3 {
                     font-size: 0.9em;
                     padding: 0.4em 0 0 1em;
+                    }
+                /*div {
+                    font-size: 0.8em;
+                    display: inline-block;
+                    margin: 1em 0 0 1em;
+                    .future {
+                        color: #3281be;
+                    }
+                    .current {
+                        color: #2a8c42;
+                    }
+                }*/
+                .key {
+                        font-size: 0.9em;
+                        margin-top: 1em 1em 0 0;
+                        width: 40%;
+                        float: left;
+                        padding-left: 1em;
+                        div {
+                            margin-top: 0.3em;
+                            width: 7px;
+                            height: 7px;
+                            float: left;
+                            margin-right: 1em;
+                            }
+                        .future {
+                                background-color: #3281be;
+                                border: 1px solid #3281be;
+                            }
+                        .current {
+                                background-color: #2a8c42;
+                                border: 1px solid #2a8c42;
+                            }
+                        }   
+                & div svg path.future {
+                        stroke: #3281be;
+                    }
+                & div svg path.current {
+                        stroke: #2a8c42;
                     }
                 }
             }

@@ -40,7 +40,7 @@ html
                 h1 Tervetuloa Energiatietopalveluun!
                     span BETA
                 p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla käyttöön aurinkoenergiaa ja maalämpöä.
-                label Osoite (toimii Espoon alueella):
+                label Osoite (Espoon alueella):
                 input.addressInput(ng-model="addressInput",ng-keydown="keyDown")
                 ul.flyout(ng-show="addressChoices.length > 0")
                     li(ng-repeat="item in addressChoices", ng-click="selectItem(item)",ng-class="{focus: hasFocus(item)}")
@@ -125,6 +125,10 @@ html
                         h3 Kokonaiskustannukset
                         .payback-graph(d3-payback-graph,ng-model="systemCostSeries",layer-classes="systemCostClasses")
                             svg(style='height: 240px; width: 200px;')
+                        .key Nykyinen
+                            .current
+                        .key Tuleva
+                            .future
             .col7.boxed
                 .headerbar
                     .info
@@ -264,8 +268,8 @@ html
                         .payback Takaisinmaksuaika
                             p 7 v
             .footer
-                p footerteksti
-        .constants(ng-controller="constantsController",ng-class="{open: open}")
+                p Kaupunkisuunnittelukeskus, Espoon kaupunki
+        .constants(ng-controller="constantsController",ng-class="{open: open}",ng-show="open")
             .closebutton(ng-click="close()",ng-show="open") Sulje
             .table
                 h3 Rakennuskohtaiset tiedot
@@ -475,4 +479,4 @@ html
                         td Häviökerroin: 
                         td
                             input.shortInput(type="text",value="0,5")
-                        td 
+                        td
