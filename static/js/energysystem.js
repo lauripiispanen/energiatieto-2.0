@@ -4,9 +4,10 @@ angular
         var constants = new Constants();
         constants.borehole = {
             activeDepth : 200,
-            powerDimensioning : 75
+            powerDimensioning : 100,
+            estimatedPowerPerMeter: 30
         }
-        return new Constants();
+        return constants;
     }])
     .factory("profiles", [function() {
         return {
@@ -49,6 +50,7 @@ angular
     }])
     .factory("energysystem", ["profiles", "constants", function(profiles, constants) {
         function EnergySystem() {
+            var self = this;
             var arrayWith = function(val, num) {
                 return _.map(_.range(num), function() { return val; });
             };
@@ -118,6 +120,20 @@ angular
                 });
             };
 
+            var valuesFor = function(calculatedProfile) {
+                return {
+                    total: self.monthly(calculatedProfile),
+                    averages: self.monthlyAverages(calculatedProfile, constants)
+                };
+            };
+
+            this.calculateHeatingConsumption = function(system) {
+                return {
+                    water: valuesFor(profiles.SystemHotWaterHeatingEnergyConsumption(system, constants)),
+                    space: valuesFor(profiles.SystemSpaceHeatingEnergyConsumption(system, constants))
+                }
+            };
+
             this.calculate = function(options, callback) {
                 function sum(prodSum, monthlyTotal){
                   return prodSum + monthlyTotal;
@@ -129,14 +145,6 @@ angular
                             building: options.buildings,
                             solarInstallation: options.solarpanelproducers,
                             borehole: options.geothermalwellproducers
-                        };
-                        var self = this;
-                        var valuesFor = function(calculatedProfile) {
-
-                            return {
-                                total: self.monthly(calculatedProfile),
-                                averages: self.monthlyAverages(calculatedProfile, constants)
-                            };
                         };
 
                         var pivot = function(obj) {
@@ -185,10 +193,7 @@ angular
                                     return valuesFor(profiles.SolarHotWaterHeatingEnergyProductionProfile(it, constants));
                                 })
                             },
-                            heatingConsumption: pivot({
-                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyConsumption(system, constants)),
-                                space: valuesFor(profiles.SystemSpaceHeatingEnergyConsumption(system, constants))
-                            }),
+                            heatingConsumption: pivot(self.calculateHeatingConsumption(system)),
                             electricityConsumption: systemElectricityConsumption,
                             heatingProduction: pivot({
                                 water: systemHotWaterHeatingEnergyProduction,

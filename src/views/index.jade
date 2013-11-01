@@ -261,8 +261,8 @@ html
                         span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
                             span Ei mukana laskelmassa
                     .controls Käytetystä lämmöstä tuotettava osuus
-                        span.slideramount %
-                        slider.geoterm(floor="0",ceiling="100",step="1",precision="0")
+                        span.slideramount {{building.borehole.depthPercentage}} %
+                        slider.geoterm(floor="0",ceiling="100",step="1",precision="0",ng-model="building.borehole.depthPercentage")
                         .suggestiondash
                             .suggestionpointer
                         .suggestion Ehdotus

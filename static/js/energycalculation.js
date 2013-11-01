@@ -69,6 +69,8 @@ angular
             }
 
             if (building.borehole && building.borehole.active) {
+                var maxRequiredBoreholeDepth = calculateMaxRequiredBoreholeDepth(building);
+                building.borehole.activeDepth = (parseInt(building.borehole.depthPercentage, 10) / 100) * maxRequiredBoreholeDepth;
                 boreholes.push(building.borehole);
             }
 
@@ -97,6 +99,22 @@ angular
             $scope.extended = (message === formActivationChannel.messages.extend);
         });
 
+        function calculateMaxRequiredBoreholeDepth(building) {
+            var heatingConsumption = system.calculateHeatingConsumption({
+                building: [ building ]
+            });
+            var maxRequiredHeatingInKilowatts =
+                _
+                .chain(heatingConsumption.space.averages)
+                .flatten()
+                .zip(_.flatten(heatingConsumption.water.averages))
+                .map(function(it) { return it[0] + it[1]; })
+                .max()
+                .value() * 1000;
+
+            return maxRequiredHeatingInKilowatts / constants.borehole.estimatedPowerPerMeter;
+        }
+
         function buildingSelected(building) {
             building.borehole = new Borehole();
             _.extend(building.borehole, constants.borehole);
@@ -114,6 +132,7 @@ angular
                 active: true,
                 size: $scope.recommendedPhotoVoltaicPanelSize
             }
+            building.borehole.depthPercentage = 0;
 
             updateRecommendedPanelPercentages($scope);
 
