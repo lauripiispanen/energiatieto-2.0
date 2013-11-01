@@ -84,34 +84,55 @@ angular
                 if (building.solar) {
                     $scope.freePhotoVoltaicRoofSize = parseInt(building.solar.RoofArea) - panel.thermalArea;
                     $scope.freeThermalRoofSize = parseInt(building.solar.RoofArea) - panel.photovoltaicArea;
+
+                    updateRecommendedPanelPercentages($scope);
                 }
             });
         }, true);
 
-        buildingSelectionChannel.onSelectBuilding($scope, function(building) {
-            building.borehole = new Borehole();
-            _.extend(building.borehole, constants.borehole);
-            
-            building.thermalPanel = {
-                active: true,
-                size: Math.round(building.numberOfInhabitants * 2)
-            }
-
-            building.photoVoltaic = {
-                active: true,
-                size: Math.round(building.solar ? building.solar.RoofGoodArea - building.thermalPanel.size : 0)
-            }
-
-            formActivationChannel.changeState(formActivationChannel.messages.activate);
-            $scope.$apply(function() {
-                $scope.building = building;
-            });
-        });
+        buildingSelectionChannel.onSelectBuilding($scope, buildingSelected);
 
         formActivationChannel.onStateChange($scope, function(message) {
             $scope.open = (message != formActivationChannel.messages.deactivate);
             $scope.extended = (message === formActivationChannel.messages.extend);
         });
+
+        function buildingSelected(building) {
+            building.borehole = new Borehole();
+            _.extend(building.borehole, constants.borehole);
+
+            $scope.recommendedThermalPanelSize = Math.round(building.numberOfInhabitants * 2);
+            
+            building.thermalPanel = {
+                active: true,
+                size: $scope.recommendedThermalPanelSize
+            }
+
+            $scope.recommendedPhotoVoltaicPanelSize = Math.round(building.solar ? building.solar.RoofGoodArea - building.thermalPanel.size : 0);
+
+            building.photoVoltaic = {
+                active: true,
+                size: $scope.recommendedPhotoVoltaicPanelSize
+            }
+
+            updateRecommendedPanelPercentages($scope);
+
+            formActivationChannel.changeState(formActivationChannel.messages.activate);
+            $scope.$apply(function() {
+                $scope.building = building;
+            });
+        }
+
+        function updateRecommendedPanelPercentages($scope) {
+            $scope.recommendedPhotoVoltaicPanelPercentage = ($scope.recommendedPhotoVoltaicPanelSize / $scope.freePhotoVoltaicRoofSize);
+            if ($scope.recommendedPhotoVoltaicPanelPercentage > 1) {
+                $scope.recommendedPhotoVoltaicPanelPercentage = 1;
+            }
+            $scope.recommendedThermalPanelPercentage = ($scope.recommendedThermalPanelSize / $scope.freeThermalRoofSize);
+            if ($scope.recommendedThermalPanelPercentage > 1) {
+                $scope.recommendedThermalPanelPercentage = 1;
+            }
+        }
     }])
     .service("graph-generator", [function() {
         function wrap(it, index) {

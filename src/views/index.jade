@@ -209,7 +209,7 @@ html
                         span.slideramount {{building.photoVoltaic.size}} m
                             sup 2
                         slider.solarelectricity(floor="0",ceiling="{{freePhotoVoltaicRoofSize}}",step="1",precision="0",ng-model="building.photoVoltaic.size")
-                        .suggestiondash
+                        .suggestiondash(ng-style="{width: (recommendedPhotoVoltaicPanelPercentage * 70) + '%'}")
                             .suggestionpointer
                         .suggestion Ehdotus
                     .effects
@@ -238,7 +238,7 @@ html
                         span.slideramount{{building.thermalPanel.size}} m
                             sup 2
                         slider.solarheat(floor="0",ceiling="{{freeThermalRoofSize}}",step="1",precision="0",ng-model="building.thermalPanel.size")
-                        .suggestiondash
+                        .suggestiondash(ng-style="{width: (recommendedThermalPanelPercentage * 70) + '%'}")
                             .suggestionpointer
                         .suggestion Ehdotus
                     .effects

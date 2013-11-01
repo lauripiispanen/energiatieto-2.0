@@ -89,7 +89,7 @@ angular
             $scope.small = (message === formActivationChannel.messages.extend);
             $timeout(function() {
                 $scope.$broadcast("_RESIZE_");
-            }, 300);
+            }, 500);
         });
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
