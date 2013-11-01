@@ -77,7 +77,7 @@ html
                             div 
                                 h2 Sähkö
                                 .top-caption Oma tuotanto
-                                .electricity-graph(n3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
+                                .electricity-graph(d3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
                                     svg(style='height: 120px; width: 290px;')
                                         .months
                                             .month 1
@@ -95,7 +95,7 @@ html
                                 .bottom-caption Ostettava energia
                             div.divider 
                                 h2 Lämpöenergia
-                                .heating-graph(n3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
+                                .heating-graph(d3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
                                     svg(style='height:120px; width: 290px;')
                                         .months
                                             .month 1
@@ -123,7 +123,8 @@ html
                         .disclaimer Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
                     .smallgraphs
                         h3 Kokonaiskustannukset
-                        h3 Energialuokka
+                        .payback-graph(d3-payback-graph,ng-model="systemCostSeries",layer-classes="systemCostClasses")
+                            svg(style='height: 240px; width: 200px;')
             .col7.boxed
                 .headerbar
                     .info

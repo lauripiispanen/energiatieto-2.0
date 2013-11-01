@@ -78,7 +78,58 @@ angular
             }
         };
     }])
-    .directive('n3Graph', [function() {
+    .directive('d3PaybackGraph',[function() {
+        return {
+            scope: {
+                "model": "=ngModel",
+                "layerClasses": "="
+            },
+            link: function($scope, iElement, iAttrs, controller) {
+                var height = 240,
+                    width  = 200,
+                    left   = 10,
+                    top    = 10,
+                    svg = d3.select(iElement[0]).select("svg"),
+                    identity = function(d) { return d; };
+
+                $scope.$watch("model", function(newValue, oldValue) {
+                    if (newValue.length < 1) {
+                        return;
+                    }
+                    var xMax = d3.max(newValue, function(it) { return it.length; }),
+                        xMin = 0,
+                        yMin = 0,
+                        yMax = d3.max(newValue, function(it) { return d3.max(it, identity); }),
+                        layerSelection = svg.selectAll("path").data(newValue),
+                        x = d3.scale.linear().domain([0, xMax]).range([left, width]),
+                        y = d3.scale.linear().domain([yMax, 0]).range([top, height]),
+                        line = d3.svg.line()
+                                    .interpolate("basis")
+                                    .x(function(d, i) { return x(i); })
+                                    .y(y);
+
+                    layerSelection
+                        .enter()
+                        .append("path")
+                        .attr("class", function(d, i) { if ($scope.layerClasses) {
+                                return $scope.layerClasses[i];
+                            } else {
+                                return "";
+                            }
+                        });
+
+                    layerSelection
+                        .attr("d", line);
+
+                    layerSelection
+                        .exit()
+                        .remove();
+
+                }, true);
+            }
+        }
+    }])
+    .directive('d3Graph', [function() {
         return {
             scope: {
                 "model": "=ngModel",

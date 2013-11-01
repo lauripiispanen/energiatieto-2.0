@@ -2,7 +2,8 @@ angular
     .module("energiatieto-sidepanel", [
         "uiSlider",
         "pubsub", 
-        "energiatieto-energysystem"
+        "energiatieto-energysystem",
+        "angular-openlayers"
     ])
     .controller(
         "energyCalculationController", 
@@ -30,12 +31,14 @@ angular
 
         $scope.electricityLayerClasses = ['solar-electricity','bought'];
         $scope.heatingLayerClasses = ['solar-heating','geothermal','residue','bought'];
+        $scope.systemCostClasses = ['future', 'current'];
         $scope.showConstants = function() {
             formActivationChannel.changeState(formActivationChannel.messages.extend);
         }
 
         $scope.electricitySeries = [];
         $scope.heatingSeries = [];
+        $scope.systemCostSeries = [];
 
         $scope.heatingOptions = heatingOptions;
 
@@ -84,6 +87,7 @@ angular
                 $scope.calculationResult = result;
                 $scope.electricitySeries = graphGenerator.generateElectricityGraph(result, building);
                 $scope.heatingSeries = graphGenerator.generateHeatingGraph(result);
+                $scope.systemCostSeries = graphGenerator.generateSystemCostGraph(result.systemCost);
 
                 if (building.solar) {
                     $scope.freePhotoVoltaicRoofSize = parseInt(building.solar.RoofArea) - panel.thermalArea;
@@ -159,7 +163,6 @@ angular
         }
 
         $scope.reset = function() {
-            console.log("reset!");
             formActivationChannel.changeState(formActivationChannel.messages.deactivate);
         }
     }])
@@ -194,6 +197,13 @@ angular
                     }
 
                 })
+            ];
+        };
+
+        this.generateSystemCostGraph = function(systemCost) {
+            return [
+                _.pluck(systemCost.comparisonCost, "cost"),
+                _.pluck(systemCost.totalSystemCost, "cost")
             ];
         };
 

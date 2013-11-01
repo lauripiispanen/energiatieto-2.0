@@ -512,6 +512,20 @@ body {
                     }
                 }
             }
+            .payback-graph {
+                path {
+                    fill: transparent;
+                    stroke-dasharray: 5px, 5px;
+                    stroke-width: 2px;
+
+                    &.current {
+                        stroke: blue;
+                    }
+                    &.future {
+                        stroke: red;
+                    }
+                }
+            }
         }
     }
 
