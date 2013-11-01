@@ -74,6 +74,8 @@ angular
                 boreholes.push(building.borehole);
             }
 
+            building.nominalElectricityConsumption = building.electricityConsumption / building.floorArea; // kWh
+
             system.calculate({
                 buildings: [ building ],
                 solarpanelproducers: [ panel ],
@@ -133,6 +135,9 @@ angular
                 size: $scope.recommendedPhotoVoltaicPanelSize
             }
             building.borehole.depthPercentage = 0;
+
+            building.electricityConsumption = building.nominalElectricityConsumption * building.floorArea; // kWh
+            building.electricityConsumptionEstimated = true;
 
             updateRecommendedPanelPercentages($scope);
 
