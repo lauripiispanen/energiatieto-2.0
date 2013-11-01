@@ -157,6 +157,11 @@ angular
                 $scope.recommendedThermalPanelPercentage = 1;
             }
         }
+
+        $scope.reset = function() {
+            console.log("reset!");
+            formActivationChannel.changeState(formActivationChannel.messages.deactivate);
+        }
     }])
     .service("graph-generator", [function() {
         function wrap(it, index) {

@@ -5,7 +5,8 @@ angular
         "buildingSelectionChannel",
         "buildingChoiceChannel",
         "formActivationChannel",
-    function($scope, buildingSelectionChannel, buildingChoiceChannel, formActivationChannel) {
+        "$timeout",
+    function($scope, buildingSelectionChannel, buildingChoiceChannel, formActivationChannel, $timeout) {
         var src = new proj4.Proj("EPSG:4326");
         var dst = new proj4.Proj("EPSG:3857");
 
@@ -23,6 +24,13 @@ angular
         });
         formActivationChannel.onStateChange($scope, function(state) {
             $scope.hidden = (state != formActivationChannel.messages.deactivate);
+            if (state === formActivationChannel.messages.deactivate) {
+                $scope.addressInput = "";
+                $timeout(function() {
+                    $(".addressInput").focus();
+                }, 100);
+
+            }
         });
 
         $(".addressInput").focus();
