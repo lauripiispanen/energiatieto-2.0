@@ -22,7 +22,7 @@ angular
             $scope.hidden = true;
         });
         formActivationChannel.onStateChange($scope, function(state) {
-            $scope.hidden = state;
+            $scope.hidden = (state != formActivationChannel.messages.deactivate);
         });
 
 

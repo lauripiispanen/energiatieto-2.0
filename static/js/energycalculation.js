@@ -30,6 +30,9 @@ angular
 
         $scope.electricityLayerClasses = ['solar-electricity','bought'];
         $scope.heatingLayerClasses = ['solar-heating','geothermal','residue','bought'];
+        $scope.showConstants = function() {
+            formActivationChannel.changeState(formActivationChannel.messages.extend);
+        }
 
         $scope.electricitySeries = [];
         $scope.heatingSeries = [];
@@ -99,14 +102,15 @@ angular
                 size: Math.round(building.solar ? building.solar.RoofGoodArea - building.thermalPanel.size : 0)
             }
 
-            formActivationChannel.activate();
+            formActivationChannel.changeState(formActivationChannel.messages.activate);
             $scope.$apply(function() {
                 $scope.building = building;
             });
         });
 
-        formActivationChannel.onStateChange($scope, function(active) {
-            $scope.open = active;
+        formActivationChannel.onStateChange($scope, function(message) {
+            $scope.open = (message != formActivationChannel.messages.deactivate);
+            $scope.extended = (message === formActivationChannel.messages.extend);
         });
     }])
     .service("graph-generator", [function() {

@@ -176,7 +176,10 @@ body {
             }
 
         &.reduced {
-            right: $panelWidth; 
+            right: $panelWidth;
+            &.small {
+                right: $panelWidth * 1.5;
+            } 
         }
 
         .olPopup {
@@ -189,6 +192,20 @@ body {
             padding: 0px;
         }
     }
+    & > .constants {
+        position: absolute;
+        top: 0px;
+        right: 0px;        
+        width: 0px;
+        bottom: 0px;
+        @include transition-property(width);
+        @include transition-duration(0.5s);
+
+        &.open {
+            width: $panelWidth * 0.5;
+        }
+
+    }
     
     & > .calculations {
         @include container;
@@ -199,9 +216,9 @@ body {
         bottom: 0px;
         background: #fbfafa repeat-x top url('/images/top.png'); 
         width: 0px;
-        padding-right: $main-padding-width;
-        padding-left: $main-padding-width;
-        @include transition-property(width);
+        padding-right: 0px;
+        padding-left: 0px;
+        @include transition-property(width, right);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
         .footer {
@@ -211,6 +228,11 @@ body {
             }
         &.open {
             width: $panelWidth; 
+            padding-right: $main-padding-width;
+            padding-left: $main-padding-width;
+            &.extended {
+                right: $panelWidth * 0.5;
+            }
         }
         a.back {
             float: right;

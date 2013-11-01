@@ -84,8 +84,12 @@ angular
         $scope.popups = [];
         $scope.controls = [new OpenLayers.Control.Navigation(), new OpenLayers.Control.SelectFeature(vectorFeatureLayer)];
 
-        formActivationChannel.onStateChange($scope, function(active) {
-            $scope.reduced = active;            
+        formActivationChannel.onStateChange($scope, function(message) {
+            $scope.reduced = (message != formActivationChannel.messages.deactivate);
+            $scope.small = (message === formActivationChannel.messages.extend);
+            $timeout(function() {
+                $scope.$broadcast("_RESIZE_");
+            }, 300);
         });
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
@@ -100,7 +104,6 @@ angular
             ];
             $timeout(function() {
                 $scope.layers = both;
-                $scope.$broadcast("_RESIZE_");
                 $scope.center = location;
                 $timeout(function() {
                     $scope.zoom = 18;

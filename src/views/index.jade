@@ -21,9 +21,10 @@ html
         script(type="text/javascript",src="/js/energysystem.js")
         script(type="text/javascript",src="/js/energycalculation.js")
         script(type="text/javascript",src="/js/pubsub.js")
+        script(type="text/javascript",src="/js/constants.js")
         script(type="text/javascript",src="/js/application.js")
     body
-        .map(ng-controller="mapController",ng-class="{reduced: reduced}")
+        .map(ng-controller="mapController",ng-class="{reduced: reduced, small: small}")
             div(openlayers,
                 controls="controls",
                 popups="popups",
@@ -63,7 +64,7 @@ html
                             |Pihla
                         |jamäki, Helsinki
                 input(ui-select2="select2Options",data-placeholder="Syötä osoite",ng-model="address")
-        .calculations(ng-controller="energyCalculationController",ng-class="{open: open}")
+        .calculations(ng-controller="energyCalculationController",ng-class="{open: open, extended: extended}")
             a.back(href="#") Takaisin hakuun
             .actioncontainer
                 .actionbutton Lähetä tarjouspyyntö
@@ -192,7 +193,7 @@ html
                             td
                     .effects
                         .positioncontainer
-                            .infobutton Laskelman tiedot
+                            .infobutton(ng-click="showConstants()") Laskelman tiedot
             .col6
                 .boxed(ng-class="{disabled: !building.photoVoltaic.active}")
                     .headerbar
@@ -213,7 +214,7 @@ html
                         .suggestion Ehdotus
                     .effects
                         .positioncontainer
-                            .infobutton Laskelman tiedot
+                            .infobutton(ng-click="showConstants()") Laskelman tiedot
                         .savings Säästöt
                             p 100 €/kk
                         .production Energiantuotanto
@@ -242,7 +243,7 @@ html
                         .suggestion Ehdotus
                     .effects
                         .positioncontainer
-                            .infobutton Laskelman tiedot
+                            .infobutton(ng-click="showConstants()") Laskelman tiedot
                         .savings Säästöt
                             p 100 €/kk
                         .production Energiantuotanto
@@ -270,7 +271,7 @@ html
                         .suggestion Ehdotus
                     .effects
                         .positioncontainer
-                            .infobutton Laskelman tiedot   
+                            .infobutton(ng-click="showConstants()") Laskelman tiedot   
                         .savings Säästöt
                             p 100 €/kk
                         .production Energiantuotanto
@@ -281,3 +282,6 @@ html
                             p 7 v
             .footer
                 p footerteksti
+        .constants(ng-controller="constantsController",ng-class="{open: open}")
+            h1 Constants here
+            p(ng-click="close()") Close
