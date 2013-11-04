@@ -55,8 +55,8 @@ html
                     span BETA
                 a.back(href="#",ng-click="reset()",ng-show="open") Takaisin hakuun
                 .actioncontainer(ng-show="open")
-                    .actionbutton Lähetä tarjouspyyntö
-                    .actionbutton Hae toimenpidelupaa
+                    a(href="http://energiatieto.herokuapp.com/toimittajavalinta_lomake.pdf",target="_blank").actionbutton Lähetä tarjouspyyntö
+                    a(href="https://easiointi.espoo.fi/ePermit/",target="_blank").actionbutton Hae toimenpidelupaa
                 #savingsSum.col1.boxed 
                     .positioncontainer
                         h2 Säästöt keskimäärin 
