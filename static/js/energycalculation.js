@@ -48,7 +48,7 @@ angular
 
 
         $scope.$watch("building", function(building) {
-            if (!building) {
+            if (!building || !building.floorArea) {
                 return;
             }
             var panel = new SolarInstallation(),
