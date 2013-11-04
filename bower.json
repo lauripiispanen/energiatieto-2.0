@@ -9,7 +9,7 @@
     "tests"
   ],
   "dependencies": {
-    "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#b081af783545d273434cdc30341a8328bb5379b4",
+    "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#01ffee0254b4545a76f8bf8b976f146039d614f7",
     "d3": "~3.3.8",
     "angular-slider": "~0.1.6",
     "angular": "~1.2.0-rc.3",
