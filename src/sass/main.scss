@@ -80,7 +80,7 @@ body {
         }
 
     & > .map {
-        position: absolute;
+        position: fixed;
         top: 0px;
         left: 0px;
         right: 0px; 
@@ -200,7 +200,7 @@ body {
         &.reduced {
             right: $panelWidth;
             &.small {
-                right: $panelWidth * 1.5;
+                right: $panelWidth * 1.5 + ($main-padding-width * 2);
             } 
         }
 
@@ -229,7 +229,6 @@ body {
         top: 0px;
         right: 0px;        
         width: 0px;
-        bottom: 0px;
         @include transition-property(width);
         @include transition-duration(0.5s);
         &.open {
@@ -244,11 +243,11 @@ body {
         position: absolute;
         top: 0px; 
         right: 0px;
-        bottom: 0px;
         background: #fbfafa repeat-x top url('/images/top.png'); 
         width: 0px;
         padding-right: 0px;
         padding-left: 0px;
+        max-width: $panelWidth + $main-padding-width; 
         @include transition-property(width, right);
         @include transition-duration(0.5s);
         @include transform(translateZ(0));
@@ -262,12 +261,14 @@ body {
             margin: 0 0 1em 1.1em;
             }
         &.open {
-            width: $panelWidth; 
+            width: $panelWidth + $main-padding-width; 
             padding-right: $main-padding-width;
-            padding-left: $main-padding-width;
             &.extended {
                 right: $panelWidth * 0.5;
             }
+        }
+        .margin {
+            margin-left: $main-padding-width;
         }
         a.back {
             position: absolute;
