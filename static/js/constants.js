@@ -15,7 +15,6 @@ angular
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
             $scope.$apply(function() {
                 $scope.building = building;
-                console.log($scope.building);
             })
         });
 

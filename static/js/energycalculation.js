@@ -17,6 +17,7 @@ angular
             "heating-options",
             "graph-generator",
             "constants",
+            "profiles",
             function(
                 $scope,
                 $timeout,
@@ -26,7 +27,8 @@ angular
                 Building,
                 heatingOptions,
                 graphGenerator,
-                constants
+                constants,
+                profiles
             ) {
 
         $scope.electricityLayerClasses = ['solar-electricity','bought'];
@@ -46,6 +48,49 @@ angular
         system.calculate({}, function(result) {
             $scope.calculationResult = result;
         });
+
+        function calculateAlternateScenarios(building, panel, boreholes) {
+            system.calculate({
+                buildings: [ building ],
+                solarpanelproducers: [],
+                geothermalwellproducers: boreholes
+            }, function(result) {
+                $scope.boreHoleOnlyResult = result;
+            }, true);
+
+            var thermalPanel = _.extend(new SolarInstallation(), panel);
+            thermalPanel.photovoltaicArea = 0;
+
+            system.calculate({
+                buildings: [ building ],
+                solarpanelproducers: [ thermalPanel ],
+                geothermalwellproducers: []
+            }, function(result) {
+                $scope.thermalPanelOnlyResult = result;
+            }, true);
+
+            var electricPanel = _.extend(new SolarInstallation(), panel);
+            electricPanel.thermalArea = 0;
+
+            system.calculate({
+                buildings: [ building ],
+                solarpanelproducers: [ electricPanel ],
+                geothermalwellproducers: []
+            }, function(result) {
+                $scope.photovoltaicPanelOnlyResult = result;
+            }, true);
+        }
+
+        function sum(a, b) {
+            return a + b;
+        }
+
+        function averages(producers) {
+            return _.reduce(_.map(producers, function(producer) {
+                var totalSums = _.chain(producer).pluck("total").flatten().map(parseFloat).reduce(sum, 0).value();
+                return totalSums;
+            }), sum, 0) / 12;
+        }
 
         function recalculate(building) {
             if (!building || !building.floorArea) {
@@ -90,12 +135,19 @@ angular
                 $scope.heatingSeries = graphGenerator.generateHeatingGraph(result);
                 $scope.systemCostSeries = graphGenerator.generateSystemCostGraph(result.systemCost);
 
+                $scope.boreHoleAverage = averages([result.boreholes.spaceHeating, result.boreholes.waterHeating]);
+                $scope.solarElectricityAverage = averages([result.solarpanels.electricityProduction]);
+                $scope.solarHeatAverage = averages([result.solarpanels.waterHeating]);
+
                 if (building.solar) {
                     $scope.freePhotoVoltaicRoofSize = parseInt(building.solar.RoofArea) - panel.thermalArea;
                     $scope.freeThermalRoofSize = parseInt(building.solar.RoofArea) - panel.photovoltaicArea;
 
                     updateRecommendedPanelPercentages($scope);
                 }
+
+                // calculate alternate scenarios for only certain producers
+                calculateAlternateScenarios(building, panel, boreholes);
             });
         }
 

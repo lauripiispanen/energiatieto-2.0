@@ -207,13 +207,13 @@ html
                             .positioncontainer
                                 .infobutton(ng-click="showConstants()") Laskelman tiedot
                             .savings Säästöt
-                                p 100 €/kk
+                                p {{photovoltaicPanelOnlyResult.systemCost.averageSavings | currencyFormat}} €/kk
                             .production Energiantuotanto
-                                p 100 kWh/kk
+                                p {{solarElectricityAverage | currencyFormat}} kWh/kk
                             .price Hinta
-                                p 100 €
+                                p {{photovoltaicPanelOnlyResult.systemCost.initialInvestment | currencyFormat}} €
                             .payback Takaisinmaksuaika
-                                p 7 v
+                                p {{photovoltaicPanelOnlyResult.systemCost.paybackTime}} v
                             
                     .boxed(ng-class="{disabled: !building.thermalPanel.active}")
                         .headerbar
@@ -236,13 +236,13 @@ html
                             .positioncontainer
                                 .infobutton(ng-click="showConstants()") Laskelman tiedot
                             .savings Säästöt
-                                p 100 €/kk
+                                p {{thermalPanelOnlyResult.systemCost.averageSavings | currencyFormat}} €/kk
                             .production Energiantuotanto
-                                p 100 kWh/kk
+                                p {{solarHeatAverage | currencyFormat}} kWh/kk
                             .price Hinta
-                                p 100 €
+                                p {{thermalPanelOnlyResult.systemCost.initialInvestment | currencyFormat}} €
                             .payback Takaisinmaksuaika
-                                p 7 v
+                                p {{thermalPanelOnlyResult.systemCost.paybackTime}} v
                             
                     .boxed(ng-class="{disabled: !building.borehole.active}")
                         .headerbar
@@ -264,13 +264,13 @@ html
                             .positioncontainer
                                 .infobutton(ng-click="showConstants()") Laskelman tiedot   
                             .savings Säästöt
-                                p 100 €/kk
+                                p {{boreHoleOnlyResult.systemCost.averageSavings | currencyFormat}} €/kk
                             .production Energiantuotanto
-                                p 100 kWh/kk
+                                p {{boreHoleAverage | currencyFormat}}kWh/kk
                             .price Hinta
-                                p 100 €
+                                p {{boreHoleOnlyResult.systemCost.initialInvestment | currencyFormat}} €
                             .payback Takaisinmaksuaika
-                                p 7 v
+                                p {{boreHoleOnlyResult.systemCost.paybackTime}} v
             .footer
                 p Kaupunkisuunnittelukeskus, Espoon kaupunki
         .constants(ng-controller="constantsController",ng-class="{open: open}",ng-show="open")

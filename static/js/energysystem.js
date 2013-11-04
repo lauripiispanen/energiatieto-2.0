@@ -136,7 +136,7 @@ angular
                 }
             };
 
-            this.calculate = function(options, callback) {
+            this.calculate = function(options, callback, costsOnly) {
                 function sum(prodSum, monthlyTotal){
                   return prodSum + monthlyTotal;
                 }
@@ -182,38 +182,7 @@ angular
                         
                         var annualTotalProduction = annualElectricityProduction + annualHotWaterHeatingEnergyProduction + annualSpaceHeatingEnergyProduction;
                         profiles.SystemCost.constants = constants.systemCost;
-                        callback({
-                            boreholes: {
-                                electricityConsumption: _.map(system.borehole, function(it) {
-                                    return valuesFor(profiles.BoreholeElectricityConsumptionProfile(system, it, constants));
-                                }),
-                                waterHeating: _.map(system.borehole, function(it) {
-                                    return valuesFor(profiles.BoreholeHotWaterHeatingEnergyProductionProfile(system, it, constants));
-                                }),
-                                spaceHeating: _.map(system.borehole, function(it) {
-                                    return valuesFor(profiles.BoreholeSpaceHeatingEnergyProductionProfile(system, it, constants));
-                                })
-                            },
-                            solarpanels: {
-                                electricityProduction: _.map(system.solarInstallation, function(it) {
-                                    return valuesFor(profiles.SolarElectricityProductionProfile(it, constants));
-                                }),
-                                waterHeating: _.map(system.solarInstallation, function(it) {
-                                    return valuesFor(profiles.SolarHotWaterHeatingEnergyProductionProfile(it, constants));
-                                })
-                            },
-                            heatingConsumption: pivot(self.calculateHeatingConsumption(system)),
-                            electricityConsumption: systemElectricityConsumption,
-                            heatingProduction: pivot({
-                                water: systemHotWaterHeatingEnergyProduction,
-                                space: systemSpaceHeatingEnergyProduction
-                            }),
-                            electricityProduction: systemElectricityProduction,
-/*                            heatingBalance: pivot({
-                                water: valuesFor(profiles.SystemHotWaterHeatingEnergyBalance(system, constants)),
-                                space: valuesFor(profiles.SystemSpaceHeatingEnergyBalance(system, constants))
-                            }),
-                            electricityBalance: valuesFor(profiles.SystemElectricityBalance(system, constants)), */
+                        var result = {
                             systemCost: profiles.SystemCost.getSystemCost({
                                 system: system, 
                                 
@@ -225,9 +194,42 @@ angular
 
                                 spaceHeatingEnergyProduction: annualSpaceHeatingEnergyProduction,
                                 spaceHeatingEnergyConsumption: annualSpaceHeatingEnergyConsumption,
-                            }),
-                            averageMonthlyProduction: annualTotalProduction / 12
-                        });
+                            })
+                        };
+                        if (costsOnly) {
+                            callback(result);
+                        } else {
+                            _.extend(result, {
+                                boreholes: {
+                                    electricityConsumption: _.map(system.borehole, function(it) {
+                                        return valuesFor(profiles.BoreholeElectricityConsumptionProfile(system, it, constants));
+                                    }),
+                                    waterHeating: _.map(system.borehole, function(it) {
+                                        return valuesFor(profiles.BoreholeHotWaterHeatingEnergyProductionProfile(system, it, constants));
+                                    }),
+                                    spaceHeating: _.map(system.borehole, function(it) {
+                                        return valuesFor(profiles.BoreholeSpaceHeatingEnergyProductionProfile(system, it, constants));
+                                    })
+                                },
+                                solarpanels: {
+                                    electricityProduction: _.map(system.solarInstallation, function(it) {
+                                        return valuesFor(profiles.SolarElectricityProductionProfile(it, constants));
+                                    }),
+                                    waterHeating: _.map(system.solarInstallation, function(it) {
+                                        return valuesFor(profiles.SolarHotWaterHeatingEnergyProductionProfile(it, constants));
+                                    })
+                                },
+                                heatingConsumption: pivot(self.calculateHeatingConsumption(system)),
+                                electricityConsumption: systemElectricityConsumption,
+                                heatingProduction: pivot({
+                                    water: systemHotWaterHeatingEnergyProduction,
+                                    space: systemSpaceHeatingEnergyProduction
+                                }),
+                                electricityProduction: systemElectricityProduction,
+                                averageMonthlyProduction: annualTotalProduction / 12
+                            });
+                            callback(result);
+                        }
                         return;
                     } else {
                         callback(this.empty);
