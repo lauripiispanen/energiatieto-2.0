@@ -85,10 +85,11 @@ angular
                 "layerClasses": "="
             },
             link: function($scope, iElement, iAttrs, controller) {
-                var height = 240,
+                var height = 200,
                     width  = 200,
-                    left   = 10,
-                    top    = 10,
+                    left   = 40,
+                    top    = 25,
+                    right  = 10,
                     svg = d3.select(iElement[0]).select("svg"),
                     identity = function(d) { return d; };
 
@@ -101,12 +102,14 @@ angular
                         yMin = 0,
                         yMax = d3.max(newValue, function(it) { return d3.max(it, identity); }),
                         layerSelection = svg.selectAll("path").data(newValue),
-                        x = d3.scale.linear().domain([0, xMax]).range([left, width]),
+                        x = d3.scale.linear().domain([0, xMax]).range([left, width - right]),
                         y = d3.scale.linear().domain([yMax, 0]).range([top, height]),
                         line = d3.svg.line()
                                     .interpolate("basis")
                                     .x(function(d, i) { return x(i); })
-                                    .y(y);
+                                    .y(y),
+                        xAxis = d3.svg.axis().scale(x).orient("bottom").tickSize(5).ticks(4),
+                        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(function(d) { return Math.round(d / 1000); }).tickSize(5).ticks(5);
 
                     layerSelection
                         .enter()
@@ -124,6 +127,32 @@ angular
                     layerSelection
                         .exit()
                         .remove();
+
+                    svg.selectAll("g.axis").remove();
+
+                    svg.append("g")
+                        .attr("class", "axis")
+                        .attr("transform", "translate(0, 200)")
+                        .call(xAxis);
+
+                    svg.append("g")
+                        .attr("class", "axis")
+                        .attr("transform", "translate(40, 0)")
+                        .call(yAxis);
+
+                    svg.append("text")
+                        .attr("class", "y label")
+                        .attr("text-anchor", "end")
+                        .attr("x", 35)
+                        .attr("y", top - 15)
+                        .text("k€");
+
+                    svg.append("text")
+                        .attr("class", "x label")
+                        .attr("text-anchor", "end")
+                        .attr("x", width)
+                        .attr("y", height + 16)
+                        .text("v");
 
                 }, true);
             }
