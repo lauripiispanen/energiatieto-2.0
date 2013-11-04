@@ -58,10 +58,11 @@ var MongoClient = require('mongodb').MongoClient,
                     console.log("Connected to", process.env.MONGOLAB_URI);
                     respond = buildingInfoMiddleware(db);
                 }
-                respond(req, res);
             });
         } catch (e) {
             respond = queryFromAPI;
+        } finally {
+            respond(req, res);
         }
     }
 
