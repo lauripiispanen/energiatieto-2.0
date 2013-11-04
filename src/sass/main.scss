@@ -900,6 +900,9 @@ p.effectsSum {
         padding-left: 1em;
         color: $uiTextColor;
         }
+    input:disabled {
+        background-color: $bgColorDark;
+    }
     .dropdown {
         overflow:hidden;
         padding:0; 

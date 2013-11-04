@@ -45,6 +45,25 @@ angular
         $scope.heatingOptions = heatingOptions;
         $scope.constants = constants;
 
+        function resetBuildingConsumption(building) {
+            building.electricityConsumption = new Building().nominalElectricityConsumption * building.floorArea; // kWh
+            building.energyConsumptionIncludesWaterHeating = false;
+            building.electricityConsumptionEstimated = false;
+            building.spaceHeatingEnergyEstimated = false;
+            building.spaceHeatingEnergyRequired = NominalSpaceHeatingDemandEstimate(building);
+
+            if (building.heatingSystem === "3") {
+                building.electricityConsumption += building.spaceHeatingEnergyRequired;
+            }
+
+            building.oilConsumption = Math.round(building.spaceHeatingEnergyRequired / (constants.energyContentOfOil * building.oilEfficiency));
+            building.districtHeatingConsumption = building.spaceHeatingEnergyRequired;
+        }
+
+        $scope.$watch("building.heatingSystem", function(heatingSystem) {
+            resetBuildingConsumption($scope.building);
+        });
+
         system.calculate({}, function(result) {
             $scope.calculationResult = result;
         });
@@ -175,8 +194,7 @@ angular
                 .zip(_.flatten(heatingConsumption.water.averages))
                 .map(function(it) { return it[0] + it[1]; })
                 .max()
-                .value() * 1000;
-
+                .value();
             return maxRequiredHeatingInKilowatts / constants.borehole.estimatedPowerPerMeter;
         }
 
@@ -200,8 +218,7 @@ angular
             }
             building.borehole.depthPercentage = 75;
 
-            building.electricityConsumption = building.nominalElectricityConsumption * building.floorArea; // kWh
-            building.electricityConsumptionEstimated = true;
+            resetBuildingConsumption(building);
 
             updateRecommendedPanelPercentages($scope);
 

@@ -5,7 +5,7 @@ angular
         constants.borehole = {
             activeDepth : 200,
             powerDimensioning : 100,
-            estimatedPowerPerMeter: 30
+            estimatedPowerPerMeter: 0.03
         }
         constants.systemCost = new SystemCost().constants;
         constants.building = new Building();

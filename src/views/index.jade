@@ -154,10 +154,17 @@ html
                                     input.longInput(type="text",ng-model="building.electricityConsumption")
                                 td kWh/v
                             tr
-                                td Lämmitysenergian kulutus:
-                                td
-                                    input.longInput(type="text")
-                                td kWh/v
+                                td(ng-switch, on="building.heatingSystem")
+                                    span(ng-switch-when="1") Kaukolämmön kulutus:
+                                    span(ng-switch-when="2") Öljyn kulutus:
+                                    span(ng-switch-default) Lämmitysenergiantarve:
+                                td(ng-switch, on="building.heatingSystem")
+                                    input.longInput(ng-switch-when="1",type="text",ng-model="building.districtHeatingConsumption")
+                                    input.longInput(ng-switch-when="2",type="text",ng-model="building.oilConsumption")
+                                    input.longInput(disabled,ng-switch-when="3",type="text",ng-model="building.spaceHeatingEnergyRequired")
+                                td(ng-switch, on="building.heatingSystem")
+                                    span(ng-switch-when="2") l/v
+                                    span(ng-switch-default) kWh/v
                         h3 Kiinteistö
                         table
                             tr
@@ -281,17 +288,17 @@ html
                     tr
                         td Vuosikorko: 
                         td
-                            input.shortInput(type="number",ng-model="constants.systemCost.nominalInterest")
+                            input.shortInput(type="number",ng-model="constants.systemCost.nominalInterest", step="0.01")
                         td
                     tr
                         td Inflaatioprosentti:
                         td
-                            input.shortInput(type="number",ng-model="constants.systemCost.inflation")
+                            input.shortInput(type="number",ng-model="constants.systemCost.inflation", step="0.01")
                         td
                     tr
                         td Energian eskalaatioprosentti:
                         td
-                            input.shortInput(type="number",ng-model="constants.systemCost.energyEscalation")
+                            input.shortInput(type="number",ng-model="constants.systemCost.energyEscalation", step="0.01")
                         td
                     tr
                         td Aurinkosähköpaneelin hinta:
@@ -340,7 +347,7 @@ html
                     tr
                         td Vuosittainen huoltoinvestointiprosentti:
                         td
-                            input.shortInput(type="number",ng-model="constants.systemCost.yearlyMaintenanceCostPercentage")
+                            input.shortInput(type="number",ng-model="constants.systemCost.yearlyMaintenanceCostPercentage", step="0.01")
                         td
             .table                
                 h3 Rakennuskohtaiset tiedot
@@ -364,17 +371,17 @@ html
                     tr
                         td Käyttöveden lämmityksen häviöt:
                         td
-                            input.shortInput(type="number",ng-model="building.waterHeatingLosses")
+                            input.shortInput(type="number",ng-model="building.waterHeatingLosses", step="0.01")
                         td 
                     tr
                         td Öljypolttimen hyötysuhde:
                         td
-                            input.shortInput(type="number",ng-model="building.oilEfficiency")
+                            input.shortInput(type="number",ng-model="building.oilEfficiency", step="0.01")
                         td 
                     tr
                         td Kaukolämmityksen hyötysuhde: 
                         td
-                            input.shortInput(type="number",ng-model="building.districtHeatingEfficiency")
+                            input.shortInput(type="number",ng-model="building.districtHeatingEfficiency", step="0.01")
                         td 
                     tr
                         td Kiinteistö- ja käyttösähkön vuosikulutus: 
@@ -422,13 +429,13 @@ html
                     tr
                         td Huipputehokerroin:
                         td
-                            input.shortInput(type="number",ng-model="building.solar.photovoltaicPeakPowerFactor")
+                            input.shortInput(type="number",ng-model="building.solar.photovoltaicPeakPowerFactor", step="0.01")
                         td kWh/m
                             sup 2
                     tr
                         td Käyttötilanteen toimivuuskerroin: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.photovoltaicInstallationFactor")
+                            input.shortInput(type="number",ng-model="building.solar.photovoltaicInstallationFactor", step="0.01")
                         td 
             .table
                 h3 Aurinkolämpöjärjestelmän tiedot
@@ -437,27 +444,27 @@ html
                         td Keräintyypin kohtauskulmakerroin: 
 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.IAM")
+                            input.shortInput(type="number",ng-model="building.solar.IAM", step="0.01")
                         td 
                     tr
                         td Keräimen lämpöhäviökerroin: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.a1")
+                            input.shortInput(type="number",ng-model="building.solar.a1", step="0.01")
                         td W/m²K
                     tr
                         td Keräimen häviökerroin: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.a2")
+                            input.shortInput(type="number",ng-model="building.solar.a2", step="0.01")
                         td W/m²K²
                     tr
                         td Keräinpiirin hyötysuhde: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.nkierto")
+                            input.shortInput(type="number",ng-model="building.solar.nkierto", step="0.01")
                         td 
                     tr
                         td Optinen hyötysuhde: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.no")
+                            input.shortInput(type="number",ng-model="building.solar.no", step="0.01")
                         td 
                     tr
                         td Lämpimän käyttöveden minimilämpötila: 
@@ -477,7 +484,7 @@ html
                     tr
                         td Lisälämmityksen käyttötapakerroin: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.xfactor")
+                            input.shortInput(type="number",ng-model="building.solar.xfactor", step="0.01")
                         td 
                     tr
                         td Käyttöveden lämmitystarve:
@@ -487,7 +494,7 @@ html
                     tr
                         td Käyttöveden lämmityksen häviöt: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.waterHeatingLosses")
+                            input.shortInput(type="number",ng-model="building.solar.waterHeatingLosses", step="0.01")
                         td 
                     tr
                         td Lämminvesivaraajan mitoitus: 
@@ -497,7 +504,7 @@ html
                     tr
                         td Lämminvesivaraajan mitoitus: 
                         td
-                            input.shortInput(type="number",ng-model="building.solar.reservoirCapacityDimensioning")
+                            input.shortInput(type="number",ng-model="building.solar.reservoirCapacityDimensioning", step="0.01")
                         td vrk kulutus
             .table
                 h3 Maalämpöjärjestelmän tiedot
@@ -505,12 +512,12 @@ html
                     tr
                         td Kaivon halkaisija: 
                         td
-                            input.shortInput(type="number",ng-model="building.borehole.diameter")
+                            input.shortInput(type="number",ng-model="building.borehole.diameter", step="0.01")
                         td m
                     tr
                         td Alin lämpötila kaivossa:
                         td
-                            input.shortInput(type="number",ng-model="building.borehole.wallTemp")
+                            input.shortInput(type="number",ng-model="building.borehole.wallTemp", step="0.01")
                         td °C
                     tr
                         td Lämmönkeruupiirin lämpötila: 
@@ -555,5 +562,5 @@ html
                     tr
                         td Häviökerroin: 
                         td
-                            input.shortInput(type="number",ng-model="building.borehole.efficiencyFactor")
+                            input.shortInput(type="number",ng-model="building.borehole.efficiencyFactor", step="0.01")
                         td
