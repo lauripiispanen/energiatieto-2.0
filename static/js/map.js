@@ -93,6 +93,7 @@ angular
         });
 
         buildingSelectionChannel.onSelectBuilding($scope, function(building) {
+            $scope.hasBuildingChoices = false;
             var location = new OpenLayers.LonLat(building.coordinates.lon, building.coordinates.lat);
             $scope.popups = [
                 new OpenLayers.Popup(
@@ -132,6 +133,7 @@ angular
 
                 $scope.$apply(function() {
                     $scope.center = bounds.getCenterLonLat();
+                    $scope.hasBuildingChoices = true;
                     $timeout(function() {
                         $scope.zoom = 18;
                         $timeout(function() {

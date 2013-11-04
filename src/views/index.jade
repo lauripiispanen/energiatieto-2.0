@@ -31,6 +31,9 @@ html
                 center="center",
                 restricted-extent="bounds",
                 style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;")
+            .olPopup.choose-building(ng-show="hasBuildingChoices") 
+                .olPopupContent 
+                    p.popup-text Löytyi useita, valitse oikea rakennus:
             .solarlegend
                 h3 Aurinkoenergian määrä
                 .right Paljon
@@ -46,227 +49,228 @@ html
                     li(ng-repeat="item in addressChoices", ng-click="selectItem(item)",ng-class="{focus: hasFocus(item)}")
                         span(address-match="item",input="{{addressInput}}")
         .calculations(ng-controller="energyCalculationController",ng-class="{open: open, extended: extended}")
-            p.header Energialaskelma
-            h1 {{building.address}}
-                span BETA
-            a.back(href="#",ng-click="reset()",ng-show="open") Takaisin hakuun
-            .actioncontainer(ng-show="open")
-                .actionbutton Lähetä tarjouspyyntö
-                .actionbutton Hae toimenpidelupaa
-            #savingsSum.col1.boxed 
-                .positioncontainer
-                    h2 Säästöt keskimäärin 
-                p 327 €/kk
-            #productionSum.col2.boxed
-                .positioncontainer
-                    h2 Energiantuotanto keskimäärin
-                p {{calculationResult.averageMonthlyProduction | currencyFormat}} kWh/kk
-            #priceSum.col3.boxed 
-                .positioncontainer
-                    h2 Kokonaishinta
-                p {{calculationResult.systemCost.initialInvestment | currencyFormat}} €
-            #paybackSum.col4.boxed
-                .positioncontainer
-                    h2 Takaisinmaksuaika
-                p {{calculationResult.systemCost.paybackTime}} v
-            .col5.graphbox
-                .graphgrid
-                    .largegraphs
-                        .graphs
-                            .fader
-                            div 
-                                h2 Sähkö
-                                .top-caption Oma tuotanto
-                                .electricity-graph(d3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
-                                    svg(style='height: 120px; width: 290px;')
-                                        .months
-                                            .month 1
-                                            .month 2
-                                            .month 3 
-                                            .month 4 
-                                            .month 5 
-                                            .month 6 
-                                            .month 7 
-                                            .month 8 
-                                            .month 9 
-                                            .month 10 
-                                            .month 11 
-                                            .month 12
-                                .bottom-caption Ostettava energia
-                            div.divider 
-                                h2 Lämpöenergia
-                                .heating-graph(d3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
-                                    svg(style='height:120px; width: 290px;')
-                                        .months
-                                            .month 1
-                                            .month 2
-                                            .month 3 
-                                            .month 4 
-                                            .month 5 
-                                            .month 6 
-                                            .month 7 
-                                            .month 8 
-                                            .month 9 
-                                            .month 10 
-                                            .month 11 
-                                            .month 12
-                            .key Ostoenergia
-                                .bought
-                            .key Aurinkosähkö
-                                .solarelectric
-                            .key Aurinkolämpö
-                                .solarheat
-                            .key Maalämpö
-                                .geoterm
-                            .key Ylijäämä
-                                .surplus
-                        .disclaimer Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
-                    .smallgraphs
-                        h3 Kokonaiskustannukset
-                        .payback-graph(d3-payback-graph,ng-model="systemCostSeries",layer-classes="systemCostClasses")
-                            svg(style='height: 240px; width: 200px;')
-                        .key Nykyinen
-                            .current
-                        .key Tuleva
-                            .future
-            .col7.boxed
-                .headerbar
-                    .info
-                        .infopopup Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
-                            .downarrow
-                    h2 Kiinteistön tiedot
-                .table
-                    .highlight Tarkista asukasmäärä ja muut tiedot!
-                    h3 Käyttäjät ja käyttö
-                    table
-                        tr
-                            td Asukasmäärä:
-                            td
-                                input.shortInput(type="text",ng-model="building.numberOfInhabitants")
-                            td hlö
-                        tr
-                            td Sähkön kulutus:
-                            td
-                                input.longInput(type="text",ng-model="building.electricityConsumption")
-                            td kWh/v
-                        tr
-                            td Lämmitysenergian kulutus:
-                            td
-                                input.longInput(type="text")
-                            td kWh/v
-                    h3 Kiinteistö
-                    table
-                        tr
-                            td Pinta-ala
-                            td
-                                input.shortInput(type="text",ng-model="building.floorArea") 
-                            td m
+            .margin
+                p.header Energialaskelma
+                h1 {{building.address}}
+                    span BETA
+                a.back(href="#",ng-click="reset()",ng-show="open") Takaisin hakuun
+                .actioncontainer(ng-show="open")
+                    .actionbutton Lähetä tarjouspyyntö
+                    .actionbutton Hae toimenpidelupaa
+                #savingsSum.col1.boxed 
+                    .positioncontainer
+                        h2 Säästöt keskimäärin 
+                    p 327 €/kk
+                #productionSum.col2.boxed
+                    .positioncontainer
+                        h2 Energiantuotanto keskimäärin
+                    p {{calculationResult.averageMonthlyProduction | currencyFormat}} kWh/kk
+                #priceSum.col3.boxed 
+                    .positioncontainer
+                        h2 Kokonaishinta
+                    p {{calculationResult.systemCost.initialInvestment | currencyFormat}} €
+                #paybackSum.col4.boxed
+                    .positioncontainer
+                        h2 Takaisinmaksuaika
+                    p {{calculationResult.systemCost.paybackTime}} v
+                .col5.graphbox
+                    .graphgrid
+                        .largegraphs
+                            .graphs
+                                .fader
+                                div 
+                                    h2 Sähkö
+                                    .top-caption Oma tuotanto
+                                    .electricity-graph(d3-graph,ng-model="electricitySeries",layer-classes="electricityLayerClasses")
+                                        svg(style='height: 120px; width: 290px;')
+                                            .months
+                                                .month 1
+                                                .month 2
+                                                .month 3 
+                                                .month 4 
+                                                .month 5 
+                                                .month 6 
+                                                .month 7 
+                                                .month 8 
+                                                .month 9 
+                                                .month 10 
+                                                .month 11 
+                                                .month 12
+                                    .bottom-caption Ostettava energia
+                                div.divider 
+                                    h2 Lämpöenergia
+                                    .heating-graph(d3-graph,ng-model="heatingSeries",layer-classes="heatingLayerClasses")
+                                        svg(style='height:120px; width: 290px;')
+                                            .months
+                                                .month 1
+                                                .month 2
+                                                .month 3 
+                                                .month 4 
+                                                .month 5 
+                                                .month 6 
+                                                .month 7 
+                                                .month 8 
+                                                .month 9 
+                                                .month 10 
+                                                .month 11 
+                                                .month 12
+                                .key Ostoenergia
+                                    .bought
+                                .key Aurinkosähkö
+                                    .solarelectric
+                                .key Aurinkolämpö
+                                    .solarheat
+                                .key Maalämpö
+                                    .geoterm
+                                .key Ylijäämä
+                                    .surplus
+                            .disclaimer Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
+                        .smallgraphs
+                            h3 Kokonaiskustannukset
+                            .payback-graph(d3-payback-graph,ng-model="systemCostSeries",layer-classes="systemCostClasses")
+                                svg(style='height: 240px; width: 200px;')
+                            .key Nykyinen
+                                .current
+                            .key Tuleva
+                                .future
+                .col7.boxed
+                    .headerbar
+                        .info
+                            .infopopup Tämä laskelma on suuntaa antava. Laskelma perustuu julkisesti saatavilla oleviin tietoihin ja yleisiin keskiarvoihin. Asunnot, perheet ja elintavat poikkeavat toisistaan paljon, joten tarkimman tuloksen saat, kun tarkistat laskelman pohjatiedot ja korjaat ne mahdollisimman oikeiksi. Huomioithan, että oikeilla tiedoillakin tarkennettu laskelma on edelleen likimääräinen.
+                                .downarrow
+                        h2 Kiinteistön tiedot
+                    .table
+                        .highlight Tarkista asukasmäärä ja muut tiedot!
+                        h3 Käyttäjät ja käyttö
+                        table
+                            tr
+                                td Asukasmäärä:
+                                td
+                                    input.shortInput(type="text",ng-model="building.numberOfInhabitants")
+                                td hlö
+                            tr
+                                td Sähkön kulutus:
+                                td
+                                    input.longInput(type="text",ng-model="building.electricityConsumption")
+                                td kWh/v
+                            tr
+                                td Lämmitysenergian kulutus:
+                                td
+                                    input.longInput(type="text")
+                                td kWh/v
+                        h3 Kiinteistö
+                        table
+                            tr
+                                td Pinta-ala
+                                td
+                                    input.shortInput(type="text",ng-model="building.floorArea") 
+                                td m
+                                    sup 2
+                            tr
+                                td Kerrosten lukumäärä:
+                                td 
+                                    input.shortInput(type="text",ng-model="building.floorCount")
+                                td
+                            tr
+                                td Rakennusvuosi:
+                                td
+                                    input.shortInput(type="text",ng-model="building.buildingYear")
+                                td
+                            tr
+                                td Lämmitysmuoto:
+                                td
+                                    .dropdown
+                                        select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
+                                td
+                        .effects
+                            .positioncontainer
+                                .infobutton(ng-click="showConstants()") Laskelman tiedot
+                .col6
+                    .boxed(ng-class="{disabled: !building.photoVoltaic.active}")
+                        .headerbar
+                            .info
+                                .infopopup Aurinkosähkö on auringon energiasta aurinkokennoilla tuotettua sähköä. Aurinkosähköä voidaan käyttää sähköverkosta saatavan sähkön rinnalla tai itsenäisesti sähköverkon ulkopuolella. Useat energiayhtiöt myös ostavat verkkoon kytkettyjen järjestelmien ylijäämäsähköä.
+                                    .downarrow
+                            h2 Aurinkosähkö
+                            span.toggle_solarelectricity_on(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-show="building.photoVoltaic.active")
+                                span Mukana laskelmassa
+                            span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
+                                span Ei laskelmassa
+                        .controls Järjestelmän koko
+                            span.slideramount {{building.photoVoltaic.size}} m
                                 sup 2
-                        tr
-                            td Kerrosten lukumäärä:
-                            td 
-                                input.shortInput(type="text",ng-model="building.floorCount")
-                            td
-                        tr
-                            td Rakennusvuosi:
-                            td
-                                input.shortInput(type="text",ng-model="building.buildingYear")
-                            td
-                        tr
-                            td Lämmitysmuoto:
-                            td
-                                .dropdown
-                                    select(ng-model="building.heatingSystem", ng-options="key as value for (key, value) in heatingOptions")
-                            td
-                    .effects
-                        .positioncontainer
-                            .infobutton(ng-click="showConstants()") Laskelman tiedot
-            .col6
-                .boxed(ng-class="{disabled: !building.photoVoltaic.active}")
-                    .headerbar
-                        .info
-                            .infopopup Aurinkosähkö on auringon energiasta aurinkokennoilla tuotettua sähköä. Aurinkosähköä voidaan käyttää sähköverkosta saatavan sähkön rinnalla tai itsenäisesti sähköverkon ulkopuolella. Useat energiayhtiöt myös ostavat verkkoon kytkettyjen järjestelmien ylijäämäsähköä.
-                                .downarrow
-                        h2 Aurinkosähkö
-                        span.toggle_solarelectricity_on(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-show="building.photoVoltaic.active")
-                            span Mukana laskelmassa
-                        span.toggle_off(ng-click="building.photoVoltaic.active = !building.photoVoltaic.active",ng-hide="building.photoVoltaic.active")
-                            span Ei laskelmassa
-                    .controls Järjestelmän koko
-                        span.slideramount {{building.photoVoltaic.size}} m
-                            sup 2
-                        slider.solarelectricity(floor="0",ceiling="{{freePhotoVoltaicRoofSize}}",step="1",precision="0",ng-model="building.photoVoltaic.size")
-                        .suggestiondash(ng-style="{width: (recommendedPhotoVoltaicPanelPercentage * 70) + '%'}")
-                            .suggestionpointer 
-                                .suggestion Ehdotus
-                    .effects
-                        .positioncontainer
-                            .infobutton(ng-click="showConstants()") Laskelman tiedot
-                        .savings Säästöt
-                            p 100 €/kk
-                        .production Energiantuotanto
-                            p 100 kWh/kk
-                        .price Hinta
-                            p 100 €
-                        .payback Takaisinmaksuaika
-                            p 7 v
-                        
-                .boxed(ng-class="{disabled: !building.thermalPanel.active}")
-                    .headerbar
-                        .info
-                            .infopopup Aurinkolämpö on auringon energiasta aurinkokeräimellä talteen kerättyä lämpöä, joka voidaan varastoida ja käyttää esim. käyttöveden tai sisäilman lämmitykseen. Aurinkolämpö käytetään suoraan muuttamatta sitä sähköksi.
-                                .downarrow
-                        h2 Aurinkolämpö 
-                        span.toggle_solarheat_on(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-show="building.thermalPanel.active")
-                            span Mukana laskelmassa
-                        span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
-                            span Ei laskelmassa
-                    .controls Järjestelmän koko 
-                        span.slideramount{{building.thermalPanel.size}} m
-                            sup 2
-                        slider.solarheat(floor="0",ceiling="{{freeThermalRoofSize}}",step="1",precision="0",ng-model="building.thermalPanel.size")
-                        .suggestiondash(ng-style="{width: (recommendedThermalPanelPercentage * 70) + '%'}")
-                            .suggestionpointer
-                                .suggestion Ehdotus
-                    .effects
-                        .positioncontainer
-                            .infobutton(ng-click="showConstants()") Laskelman tiedot
-                        .savings Säästöt
-                            p 100 €/kk
-                        .production Energiantuotanto
-                            p 100 kWh/kk
-                        .price Hinta
-                            p 100 €
-                        .payback Takaisinmaksuaika
-                            p 7 v
-                        
-                .boxed(ng-class="{disabled: !building.borehole.active}")
-                    .headerbar
-                        .info
-                            .infopopup Maalämpö on auringon säteilystä maaperään varastoitunutta lämpöenergiaa. Maalämpöjärjestelmällä kerättynä sitä voidaan käyttää rakennusten ja käyttöveden lämmittämiseen. 
-                                .downarrow
-                        h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
-                        span.toggle_geoterm_on(ng-click="building.borehole.active = !building.borehole.active", ng-show="building.borehole.active")
-                            span Mukana laskelmassa
-                        span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
-                            span Ei laskelmassa
-                    .controls Käytetystä lämmöstä tuotettava osuus
-                        span.slideramount {{building.borehole.depthPercentage}} %
-                        slider.geoterm(floor="0",ceiling="100",step="1",precision="0",ng-model="building.borehole.depthPercentage")
-                        .suggestiondash
-                            .suggestionpointer
-                                .suggestion Ehdotus
-                    .effects
-                        .positioncontainer
-                            .infobutton(ng-click="showConstants()") Laskelman tiedot   
-                        .savings Säästöt
-                            p 100 €/kk
-                        .production Energiantuotanto
-                            p 100 kWh/kk
-                        .price Hinta
-                            p 100 €
-                        .payback Takaisinmaksuaika
-                            p 7 v
+                            slider.solarelectricity(floor="0",ceiling="{{freePhotoVoltaicRoofSize}}",step="1",precision="0",ng-model="building.photoVoltaic.size")
+                            .suggestiondash(ng-style="{width: (recommendedPhotoVoltaicPanelPercentage * 70) + '%'}")
+                                .suggestionpointer 
+                                    .suggestion Ehdotus
+                        .effects
+                            .positioncontainer
+                                .infobutton(ng-click="showConstants()") Laskelman tiedot
+                            .savings Säästöt
+                                p 100 €/kk
+                            .production Energiantuotanto
+                                p 100 kWh/kk
+                            .price Hinta
+                                p 100 €
+                            .payback Takaisinmaksuaika
+                                p 7 v
+                            
+                    .boxed(ng-class="{disabled: !building.thermalPanel.active}")
+                        .headerbar
+                            .info
+                                .infopopup Aurinkolämpö on auringon energiasta aurinkokeräimellä talteen kerättyä lämpöä, joka voidaan varastoida ja käyttää esim. käyttöveden tai sisäilman lämmitykseen. Aurinkolämpö käytetään suoraan muuttamatta sitä sähköksi.
+                                    .downarrow
+                            h2 Aurinkolämpö 
+                            span.toggle_solarheat_on(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-show="building.thermalPanel.active")
+                                span Mukana laskelmassa
+                            span.toggle_off(ng-click="building.thermalPanel.active = !building.thermalPanel.active", ng-hide="building.thermalPanel.active")
+                                span Ei laskelmassa
+                        .controls Järjestelmän koko 
+                            span.slideramount{{building.thermalPanel.size}} m
+                                sup 2
+                            slider.solarheat(floor="0",ceiling="{{freeThermalRoofSize}}",step="1",precision="0",ng-model="building.thermalPanel.size")
+                            .suggestiondash(ng-style="{width: (recommendedThermalPanelPercentage * 70) + '%'}")
+                                .suggestionpointer
+                                    .suggestion Ehdotus
+                        .effects
+                            .positioncontainer
+                                .infobutton(ng-click="showConstants()") Laskelman tiedot
+                            .savings Säästöt
+                                p 100 €/kk
+                            .production Energiantuotanto
+                                p 100 kWh/kk
+                            .price Hinta
+                                p 100 €
+                            .payback Takaisinmaksuaika
+                                p 7 v
+                            
+                    .boxed(ng-class="{disabled: !building.borehole.active}")
+                        .headerbar
+                            .info
+                                .infopopup Maalämpö on auringon säteilystä maaperään varastoitunutta lämpöenergiaa. Maalämpöjärjestelmällä kerättynä sitä voidaan käyttää rakennusten ja käyttöveden lämmittämiseen. 
+                                    .downarrow
+                            h2(ng-click="building.borehole.active = !building.borehole.active") Maalämpö 
+                            span.toggle_geoterm_on(ng-click="building.borehole.active = !building.borehole.active", ng-show="building.borehole.active")
+                                span Mukana laskelmassa
+                            span.toggle_off(ng-click="building.borehole.active = !building.borehole.active", ng-hide="building.borehole.active")
+                                span Ei laskelmassa
+                        .controls Käytetystä lämmöstä tuotettava osuus
+                            span.slideramount {{building.borehole.depthPercentage}} %
+                            slider.geoterm(floor="0",ceiling="100",step="1",precision="0",ng-model="building.borehole.depthPercentage")
+                            .suggestiondash
+                                .suggestionpointer
+                                    .suggestion Ehdotus
+                        .effects
+                            .positioncontainer
+                                .infobutton(ng-click="showConstants()") Laskelman tiedot   
+                            .savings Säästöt
+                                p 100 €/kk
+                            .production Energiantuotanto
+                                p 100 kWh/kk
+                            .price Hinta
+                                p 100 €
+                            .payback Takaisinmaksuaika
+                                p 7 v
             .footer
                 p Kaupunkisuunnittelukeskus, Espoon kaupunki
         .constants(ng-controller="constantsController",ng-class="{open: open}",ng-show="open")
