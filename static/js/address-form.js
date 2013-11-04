@@ -81,9 +81,10 @@ angular
 
                         // 33.5 is the average living space per person in Espoo
                         building.numberOfInhabitants = Math.round(building.floorArea / 33.5);
+                        building.solar = new SolarInstallation();
 
                         if (it.solar) {
-                            building.solar = {
+                            _.extend(building.solar, {
                                 ActualArea: parseFloat(it.solar.ActualArea),
                                 AvActKWHm2: parseFloat(it.solar.AvActKWHm2),
                                 RoofArea: parseFloat(it.solar.RoofArea),
@@ -91,9 +92,9 @@ angular
                                 RoofGoodArea: parseFloat(it.solar.RoofGoodArea),
                                 RoofGoodAreaAvgIrradiance: parseFloat(it.solar.RoofGoodAreaAvgIrradiance),
                                 RoofRemainingArea: parseFloat(it.solar.RoofRemainingArea),
-                                RoofRemainingAreaAvgIrradiation: parseFloat(it.solar.RoofRemainingAreaAvgIrradiation),
+                                RoofRemainingAreaAvgIrradiance: parseFloat(it.solar.RoofRemainingAreaAvgIrradiation),
                                 TotalKWh: parseFloat(it.solar.TotalKWh)
-                            }
+                            });
                         }
                         building.exteriorPolygon = exteriorPolygon;
 

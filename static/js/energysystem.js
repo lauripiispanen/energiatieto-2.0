@@ -7,6 +7,8 @@ angular
             powerDimensioning : 100,
             estimatedPowerPerMeter: 30
         }
+        constants.systemCost = new SystemCost().constants;
+        constants.building = new Building();
         return constants;
     }])
     .factory("profiles", [function() {
@@ -179,7 +181,7 @@ angular
                         var annualSpaceHeatingEnergyConsumption = _.reduce(systemSpaceHeatingEnergyConsumption.total, sum);
                         
                         var annualTotalProduction = annualElectricityProduction + annualHotWaterHeatingEnergyProduction + annualSpaceHeatingEnergyProduction;
-
+                        profiles.SystemCost.constants = constants.systemCost;
                         callback({
                             boreholes: {
                                 electricityConsumption: _.map(system.borehole, function(it) {

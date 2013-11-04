@@ -41,13 +41,13 @@ angular
         $scope.systemCostSeries = [];
 
         $scope.heatingOptions = heatingOptions;
+        $scope.constants = constants;
 
         system.calculate({}, function(result) {
             $scope.calculationResult = result;
         });
 
-
-        $scope.$watch("building", function(building) {
+        function recalculate(building) {
             if (!building || !building.floorArea) {
                 return;
             }
@@ -60,7 +60,8 @@ angular
                 panel.roofGoodArea = building.solar.RoofGoodArea;
                 panel.roofGoodAreaAvgIrradiance = building.solar.RoofGoodAreaAvgIrradiance;
                 panel.roofRemainingArea = building.solar.RoofRemainingArea;
-                panel.roofRemainingAreaAvgIrradiance = building.solar.RoofRemainingAreaAvgIrradiation;
+                panel.roofRemainingAreaAvgIrradiance = building.solar.RoofRemainingAreaAvgIrradiance;
+                _.extend(panel, building.solar);
             }
 
 
@@ -96,6 +97,12 @@ angular
                     updateRecommendedPanelPercentages($scope);
                 }
             });
+        }
+
+
+        $scope.$watch("building", recalculate, true);
+        $scope.$watch("constants", function() {
+            recalculate($scope.building);
         }, true);
 
         buildingSelectionChannel.onSelectBuilding($scope, buildingSelected);
@@ -123,6 +130,7 @@ angular
 
         function buildingSelected(building) {
             building.borehole = new Borehole();
+            building.borehole.active = true;
             _.extend(building.borehole, constants.borehole);
 
             $scope.recommendedThermalPanelSize = Math.round(building.numberOfInhabitants * 2);
@@ -138,7 +146,7 @@ angular
                 active: true,
                 size: $scope.recommendedPhotoVoltaicPanelSize
             }
-            building.borehole.depthPercentage = 0;
+            building.borehole.depthPercentage = 75;
 
             building.electricityConsumption = building.nominalElectricityConsumption * building.floorArea; // kWh
             building.electricityConsumptionEstimated = true;

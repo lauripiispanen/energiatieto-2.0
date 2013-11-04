@@ -1,11 +1,22 @@
 angular
-    .module("energiatieto-constants", ["pubsub"])
+    .module("energiatieto-constants", ["pubsub", "energiatieto-energysystem"])
     .controller("constantsController", [
         "$scope",
         "formActivationChannel",
-    function($scope, formActivationChannel) {
+        "buildingSelectionChannel",
+        "constants",
+    function($scope, formActivationChannel, buildingSelectionChannel, constants) {
+        $scope.constants = constants;
+
         formActivationChannel.onStateChange($scope, function(message) {
             $scope.open = (message === formActivationChannel.messages.extend);
+        });
+
+        buildingSelectionChannel.onSelectBuilding($scope, function(building) {
+            $scope.$apply(function() {
+                $scope.building = building;
+                console.log($scope.building);
+            })
         });
 
         $scope.close = function() {
