@@ -202,8 +202,8 @@ angular
 
         this.generateSystemCostGraph = function(systemCost) {
             return [
-                _.pluck(systemCost.comparisonCost, "cost"),
-                _.pluck(systemCost.totalSystemCost, "cost")
+                _.pluck(systemCost.totalSystemCost, "cost"),
+                _.pluck(systemCost.comparisonCost, "cost")
             ];
         };
 

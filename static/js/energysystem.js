@@ -162,14 +162,21 @@ angular
                         };
                         var systemElectricityProduction = valuesFor(profiles.SystemElectricityProduction(system, constants));
                         var systemElectricityConsumption = valuesFor(profiles.SystemElectricityConsumption(system, constants));
+                        
                         var systemHotWaterHeatingEnergyProduction = valuesFor(profiles.SystemHotWaterHeatingEnergyProduction(system, constants));
                         var systemSpaceHeatingEnergyProduction = valuesFor(profiles.SystemSpaceHeatingEnergyProduction(system, constants));
+
+                        var systemHotWaterHeatingEnergyConsumption = valuesFor(profiles.SystemHotWaterHeatingEnergyConsumption(system, constants));
+                        var systemSpaceHeatingEnergyConsumption = valuesFor(profiles.SystemSpaceHeatingEnergyConsumption(system, constants));
 
                         var annualElectricityProduction = _.reduce(systemElectricityProduction.total, sum);
                         var annualElectricityConsumption = _.reduce(systemElectricityConsumption.total, sum);
 
                         var annualHotWaterHeatingEnergyProduction = _.reduce(systemHotWaterHeatingEnergyProduction.total, sum);
+                        var annualHotWaterHeatingEnergyConsumption = _.reduce(systemHotWaterHeatingEnergyConsumption.total, sum);
+
                         var annualSpaceHeatingEnergyProduction = _.reduce(systemSpaceHeatingEnergyProduction.total, sum);
+                        var annualSpaceHeatingEnergyConsumption = _.reduce(systemSpaceHeatingEnergyConsumption.total, sum);
                         
                         var annualTotalProduction = annualElectricityProduction + annualHotWaterHeatingEnergyProduction + annualSpaceHeatingEnergyProduction;
 
@@ -205,7 +212,18 @@ angular
                                 space: valuesFor(profiles.SystemSpaceHeatingEnergyBalance(system, constants))
                             }),
                             electricityBalance: valuesFor(profiles.SystemElectricityBalance(system, constants)), */
-                            systemCost: profiles.SystemCost.getSystemCost(system, annualElectricityProduction, annualElectricityConsumption),
+                            systemCost: profiles.SystemCost.getSystemCost({
+                                system: system, 
+                                
+                                electricityProduction: annualElectricityProduction, 
+                                electricityConsumption: annualElectricityConsumption,
+
+                                hotWaterHeatingEnergyProduction: annualHotWaterHeatingEnergyProduction, 
+                                hotWaterHeatingEnergyConsumption: annualHotWaterHeatingEnergyConsumption, 
+
+                                spaceHeatingEnergyProduction: annualSpaceHeatingEnergyProduction,
+                                spaceHeatingEnergyConsumption: annualSpaceHeatingEnergyConsumption,
+                            }),
                             averageMonthlyProduction: annualTotalProduction / 12
                         });
                         return;
