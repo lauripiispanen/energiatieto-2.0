@@ -99,28 +99,26 @@ body {
             position: absolute;
             left: 1em;
             top: 1em;
-            padding: 1em;
+            padding: 1.3em;
             h3 {
                 padding: 0;
                 margin: 0;
-                font-size: 1.1em;
+                font-size: 0.8em;
                 margin-bottom: 0.6em;
                 }
             .left {
                 float: left;
                 font-size: 0.8em;
-                font-weight: bold;
                 }
             .right {
                 float: right;
                 font-size: 0.8em;
-                font-weight: bold;
                 }
             .grading {
                 margin-top: 2em;
                 @include background-image(linear-gradient(left, #000, #ffff0b));
-                height: 1em;
-                width: 100%; 
+                height: 0.8em;
+                width: 10em; 
                 }
             }
         .address-form {
@@ -130,7 +128,7 @@ body {
             @include border-radius(10px);
             @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.7));
             border: 1px solid #818181;
-            padding: 3em 4.4em 3em 3em;
+            padding: 3.5em 4em 3em 3em;
             z-index: 100000;
             position: absolute;
             left: 0;
@@ -155,7 +153,7 @@ body {
                 background: #fff url('/images/search.png') top right no-repeat;
                 font-size: 1em;
                 height: 3.4em;
-                width: 36em;
+                width: 35em;
                 @include border-radius(3px);
                 border: 1px solid #cecece;
                 @include box-shadow(inset 2px 2px 2px #eee);
@@ -170,9 +168,9 @@ body {
                 border-top: 0;
                 @include box-shadow(inset 2px 0px 2px #eee);
                 position: absolute;
-                top: 16.7em;
+                top: 17.3em;
                 left: 3em;
-                width: 35.3em;
+                width: 34.7em;
                 padding: 0 1em 1em 1em;
                 margin-right: 7.4em;
                 list-style-type: none;
@@ -205,21 +203,28 @@ body {
         }
 
         .olPopup {
-            background: transparent url('/images/popup_downarrow.png') bottom no-repeat;
+            background: transparent url('/images/popup_downarrow.png') bottom center no-repeat;
             background-color: transparent !important;
-            padding: 0 0 0px 0;
-            width: 15em;
+            
+            padding: 0;
+            width: 13em;
             margin-top: -5em;
-            margin-left: -7.5em;
+            margin-left: -6.5em;
             .olPopupContent {
+                //@include background-image(linear-gradient(#fff, #00f));
+                //@include border-radius(4px);
                 margin: 0;
                 padding: 0;
+                text-align: center;
                 .popup-text {
                     background-color: #fff;
                     @include border-radius(4px);
                     @include box-shadow(0px 0px 40px 5px rgba(0, 0, 0, 0.3));
-                    padding: 1em 1.6em;
+                    //padding: 1em 1.6em;
+                    padding: 0.8em 1.2em;
                     margin: 0;
+                    font-size: 0.9em;
+                    font-weight: bold;
                 }
             }
 
@@ -266,11 +271,12 @@ body {
         p.header {
             padding: 0;
             margin: 2em 0 0.2em 1.46em;
+            font-size: 1em;
             }
         h1 {
-            font-size: 1.3em;
+            font-size: 1.4em;
             padding: 0;
-            margin: 0 0 1em 1.1em;
+            margin: 0 0 1em 1em;
             }
         &.open {
             width: $panelWidth + $main-padding-width; 
@@ -287,6 +293,7 @@ body {
             right: 0;
             top: 0;
             margin: 1.5em 3.2em 0 0;
+            font-size: 0.89em;
             font-weight: bold;
             text-decoration: none;
             color: #3dabfb;
@@ -304,20 +311,22 @@ body {
             font-size: 0.9em;
             display: inline-block;
             cursor: pointer;
-            padding: 0.4em 1em;
+            padding: 0.4em 1em 0.6em 1em;
             margin: 0em 0 0 1em;
             @include border-radius(4px);
             border: 1px solid #53a9d1;
-            @include text-shadow(#fff 0px 0px 2px);
+            //@include text-shadow(#fff 0px 0px 2px);
             box-shadow: 0px 2px 2px $shadowColor;
+            text-decoration: none;
             }
         .headerbar {
-            background: $bgColorDark;
+            //background: $bgColorDark;
+            @include background-image(linear-gradient(#f8f8f9, #f2f2f2));
             @include border-top-left-radius (4px);
             @include border-top-right-radius (4px);
             border-bottom: 1px solid $borderColorDark;
             border-top: 1px solid $shadowColor;
-            box-shadow: 0px 2px 2px $shadowColor;
+            box-shadow: 0px 2px 2px #f3f3f3;
             position: relative;
             .info {
                 margin: 0.6em 1.2em 0.6em;
@@ -434,10 +443,13 @@ body {
                         z-index: 5000;
                         bottom: 83px;
                         background: url('/images/graph_fade.png') repeat-x top;
-                        margin-left: -1.24em;
+                        margin-left: -1.4em;
                         }
                     position: relative;
-                    padding: 1em 1.24em;
+                    padding: 1em 1.24em 1em 1.4em;
+                    .electricity-graph{
+                        margin-left: 1em;
+                    }
                     .key {
                         font-size: 0.9em;
                         width: 20%;
@@ -472,7 +484,8 @@ body {
                         }    
                     .divider {
                         background: url('/images/divider.png') no-repeat left bottom;
-                        padding-left: 1.6em;
+                        padding-left: 2em;
+                        margin-left: -0.4em;
                         }
                     div {
                         width: 50%;
@@ -493,18 +506,18 @@ body {
                         .bottom-caption {
                             font-size: 0.8em;
                             position: absolute;
-                            left: 1.6em;
+                            left: 1.8em;
                             bottom: 4em;
                             }
                         .top-caption {
                             font-size: 0.8em;
                             position: absolute;
-                            left: 1.6em;
+                            left: 1.8em;
                             top: 4.6em;
                             }
                         h2 {
                             font-size: 1.2em;
-                            margin: 0 0 4em 0;
+                            margin: 0.3em 0 4em 0;
                             }
                         .heating-graph {
                             @extend .graph;
@@ -546,7 +559,8 @@ body {
                 .disclaimer {
                     background-color: $bgColorHighlight;
                     font-size: 0.8em;
-                    padding: 1em 1.6em;
+                    line-height: 1.3em;
+                    padding: 1.4em 1.8em;
                     border-top: 1px solid #c5c5c5;   
                     @include border-bottom-left-radius (4px);
                     @include border-bottom-right-radius (4px);
@@ -651,7 +665,8 @@ body {
         }
     .controls {
         position: relative;
-        background-color: #fff;    
+        background-color: #fff;   
+
         
         .suggestiondash {
                 display: inline-block;
@@ -680,6 +695,9 @@ body {
             font-size: 1.7em;
             right: 0.8em;
             top: 1.7em;
+            sup {
+                font-size: 0.6em;
+            } 
             }
         slider.solarelectricity {
             .bar, .pointer {
@@ -739,24 +757,36 @@ body {
                 @include span-columns(1,4);
                 border-right: 1px solid $borderColorDark;
                 padding: 1em 0 3em 0;
+                p {
+                    margin-top: 0.4em;
+                }
                 }
             .production {
                 @include span-columns(1,4);
                 border-right: 1px solid $borderColorDark;
                 padding: 1em 0 3em 0;
+                p {
+                    margin-top: 0.4em;
+                }
                 }
             .price {
                 @include span-columns(1,4);
                 border-right: 1px solid $borderColorDark;
                 padding: 1em 0 3em 0;
+                p {
+                    margin-top: 0.4em;
+                }
                 }
             .payback {
                 @include span-columns(1,4);
                 padding: 1em 0 3em 0;
+                p {
+                    margin-top: 0.4em;
+                }
                 }
             p {
                 color: $contentTextColor;
-                font-size: 1.7em;
+                font-size: 1.5em;
                 }
             }
         }
@@ -770,7 +800,7 @@ body {
 
     .positioncontainer {
         position: relative;
-        height: 3em;
+        height: 2.5em;
         h2 {
             position: absolute;
             bottom: 0;
@@ -782,12 +812,13 @@ body {
             background-color: transparent;
             border: 0;
             padding: 0;
+            margin: 0;
             }    
         }
     p {
         font-size: 1.6em;
         color: $contentTextColor;
-        padding: 0.5em 0 0.4em;
+        padding: 0.5em 0 0em;
         margin: 0;
         }
     }
@@ -804,7 +835,7 @@ body {
         background: #fff;
         border: 1px solid $borderColorDark;
         padding: 0.4em 1.6em;
-        margin: 5.8em 0 0;
+        margin: 4.5em 0 0;
         display: inline-block;
         cursor: pointer;
         }

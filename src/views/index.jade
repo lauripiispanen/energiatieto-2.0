@@ -42,7 +42,7 @@ html
             .address-form(ng-controller="addressFormController",ng-hide="hidden")
                 h1 Tervetuloa Energiatietopalveluun!
                     span BETA
-                p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla käyttöön aurinkoenergiaa ja maalämpöä.
+                p Ota selvää, kuinka paljon kotitaloudessasi voisi säästää ottamalla<br />käyttöön aurinkoenergiaa ja maalämpöä.
                 label Osoite (Espoon alueella):
                 input.addressInput(ng-model="addressInput",ng-keydown="keyDown")
                 ul.flyout(ng-show="addressChoices.length > 0")
@@ -59,11 +59,11 @@ html
                     a(href="https://easiointi.espoo.fi/ePermit/",target="_blank").actionbutton Hae toimenpidelupaa
                 #savingsSum.col1.boxed 
                     .positioncontainer
-                        h2 Säästöt keskimäärin 
+                        h2 Säästöt<br />keskimäärin 
                     p {{calculationResult.systemCost.averageSavings | currencyFormat}} €/kk
                 #productionSum.col2.boxed
                     .positioncontainer
-                        h2 Energiantuotanto keskimäärin
+                        h2 Energiantuotanto<br />keskimäärin
                     p {{calculationResult.averageMonthlyProduction | currencyFormat}} kWh/kk
                 #priceSum.col3.boxed 
                     .positioncontainer
@@ -273,7 +273,7 @@ html
                             .savings Säästöt
                                 p {{boreHoleOnlyResult.systemCost.averageSavings | currencyFormat}} €/kk
                             .production Energiantuotanto
-                                p {{boreHoleAverage | currencyFormat}}kWh/kk
+                                p {{boreHoleAverage | currencyFormat}} kWh/kk
                             .price Hinta
                                 p {{boreHoleOnlyResult.systemCost.initialInvestment | currencyFormat}} €
                             .payback Takaisinmaksuaika
