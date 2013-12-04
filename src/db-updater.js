@@ -120,10 +120,15 @@ var XmlStream = require('xml-stream'),
                     if (multiGeom) {
                         var pointGeometry = _.find(multiGeom['gml:geometryMember'], function(it) { return it['gml:Point']; });
                         if (pointGeometry) {
-                            var posText = pointGeometry['gml:Point']['gml:pos'][0].$text.split(" ");
-                            pos = {
-                                x: posText[0],
-                                y: posText[1]
+                            var posNode = pointGeometry['gml:Point']['gml:pos'][0];
+                            if (posNode) {
+                                var posText = posNode.split(" ");
+                                pos = {
+                                    x: posText[0],
+                                    y: posText[1]
+                                }
+                            } else {
+                                console.log("No pos node for " + building['GIS:Rakennustunnus'] + "!");
                             }
                         }
                         var polygonGeometry = _.find(multiGeom['gml:geometryMember'], function(it) { return it['gml:Polygon']; });
@@ -175,11 +180,19 @@ var XmlStream = require('xml-stream'),
                         addressNum = (addressNode['yht:osoitenumero2'] || addressNode['yht:osoitenumero']),
                         address = road + (addressNum ? " " + building['kanta:osoite']['yht:osoitenumero2'] : "");
 
-                    collection.save({
-                        "_id"     : building['kanta:rakennustunnus'],
-                        "address" : address,
-                        "road"    : road
-                    }, function(err, db) {
+                    collection.update({
+                        "_id"     : building['kanta:rakennustunnus']
+                    }, {
+                            $set: {
+                            "address" : address,
+                            "road"    : road
+                        }
+                    },
+                    {
+                        upsert: true,
+                        multi: false
+                    },
+                    function(err, db) {
                         if (err) {
                             console.log("error:", err);
                         }
