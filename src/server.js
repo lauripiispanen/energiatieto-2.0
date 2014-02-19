@@ -1,5 +1,5 @@
 if (process.env.NEWRELIC_LICENSE) {
-    require('newrelice');
+    require('newrelic');
 }
 var express = require('express'),
     app     = express()
