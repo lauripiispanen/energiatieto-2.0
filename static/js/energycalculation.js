@@ -199,6 +199,12 @@ angular
         }
 
         function buildingSelected(building) {
+            if (typeof ga !== "undefined") {
+                ga('send','pageview', {
+                    'page': '/details',
+                    'title': 'Details view'
+                });
+            }
             building.borehole = new Borehole();
             building.borehole.active = true;
             _.extend(building.borehole, constants.borehole);

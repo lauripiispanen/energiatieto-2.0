@@ -115,6 +115,12 @@ angular
 
         buildingChoiceChannel.onChoices($scope, function(choices) {
             if (choices.length > 0) {
+                if (typeof ga !== "undefined") {
+                    ga('send','pageview', {
+                        'page': '/choose',
+                        'title': 'Choose your building'
+                    });
+                }
                 var bounds = new OpenLayers.Bounds();
 
                 vectorFeatureLayer.addFeatures(_.map(choices, function(building) {
