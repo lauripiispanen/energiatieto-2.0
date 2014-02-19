@@ -1,3 +1,6 @@
+if (process.env.NEWRELIC_LICENSE) {
+    require('newrelice');
+}
 var express = require('express'),
     app     = express()
         .set('view engine', 'jade')
