@@ -11,8 +11,14 @@
   "dependencies": {
     "energiatieto-calculation": "git://github.com/lauripiispanen/energiatieto-calculation.git#da7ac95bda380fef5d536f4f0a548c72c25a755c",
     "d3": "~3.3.8",
-    "angular-slider": "~0.1.6",
+    "angular-slider": "~0.2.15",
     "angular": "~1.2.0-rc.3",
     "jquery": "~2.0.3"
+  },
+  "exportsOverride": {
+    "angular-slider": {
+      "css": "*.css",
+      "js":"*.js"
+    }
   }
 }

@@ -1,5 +1,5 @@
 module.exports = (grunt) ->
-    
+
     grunt.initConfig
         compass:
             dist:
@@ -19,6 +19,7 @@ module.exports = (grunt) ->
                     cleanTargetDir: true
                     cleanBowerDir: true
                     verbose: true
+                    copy: true
         concurrent:
             server:
                 tasks: ['compass:watch', 'nodemon']
