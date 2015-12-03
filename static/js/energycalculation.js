@@ -1,12 +1,12 @@
 angular
     .module("energiatieto-sidepanel", [
-        "uiSlider",
-        "pubsub", 
+        "ui.slider",
+        "pubsub",
         "energiatieto-energysystem",
         "angular-openlayers"
     ])
     .controller(
-        "energyCalculationController", 
+        "energyCalculationController",
         [
             "$scope",
             "$timeout",
@@ -210,7 +210,7 @@ angular
             _.extend(building.borehole, constants.borehole);
 
             $scope.recommendedThermalPanelSize = Math.round(building.numberOfInhabitants * 2);
-            
+
             building.thermalPanel = {
                 active: true,
                 size: $scope.recommendedThermalPanelSize
@@ -257,7 +257,7 @@ angular
             return _.chain(months).map(calc).map(wrap).value()
         }
         var months = _.range(0, 12);
-        
+
         this.generateElectricityGraph = function(profiles, building) {
             var elecCons = profiles.electricityConsumption,
                 elecProd = profiles.electricityProduction,
@@ -265,7 +265,7 @@ angular
                 heatProd = profiles.heatingProduction;
 
             return [
-                calculate(function(it) { 
+                calculate(function(it) {
                     return elecProd.total[it];
                 }),
                 calculate(function(it) {
@@ -332,7 +332,7 @@ angular
                 calculate(function(it) {
                     return Math.min(0, 0 - heatCons.water.total[it] - heatCons.space.total[it] + heatProd.water.total[it] + heatProd.space.total[it]);
                 })
-                    
+
             ];
         }
     }])
