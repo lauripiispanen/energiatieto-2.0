@@ -9,6 +9,7 @@ before_script:
 before_deploy:
     - git config --global user.email "test@travis-ci.org"
     - git config --global user.name "Travis"
+    - git fetch --unshallow
     - git add dist -f
     - git commit -m "add compiled assets"
 deploy:
